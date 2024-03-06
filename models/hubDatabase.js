@@ -1,6 +1,7 @@
 
+import {pool} from '../config/config.js'
 
-// getFriends
+// this is for retrieving products from the database
 const getHubs = async()=>{ 
     const [result] = await pool.query(`
     SELECT * FROM GetAwayHub
@@ -8,42 +9,43 @@ const getHubs = async()=>{
     return result
 }
 
-// getFriends
- const getHub = async(id)=>{
+// this is for retrieving products from the database where the id matches
+ const getHub = async(hubID)=>{
     const [result] = await pool.query(`
     SELECT * FROM GetAwayHub
-    WHERE id = ?
-    `, [id])
+    WHERE hubID = ?
+    `, [hubID])
     return result
 }
 
-// addFriends
+// this is for adding products
 const addHub = async(name,description, imageUrl, price, category, date)=>{
     const [Hubs] = await pool.query(`
-    INSERT INTO GetAwayHub (name,age) VALUES (?,?)
+    INSERT INTO GetAwayHub (name, description, imageUrl, price, category, date) VALUES (?,?,?,?,?,?)
     `,[name,description, imageUrl, price, category, date])
     return getHub(Hubs.insertId)
 }
 
-
-
-// deleteFriends
-const deleteHub = async(name)=>{
+// this is for deleting products
+const deleteHub = async(hubID)=>{
     const [Hubs] = await pool.query (`
-    DELETE FROM GetAwayHub WHERE name = ? 
-    `, [Hubs])
+    DELETE FROM GetAwayHub WHERE hubID = ? 
+    `, [hubID])
+    return getHubs()
 }
 
 
-// editFriend
-const editHub = async(name,description, imageUrl, price, category, date, id)=>{
+// this is for editing products
+const editHub = async(name,description, imageUrl, price, category, date, hubID)=>{
     const [Hubs] = await pool.query (`
-    UPDATE mates
-    SET name = ?, description = ?, imageUrl = ?, price = ?, category = ?
-    WHERE (id=?)
-    `, [name,description, imageUrl, price, category, date, id])
-    return Hubs()
+    UPDATE GetAwayHub
+    SET name = ?, description = ?, imageUrl = ?, price = ?, category = ?, date = ?
+    WHERE hubID = ?
+    `, [name,description, imageUrl, price, category, date, hubID])
+    return getHubs()
 }
+
+// LOGIC FOR USERS
 
 // adds a new User
 const newUser = async(email, password)=> {
