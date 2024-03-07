@@ -7,16 +7,16 @@ import {config} from 'dotenv'
 config()
 
 // hash password
-app.post('/users',(req,res)=>{
-    const {username, password} = req.body
-    bcrypt.hash(password, 10, async(err, hash)=> {
-        if(err) throw err
-        await newUser(username, hash)
-        res.send({
-            msg: "You have created an account"
-        })
-    })
-})
+// app.post('/users',(req,res)=>{
+//     const {email, password} = req.body
+//     bcrypt.hash(password, 10, async(err, hash)=> {
+//         if(err) throw err
+//         await newUser(email, hash)
+//         res.send({
+//             msg: "You have created an account"
+//         })
+//     })
+// })
 
 // bcrypt auth
 const auth = async(req,res,next) => {
@@ -27,19 +27,18 @@ const auth = async(req,res,next) => {
         if(result === true){
             const {email} = req.body
             const token = jwt.sign({email:email}, process.env.SECRET_KEY,{expiresIn: '1h'})
-       
-            // if set to true the front end user cannot access the cookie
+
+            res.cookie('token', token, { httpOnly: false, expiresIn:'1h'})
+
             res.send({
                 token: token,
-                msg: 'You have logged in! YAY!'
+                msg: 'You have successfully logged in !'
             })
             next()
         }else{
-            res.send({msg: 'The username or password is incorrect'})
+            res.send({msg: 'The email or password is incorrect'}) 
         }
     })
 }
-
-
 
 export {auth}

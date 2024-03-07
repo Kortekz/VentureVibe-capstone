@@ -19,6 +19,8 @@ const checkUser = async(email)=> {
     `, [email])
     return password
 }
+// console.log (await checkUser('cornebalie@789gmail.com'));
+
 
 // this is for retrieving users from the database
 const getUsers = async()=>{ 

@@ -3,9 +3,9 @@ import {config} from 'dotenv'
 import cors from 'cors'
 import getAwayHub from './routes/getAwayHub.js'
 import users from './routes/users.js'
-import login from './routes/login.js'
+import loginRouter from './routes/login.js'
 import cookieParser from 'cookie-parser'
-import auth from './controller/auth.js'
+import {auth} from './middleware/authenticate.js'
 config()
 
 const PORT = process.env.PORT || 3306
@@ -24,7 +24,7 @@ app.use(express.static('views'))
 
 app.use(cookieParser())
 
-app.use('/login', auth, login)
+app.use('/login', auth, loginRouter)
 
 
 

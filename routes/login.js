@@ -1,10 +1,10 @@
 import express from 'express'
-import auth from '../controller/auth.js'
+import controller from '../controller/users.js'
 
 const router = express.Router()
 
 router
     .route('/')
-        .post(auth.addUser)
+        .post(controller.loginUser)
 
 export default router

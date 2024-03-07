@@ -38,5 +38,3 @@ export default {
         }
 
 }
-
-// make user controller, this is for products(HUBS)

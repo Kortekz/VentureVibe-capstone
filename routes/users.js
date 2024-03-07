@@ -8,7 +8,8 @@ const router = express.Router()
 router
     .route('/')
         .get(controller.getMany)
-        .post(controller.postMany)
+        // .post(controller.postMany)
+        .post(controller.addUser)
 
 router
     .route('/:id')
