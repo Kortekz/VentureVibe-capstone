@@ -10,8 +10,7 @@ const router = express.Router()
 router
     .route('/')
         .post(controller.addToCart)
-
-
-// module.exports = router (common JS)
+        .get(controller.getCart)
+        .delete(controller.deleteFromCart)
 
 export default router
