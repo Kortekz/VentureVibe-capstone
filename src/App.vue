@@ -36,6 +36,7 @@ body {
   background: url('https://i.ibb.co/KrSbVLR/2734787.png') no-repeat center fixed;
   background-size: 100%; 
   overflow-x: hidden;
+  backdrop-filter: blur(1px); 
 }
 
 nav {

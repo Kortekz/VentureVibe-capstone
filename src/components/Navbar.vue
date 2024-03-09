@@ -38,9 +38,11 @@
               </router-link>
             </div>
             <div class="navbar-nav ml-auto">
-              <router-link class="nav-item nav-link d-flex align-items-center" to="/cart" style="font-size: 24px;">
-                <i class="fa-solid fa-cart-shopping cart-icon"></i>
+              <button class="cart-btn">
+              <router-link class=" nav-item nav-link d-flex align-items-center" to="/cart" style="font-size: 24px;">
+                  <i class="fa-solid fa-cart-shopping cart-icon"></i>
               </router-link>
+            </button>
             </div>
           </div>
         </div>
@@ -80,7 +82,6 @@
       color: black;
       margin: 0 20px;
       font-size: 18px;
-      transition: color 0.3s; /* Add smooth transition */
       transition: color 0.3s, transform 0.3s;
     }
   
@@ -96,12 +97,20 @@
     }
   
     .cart-icon {
-      background: rgb(71, 98, 218);
+      background: white;
       -webkit-background-clip: text;
       color: transparent;
-      margin-right: -50px;
+      /* margin-right: -50px; */
     }
-  
+    .cart-btn{
+      background-color: rgb(71, 98, 218) !important;
+      border: none;
+      border-radius: 50px;
+      background-color: transparent;
+      padding: 5px;
+      transition: color 0.3s, transform 0.3s;
+    }
+    
     /* Optional: Adjust the styles of the collapsed navbar */
     @media (max-width: 767.98px) {
       .navbar-nav {
