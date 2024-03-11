@@ -1,0 +1,270 @@
+<template>
+    <div>
+      <div class="container mt-5">
+        <h1 class="text-center mb-4">Admin Dashboard</h1>
+        <h2 class="text-center mb-4">Products</h2>
+  
+        <!-- Add Product Modal -->
+        <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#addProductModal">
+          Add Product
+        </button>
+  
+        <!-- Product Table -->
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Image</th>
+              <th scope="col">Name</th>
+              <th scope="col">Description</th>
+              <th scope="col">Price</th>
+              <th scope="col">Category</th>
+              <th scope="col">Date</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="product in products" :key="product.hubID">
+              <td>{{ product.hubID }}</td>
+              <td><img :src="product.imageUrl" alt="Product Image" ></td>
+              <td>{{ product.name }}</td>
+              <td>{{ product.description }}</td>
+              <td>{{ product.price }}</td>
+              <td>{{ product.category }}</td>
+              <td>{{ formatDate(product.date) }}</td>
+              <td>
+                <button class="btn btn-warning" @click="editProduct(product)">Edit</button>
+                <button class="btn btn-danger" @click="deleteProduct(product.hubID)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  
+  <!-- Add Product Modal -->
+  <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+          <div class="modal-header">
+            <h5 class="modal-title" id="addProductModalLabel">Add Product</h5>
+          </div>
+
+          <div class="modal-body">
+            <!-- Form for adding a new product -->
+            <form @submit.prevent="addProduct">
+              <div class="form-group">
+                <label class="add" for="productName">Name:</label>
+                <input type="text" class="form-control" id="productName" v-model="newProduct.name" required>
+              </div>
+              <div class="form-group">
+                <label class="add" for="Image">Image:</label>
+                <input type="text" class="form-control" id="productImage" v-model="newProduct.imageUrl" required>
+              </div>
+              <div class="form-group">
+                <label class="add" for="productDescription">Description:</label>
+                <textarea class="form-control" id="productDescription" v-model="newProduct.description" required></textarea>
+              </div>
+              <div class="form-group">
+                <label class="add" for="productPrice">Price:</label>
+                <input type="number" class="form-control" id="productPrice" v-model="newProduct.price" required>
+              </div>
+              <div class="form-group">
+                <label class="add" for="productCategory">Category:</label>
+                <select class="form-control" id="productCategory" v-model="newProduct.category" required>
+                  <option value="Event">Event</option>
+                  <option value="Vacation">Vacation</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="add" for="productDate">Date:</label>
+                <input type="date" class="form-control" id="productDate" v-model="newProduct.date" required>
+              </div>
+              <button type="submit" class="btn btn-primary">Add Product</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+</div>
+</template>
+  
+<script>
+export default {
+    data() {
+    return {
+      newProduct: {
+        name: '',
+        description: '',
+        price: '',
+        category: 'Event',
+        date: '',
+      },
+    }
+},
+    computed: {
+      products() {
+        return this.$store.state.products;
+      },
+    },
+    mounted() {
+      this.$store.dispatch('getProducts');
+    },
+    methods: {
+      editProduct(product) {
+        // Handle editing product functionality
+      },
+      deleteProduct(productId) {
+        this.$store.dispatch('deleteProduct', productId);
+      },
+      addProduct() {
+        // Handle adding product functionality
+      },
+      formatDate(date) {
+        const options = { year: "numeric", month: "long", day: "numeric" };
+        return new Date(date).toLocaleDateString(undefined, options);
+      },
+    },
+  };
+  </script>
+  
+<style scoped>
+h1{
+    color: white;
+    margin-top: 80px;
+}
+h2{
+    color: white;
+}
+
+.container {
+    margin-top: 100px; 
+}
+
+.btn-success {
+    background-color: rgb(71, 98, 218);
+    border: none;
+    border-radius: 20px;
+    color: white;
+    font-size: 18px;
+    padding: 15px;
+}
+
+.btn-success:hover {
+    background-color: rgb(53, 73, 163);
+}
+
+.table {
+    margin-top: 20px;
+    border-radius: 20px;
+    overflow: hidden; 
+}
+
+.table th{
+    font-size: 20px;
+    text-align: center;
+}
+.table td{
+    font-size: 18px;
+    color: black;
+    text-align: center;
+}
+.table th {
+    background-color: rgb(71, 98, 218);
+    color: white;
+    padding: 20px;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(71, 98, 218, 0.1);
+}
+img{
+    height: 150px;
+    width: 200px;
+}
+.modal-content {
+    border-radius: 20px;
+}
+.modal-header{
+    background-color: rgb(71, 98, 218);
+}
+.modal-title {
+    color: rgb(255, 255, 255);
+}
+
+.modal-footer {
+    border-top: none;
+}
+
+.btn-warning,
+.btn-danger {
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: white;
+}
+.btn-warning {
+    background-color: #c3c300; 
+    border-color: #c3c300;
+}
+button{
+    width: 150px;
+    margin: 8px;
+}
+.btn-danger {
+    background-color: #dc3545; 
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #81000d; 
+    border-color: #81000d; 
+}
+.btn-warning:hover{
+    background-color: #848401; 
+    border-color: #848401;
+}
+
+/* ADD PRODUCT MODAL STYLES */
+
+.add {
+  font-size: 18px;
+  text-align: left;
+}
+
+/* Center modal on the screen */
+.modal-dialog-centered {
+  display: flex;
+  align-items: center;
+  min-height: calc(70% - 3.5rem);
+}
+
+.btn {
+  font-size: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.form-control {
+  color: black;
+  font-size: 18px;
+  border: 1px solid black;
+  flex: 1; /* Allow the form control to grow to fill the available space */
+}
+
+/* Adjust modal styles for responsiveness */
+@media (max-width: 767.98px) {
+    .modal-dialog {
+      max-width: 80%;
+    }
+}
+ </style>

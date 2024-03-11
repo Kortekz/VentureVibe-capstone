@@ -4,15 +4,19 @@
       <Navbar />
     </nav>
     <router-view />
+    <footerComp/>
+   
   </div>
 </template>
 
 <script>
 import Navbar from './components/Navbar.vue';
+import footerComp from './components/footerComp.vue'; 
 
 export default {
   components: {
     Navbar,
+    footerComp
   },
 };
 </script>
@@ -65,7 +69,7 @@ nav a.router-link-exact-active {
 }
 
 /* Media query for smaller screens like 300px */
-@media (max-width: 300px) {
+@media (max-width: 290px) {
   body {
     background-size: 100%; 
   }

@@ -109,6 +109,7 @@
       background-color: transparent;
       padding: 5px;
       transition: color 0.3s, transform 0.3s;
+      text-align: center;
     }
     
     /* Optional: Adjust the styles of the collapsed navbar */

@@ -6,16 +6,20 @@ const baseURL = 'https://venturevibe-capstone-1.onrender.com'
 export default createStore({
   state: {
     products: [],
-    users: []
+    users: [],
+    cart: []
   },
   getters: {
   },
   mutations: {
-    setProducts(state, products) {
-      state.products = products
+    setProducts(state, data) {
+      state.products = data
     },
     setUsers(state, users) {
       state.users = users
+    },
+    setCart(state, cart) {
+      state.cart = cart
     }
   },
   actions: {
@@ -24,7 +28,8 @@ export default createStore({
     async getProducts ({ commit }) {
       try {
         let { data } = await axios.get(baseURL + '/getAwayHub')
-        commit('setProducts', data.results)
+        console.log(data)
+        commit('setProducts', data)
       }catch (error) {
         console.error('Error getting products:', error)
       }
@@ -45,6 +50,55 @@ export default createStore({
       }catch(error) {
         console.error('Error updating Product:', error)
       }
+      // window.location.reload()
+    },
+    // adding products CRUD
+    async addProduct({ commit }, newProduct) {
+      try {
+        let {data} = await axios.post(baseURL + '/getAwayHub', newProduct)
+        commit ('setProducts', data)
+      }catch (error) {
+        console.error('Error adding Product:', error)
+      }
+      window.location.reload()
+    },
+
+    // CRUD FOR USERS
+    async getUsers({ commit }) {
+      try {
+        let { data } = await axios.get(baseURL + '/Users')
+        commit('setUsers', data.results)
+      }catch (error) {
+        console.error('Error getting users:', error)
+      }
+    },
+    // DELETES A USER
+    async deleteUser({ commit }, id){
+      try {
+        await axios.delete(baseURL + '/Users' + id)
+      }catch (error) {
+        console.error('Error deleting User:', error)
+      }
+      window.location.reload()
+    },
+    // UPDATES A USER
+    async updateUser({commit, state}, update){
+      try{
+        await axios.patch(baseURL + '/Users' + update.userID ,update)
+        const { data } = await axios.get(baseURL + '/Users')
+      }catch(error){
+        console.error('Error updating Users:', error)
+      }
+    },
+    // ADDS A USER
+    async addUser({ commit }, newUser) {
+      try {
+        let {data} = await axios.post(baseURL + '/Users', newUser)
+        commit('setUsers', data)
+      }catch(error) {
+        console.error('Error adding User:', error)
+      }
+      window.location.reload()
     }
   },
   modules: {
