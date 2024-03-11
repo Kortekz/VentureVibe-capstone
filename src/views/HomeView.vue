@@ -51,7 +51,7 @@ export default {
 }
 
 .section-title {
-  font-size: 40px;
+  font-size: 45px;
   margin-bottom: 20px;
   display: inline-block;
   background: white;
@@ -60,8 +60,8 @@ export default {
 }
 
 .section-description {
-  font-size: 18px;
-  color: white; /* Updated to white */
+  font-size: 20px;
+  color: white; 
   margin-bottom: 30px;
 }
 
@@ -71,7 +71,7 @@ export default {
 }
 
 .featured-image:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .featured-image-container {
