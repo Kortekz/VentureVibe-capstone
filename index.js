@@ -31,7 +31,8 @@ app.use('/login', auth, loginRouter)
 
 app.use('/cart', authenticate, cart)
 
-app.use('/getAwayHub',authenticate, getAwayHub)
+app.use('/getAwayHub', getAwayHub)
+// ,authenticate took this out so that i could see products 
 
 app.use('/users', users)
 
