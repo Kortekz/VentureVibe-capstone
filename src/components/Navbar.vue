@@ -17,7 +17,8 @@
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+          <i class="fa-solid fa-bars"></i>
+            <!-- <span class="navbar-toggler-icon"></span> -->
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
             <div class="navbar-nav mx-auto">
@@ -57,86 +58,85 @@
   </template>
   
 <style scoped>
-    .navbar {
-      padding: 20px;
-      margin: 20px;
-      background: white;
-      border-radius: 50px;
-      width: 85%;
-    }
+.navbar {
+  padding: 20px;
+  margin: 20px;
+  background: white;
+  border-radius: 50px;
+  width: 85%;
+}
+.navbar-brand {
+  font-size: 25px;
+  margin-right: -30px;
+}
+.logo-text {
+  display: inline-block;
+  background: rgb(71, 98, 218);
+  -webkit-background-clip: text;
+  color: transparent;
+  font-size: 30px;
+  transition: color 0.3s, transform 0.3s;
+}
+.logo-text:hover{
+  transform: scale(1.1);
+  transition: color 0.3s, transform 0.3s;
+}
+.navbar-nav .nav-link {
+  color: black;
+  margin: 0 20px;
+  font-size: 18px;
+  transition: color 0.3s, transform 0.3s;
+}
+.navbar-nav .nav-link:hover {
+  color: rgb(71, 98, 218);
+  /* font-size: 20px; */
+  transform: scale(1.1);
+  transition: color 0.3s, transform 0.3s;
+}
+.navbar-toggler {
+  color: rgb(71, 98, 218);
+  border: 2px solid rgb(71, 98, 218);
+}
   
-    .navbar-brand {
-      font-size: 25px;
-      margin-right: -30px;
-    }
-  
-    .logo-text {
-      display: inline-block;
-      background: rgb(71, 98, 218);
-      -webkit-background-clip: text;
-      color: transparent;
-      font-size: 30px;
-      transition: color 0.3s, transform 0.3s;
-    }
-
-    .logo-text:hover{
-        transform: scale(1.1);
-     transition: color 0.3s, transform 0.3s;
-    }
-  
-    .navbar-nav .nav-link {
-      color: black;
-      margin: 0 20px;
-      font-size: 18px;
-      transition: color 0.3s, transform 0.3s;
-    }
-  
-    .navbar-nav .nav-link:hover {
-      color: rgb(71, 98, 218);
-      /* font-size: 20px; */
-      transform: scale(1.1);
-     transition: color 0.3s, transform 0.3s;
-    }
-  
-    .navbar-toggler-icon {
-      color: #000;
-    }
-  
-    .cart-icon {
-      background: white;
-      -webkit-background-clip: text;
-      color: transparent;
-      /* margin-right: -50px; */
-    }
-    .cart-btn{
-      background-color: rgb(71, 98, 218) !important;
-      border: none;
-      border-radius: 50px;
-      background-color: transparent;
-      padding: 5px;
-      transition: color 0.3s, transform 0.3s;
-      text-align: center;
-    }
+.cart-icon {
+  background: white;
+  -webkit-background-clip: text;
+  color: transparent;
+  /* margin-right: -50px; */
+}
+.cart-btn{
+  background-color: rgb(71, 98, 218) !important;
+  border: none;
+  border-radius: 50px;
+  background-color: transparent;
+  padding: 5px;
+  transition: color 0.3s, transform 0.3s;
+  text-align: center;
+}
+i{
+  color:rgb(71, 98, 218);
+  /* border: 2px solid rgb(71, 98, 218); */
+}
     
-    /* Optional: Adjust the styles of the collapsed navbar */
-    @media (max-width: 720px) {
-      .navbar-nav {
-        margin-top: 10px;
-      }
-      .logo-text{
-        font-size: 20px;
-      }
-      /* Center the cart icon on mobile devices */
-      .navbar-nav .text-center {
-    text-align: center;
-  }
-  .cart-icon{
-    margin-left: 18px;
-  }
-  .cart-btn{
-    width: 60%;
-    margin-left: 40px;
-  }
-    }
+/* Optional: Adjust the styles of the collapsed navbar */
+@media (max-width: 720px) {
+.navbar-nav {
+  margin-top: 10px;
+}
+.logo-text{
+  font-size: 20px;
+}
+/* Center the cart icon on mobile devices */
+.navbar-nav .text-center {
+  text-align: center;
+}
+.cart-icon{
+  margin-left: 18px;
+}
+.cart-btn{
+  width: 60%;
+  margin-left: 40px;
+}
+}
 </style>
   

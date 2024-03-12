@@ -23,12 +23,16 @@ export default {
 </script>
 
 <style scoped>
+
 footer {
-  background-color: white; /* Match the navbar background color */
+  background-color: white; 
   padding: 20px;
   border-radius: 50px;
   width: 85%;
-  margin: 20px auto; /* Center the footer horizontally */
+  margin: 20px auto;
+  margin-top: auto; 
+
+  bottom: 0;
 }
 
 .texts {

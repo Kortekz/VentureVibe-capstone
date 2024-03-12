@@ -33,7 +33,9 @@
               <td>{{ product.category }}</td>
               <td>{{ formatDate(product.date) }}</td>
               <td>
-                <button class="btn btn-warning" @click="editProduct(product)">Edit</button>
+                <button class="btn btn-warning" @click="editProduct(product)" data-toggle="modal" data-target="#editProductModal">
+                  Edit
+                </button>
                 <button class="btn btn-danger" @click="deleteProduct(product.hubID)">Delete</button>
               </td>
             </tr>
@@ -91,6 +93,53 @@
       </div>
     </div>
 
+    <!-- EDIT PRODUCT MODAL -->
+    <div class="modal fade" id="editProductModal" tabindex="-1" role="dialog" aria-labelledby="editProductModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered1" role="document">
+        <div class="modal-content edit-modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editProductModalLabel">Edit Product</h5>
+          </div>
+          <div class="modal-body">
+            <!-- Form for editing an existing product -->
+            <form>
+              <div class="form-group">
+                <label class="add" for="productName">Name:</label>
+                <input type="text" class="form-control" id="productName" v-model="selectedProduct.name" required>
+              </div>
+              <div class="form-group">
+                <label class="add" for="Image">Image:</label>
+                <input type="text" class="form-control" id="productImage" v-model="selectedProduct.imageUrl" required>
+              </div>
+              <div class="form-group">
+                <label class="add" for="productDescription">Description:</label>
+                <textarea class="form-control" id="productDescription" v-model="selectedProduct.description" required></textarea>
+              </div>
+              <div class="form-group">
+                <label class="add" for="productPrice">Price:</label>
+                <input type="number" class="form-control" id="productPrice" v-model="selectedProduct.price" required>
+              </div>
+              <div class="form-group">
+                <label class="add" for="productCategory">Category:</label>
+                <select class="form-control" id="productCategory" v-model="selectedProduct.category" required>
+                  <option value="Event">Event</option>
+                  <option value="Vacation">Vacation</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="add" for="productDate">Date:</label>
+                <input type="date" class="form-control" id="productDate" v-model="selectedProduct.date" required>
+              </div>
+              <div class="form-group">
+              <button type="button" class="btn btn-secondary" @click="closeEditModal">Close</button>
+              <button type="submit" class="btn btn-primary mr-2" @click="updateProduct">Update</button>
+            </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
 </div>
 </template>
@@ -108,6 +157,7 @@ data() {
     price: '',
     category: '',
     date: '',
+    selectedProduct: {}
   }
 },
 computed: {
@@ -115,18 +165,11 @@ computed: {
     return this.$store.state.products;
   },
   addProduct() {
-    this.$store.dispatch('addProduct', {
-    hubID: this.hubID,
-    name: this.name,
-    description: this.description,
-    price: this.price,
-    category: this.category,
-    date: this.date
-  }).then(() => {
-    Swal.fire('User Added!', 'The user has been added.', 'success')
+    this.$store.dispatch('addProduct', this.$data).then(() => {
+    Swal.fire('Product Added!', 'The Product has been added.', 'success')
     }).catch((error) => {
       console.error('Error adding user:', error);
-      Swal.fire('Error', 'There was an error adding the user. Please try again.', 'error');
+      Swal.fire('Error', 'There was an error adding the Product. Please try again.', 'error');
     });
       },
     },
@@ -152,7 +195,35 @@ methods: {
     year: "numeric",
 });
   this.date = formattedDate;
-}
+},
+  editProduct(product) {
+    // Set the selectedProduct to the details of the product being edited
+    this.selectedProduct = { ...product };
+    // Open the edit product modal
+    $('#editProductModal').modal('show');
+    },
+
+    updateProduct() {
+      // Handle the update product functionality
+      // Use this.selectedProduct to get the updated product details
+      // For example:
+      this.$store.dispatch('updateProduct', this.selectedProduct).then(() => {
+        Swal.fire('Product Updated!', 'The Product has been updated.', 'success');
+        // Close the modal after updating
+        $('#editProductModal').modal('hide');
+      }).catch((error) => {
+        console.error('Error updating product:', error);
+        Swal.fire('Error', 'There was an error updating the Product. Please try again.', 'error');
+      });
+    },
+    closeEditModal() {
+    $('#editProductModal').modal('hide');
+    $('body').removeClass('modal-open');
+    $('.modal-backdrop').remove();
+
+    // After hiding and removing, reset the modal content
+    this.selectedProduct = {};
+  },
 }
 };
 </script>
@@ -165,6 +236,7 @@ h1{
 h2{
   color: white;
 }
+
 .container {
   /* margin-top: 100px; */
   padding-top: 20px; /* Add padding to the top */
@@ -267,6 +339,12 @@ button{
   align-items: center;
   min-height: calc(70% - 3.5rem);
 }
+.modal-dialog-centered1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+}
 
 .modal-content {
   /* border-radius: 50px;  */
@@ -302,4 +380,27 @@ button{
   padding: 20px;
 }
 }
+
+/* EDIT PRODUCT MODAL STYLES */
+#editProductModal {
+  background: none; /* Remove background */
+}
+
+.edit-modal-content {
+  /* Add specific styles for the Edit Product modal content here */
+  border-radius: 10px;
+  background-color: #fff; /* Example background color */
+}
+
+.edit-modal-header {
+  
+  background-color: #848401; /* Example background color */
+  color: #fff; /* Example text color */
+}
+
+.edit-modal-title {
+
+}
+
+
  </style>

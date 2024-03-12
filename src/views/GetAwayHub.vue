@@ -13,9 +13,9 @@
               <div class="card-body">
                 <h5 class="card-title">{{ product.name }}</h5>
                 <p class="card-text">{{ product.description }}</p>
-                <p class="card-text">R{{ product.price }}</p>
                 <p class="card-text">This is a {{ product.category }}</p>
                 <p class="card-text">{{ formatDate(product.date) }}</p>
+                <p class="price">R{{ product.price }}</p>
                 <!-- <router-link :to="{ name: 'productDetails', params: { id: product.hubID } }">
                   <button class="btn btn-primary btn-block">View more</button>
                 </router-link> -->
@@ -92,12 +92,18 @@
     margin-bottom: 10px;
     color: black;
   }
+  .price {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: black;
+  }
   
   .card-img-top {
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
     max-width: 100%;
-    height: auto;
+    height: 300px;
   }
   
   .btn-primary {
