@@ -1,7 +1,7 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
 
-// axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true;
 
 const baseURL = 'https://venturevibe-capstone-1.onrender.com'
 
