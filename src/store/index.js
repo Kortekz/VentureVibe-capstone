@@ -1,6 +1,8 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
 
+// axios.defaults.withCredentials = true;
+
 const baseURL = 'https://venturevibe-capstone-1.onrender.com'
 
 export default createStore({
@@ -57,10 +59,11 @@ export default createStore({
       try {
         let {data} = await axios.post(baseURL + '/getAwayHub', newProduct)
         commit ('setProducts', data)
+        console.log(data);
       }catch (error) {
         console.error('Error adding Product:', error)
       }
-      window.location.reload()
+      // window.location.reload()
     },
 
     // CRUD FOR USERS

@@ -27,7 +27,7 @@ footer {
   background-color: white; /* Match the navbar background color */
   padding: 20px;
   border-radius: 50px;
-  width: 95%;
+  width: 85%;
   margin: 20px auto; /* Center the footer horizontally */
 }
 

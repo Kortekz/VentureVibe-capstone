@@ -59,11 +59,12 @@
   }
   
   .col-md-4 {
-    padding: 10px; /* Adjust padding to your preference */
+    padding: 20px; /* Adjust padding to your preference */
   }
   
   .card {
     height: 100%;
+    /* width: 85%; */
     border: none;
     border-radius: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

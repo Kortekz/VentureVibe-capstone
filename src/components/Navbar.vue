@@ -36,6 +36,12 @@
               <router-link class="nav-item nav-link" to="/admin">
                 Admin
               </router-link>
+              <router-link class="nav-item nav-link" to="/SignUp">
+                SignUp
+              </router-link>
+              <router-link class="nav-item nav-link" to="/loginSign">
+                Login
+              </router-link>
             </div>
             <div class="navbar-nav ml-auto">
               <button class="cart-btn">
@@ -56,7 +62,7 @@
       margin: 20px;
       background: white;
       border-radius: 50px;
-      width: 95%;
+      width: 85%;
     }
   
     .navbar-brand {
@@ -113,13 +119,23 @@
     }
     
     /* Optional: Adjust the styles of the collapsed navbar */
-    @media (max-width: 767.98px) {
+    @media (max-width: 720px) {
       .navbar-nav {
         margin-top: 10px;
+      }
+      .logo-text{
+        font-size: 20px;
       }
       /* Center the cart icon on mobile devices */
       .navbar-nav .text-center {
     text-align: center;
+  }
+  .cart-icon{
+    margin-left: 18px;
+  }
+  .cart-btn{
+    width: 60%;
+    margin-left: 40px;
   }
     }
 </style>

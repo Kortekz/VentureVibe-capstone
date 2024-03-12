@@ -33,9 +33,9 @@ export default {
   background-color: white; /* Set background color to white */
   border-radius: 50px; /* Add border-radius to match navbar */
   padding: 40px; 
-  width: 90%; 
+  width: 85%; 
   margin-top: 100px;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 }
 
 .content {

@@ -24,7 +24,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="product in products" :key="product.hubID">
+            <tr v-for="product in getProducts" :key="product.hubID">
               <td>{{ product.hubID }}</td>
               <td><img :src="product.imageUrl" alt="Product Image" ></td>
               <td>{{ product.name }}</td>
@@ -52,40 +52,41 @@
 
           <div class="modal-body">
             <!-- Form for adding a new product -->
-            <form @submit.prevent="addProduct">
+            <form >
               <div class="form-group">
                 <label class="add" for="productName">Name:</label>
-                <input type="text" class="form-control" id="productName" v-model="newProduct.name" required>
+                <input type="text" class="form-control" id="productName" v-model="name" required>
               </div>
               <div class="form-group">
                 <label class="add" for="Image">Image:</label>
-                <input type="text" class="form-control" id="productImage" v-model="newProduct.imageUrl" required>
+                <input type="text" class="form-control" id="productImage" v-model="imageUrl" required>
               </div>
               <div class="form-group">
                 <label class="add" for="productDescription">Description:</label>
-                <textarea class="form-control" id="productDescription" v-model="newProduct.description" required></textarea>
+                <textarea class="form-control" id="productDescription" v-model="description" required></textarea>
               </div>
               <div class="form-group">
                 <label class="add" for="productPrice">Price:</label>
-                <input type="number" class="form-control" id="productPrice" v-model="newProduct.price" required>
+                <input type="number" class="form-control" id="productPrice" v-model="price" required>
               </div>
               <div class="form-group">
                 <label class="add" for="productCategory">Category:</label>
-                <select class="form-control" id="productCategory" v-model="newProduct.category" required>
+                <select class="form-control" id="productCategory" v-model="category" required>
                   <option value="Event">Event</option>
                   <option value="Vacation">Vacation</option>
                 </select>
               </div>
               <div class="form-group">
                 <label class="add" for="productDate">Date:</label>
-                <input type="date" class="form-control" id="productDate" v-model="newProduct.date" required>
+                <input type="date" class="form-control" id="productDate" v-model="date" required>
               </div>
-              <button type="submit" class="btn btn-primary">Add Product</button>
+              <div class="form-group">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary mr-2" @click="addProduct">Add Product</button>
+            </div>
             </form>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          </div>
+         
         </div>
       </div>
     </div>
@@ -95,146 +96,169 @@
 </template>
   
 <script>
+
+import Swal from 'sweetalert2';
+
 export default {
-    data() {
-    return {
-      newProduct: {
-        name: '',
-        description: '',
-        price: '',
-        category: 'Event',
-        date: '',
-      },
-    }
+data() {
+  return {
+    name: '',
+    imageUrl: '',
+    description: '',
+    price: '',
+    category: '',
+    date: '',
+  }
 },
-    computed: {
-      products() {
-        return this.$store.state.products;
+computed: {
+  getProducts() {
+    return this.$store.state.products;
+  },
+  addProduct() {
+    this.$store.dispatch('addProduct', {
+    hubID: this.hubID,
+    name: this.name,
+    description: this.description,
+    price: this.price,
+    category: this.category,
+    date: this.date
+  }).then(() => {
+    Swal.fire('User Added!', 'The user has been added.', 'success')
+    }).catch((error) => {
+      console.error('Error adding user:', error);
+      Swal.fire('Error', 'There was an error adding the user. Please try again.', 'error');
+    });
       },
     },
-    mounted() {
-      this.$store.dispatch('getProducts');
-    },
-    methods: {
-      editProduct(product) {
-        // Handle editing product functionality
-      },
-      deleteProduct(productId) {
-        this.$store.dispatch('deleteProduct', productId);
-      },
-      addProduct() {
-        // Handle adding product functionality
-      },
-      formatDate(date) {
-        const options = { year: "numeric", month: "long", day: "numeric" };
-        return new Date(date).toLocaleDateString(undefined, options);
-      },
-    },
-  };
-  </script>
+mounted() {
+  this.$store.dispatch('getProducts');
+},
+methods: {
+  editProduct(product) {
+  // Handle editing product functionality
+},
+  deleteProduct(productId) {
+    this.$store.dispatch('deleteProduct', productId);
+  },
+  formatDate(date) {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date(date).toLocaleDateString(undefined, options);
+},
+  updateFormattedDate() {
+  const inputDate = new Date(this.date);
+  const formattedDate = inputDate.toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+});
+  this.date = formattedDate;
+}
+}
+};
+</script>
   
 <style scoped>
 h1{
-    color: white;
-    margin-top: 80px;
+  color: white;
+  margin-top: 80px;
 }
 h2{
-    color: white;
+  color: white;
 }
-
 .container {
-    margin-top: 100px; 
+  /* margin-top: 100px; */
+  padding-top: 20px; /* Add padding to the top */
+  padding-bottom: 20px; /* Add padding to the bottom */
 }
-
 .btn-success {
-    background-color: rgb(71, 98, 218);
-    border: none;
-    border-radius: 20px;
-    color: white;
-    font-size: 18px;
-    padding: 15px;
+  background-color: rgb(71, 98, 218);
+  border: none;
+  border-radius: 20px;
+  color: white;
+  font-size: 18px;
+  padding: 15px;
 }
-
 .btn-success:hover {
-    background-color: rgb(53, 73, 163);
+  background-color: rgb(53, 73, 163);
 }
-
 .table {
-    margin-top: 20px;
-    border-radius: 20px;
-    overflow: hidden; 
+  margin-top: 20px;
+  border-radius: 20px;
+  overflow: hidden; 
 }
-
 .table th{
-    font-size: 20px;
-    text-align: center;
+  font-size: 20px;
+  text-align: center;
 }
 .table td{
-    font-size: 18px;
-    color: black;
-    text-align: center;
+  font-size: 18px;
+  color: black;
+  text-align: center;
 }
 .table th {
-    background-color: rgb(71, 98, 218);
-    color: white;
-    padding: 20px;
+  background-color: rgb(71, 98, 218);
+  color: white;
+  padding: 20px;
 }
-
 .table tbody tr:hover {
-    background-color: rgba(71, 98, 218, 0.1);
+  background-color: rgba(71, 98, 218, 0.1);
 }
 img{
-    height: 150px;
-    width: 200px;
+  height: 150px;
+  width: 200px;
 }
 .modal-content {
-    border-radius: 20px;
+  border-radius: 20px;
 }
 .modal-header{
-    background-color: rgb(71, 98, 218);
+  background-color: rgb(71, 98, 218);
 }
 .modal-title {
-    color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255);
 }
-
 .modal-footer {
-    border-top: none;
+  border-top: none;
 }
 
 .btn-warning,
 .btn-danger {
-    border-radius: 20px;
-    padding: 10px 20px;
-    font-size: 18px;
-    color: white;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 18px;
+  color: white;
 }
 .btn-warning {
-    background-color: #c3c300; 
-    border-color: #c3c300;
+  background-color: #c3c300; 
+  border-color: #c3c300;
 }
 button{
-    width: 150px;
-    margin: 8px;
+  width: 150px;
+  margin: 8px;
 }
 .btn-danger {
-    background-color: #dc3545; 
-    border-color: #dc3545;
+  background-color: #dc3545; 
+  border-color: #dc3545;
 }
-
 .btn-danger:hover {
-    background-color: #81000d; 
-    border-color: #81000d; 
+  background-color: #81000d; 
+  border-color: #81000d; 
 }
 .btn-warning:hover{
-    background-color: #848401; 
-    border-color: #848401;
+  background-color: #848401; 
+  border-color: #848401;
 }
 
 /* ADD PRODUCT MODAL STYLES */
-
+.btn-primary{
+  font-size: 18px;
+}
+.btn-secondary{
+  font-size: 18px;
+}
 .add {
   font-size: 18px;
   text-align: left;
+  color: black;
 }
 
 /* Center modal on the screen */
@@ -244,27 +268,38 @@ button{
   min-height: calc(70% - 3.5rem);
 }
 
-.btn {
-  font-size: 18px;
+.modal-content {
+  /* border-radius: 50px;  */
+  max-width: 400px; 
+  margin: 0 auto; 
 }
-
+.modal-body {
+  text-align: center;
+  padding: 30px;
+}
 .form-group {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
+  text-align: left;
 }
-
 .form-control {
   color: black;
-  font-size: 18px;
+  font-size: 16px;
   border: 1px solid black;
-  flex: 1; /* Allow the form control to grow to fill the available space */
+  flex: 1;
+  width: 100%; 
+  border-radius: 10px;
+  margin-bottom: 15px;
 }
 
 /* Adjust modal styles for responsiveness */
-@media (max-width: 767.98px) {
-    .modal-dialog {
-      max-width: 80%;
-    }
+@media (max-width: 720px) {
+.modal-dialog {
+  max-width: 80%;
+}
+.modal-content {
+  max-width: 100%;
+}
+.modal-body {
+  padding: 20px;
+}
 }
  </style>
