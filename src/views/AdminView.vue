@@ -205,8 +205,6 @@ methods: {
 
     updateProduct() {
       // Handle the update product functionality
-      // Use this.selectedProduct to get the updated product details
-      // For example:
       this.$store.dispatch('updateProduct', this.selectedProduct).then(() => {
         Swal.fire('Product Updated!', 'The Product has been updated.', 'success');
         // Close the modal after updating
@@ -239,8 +237,8 @@ h2{
 
 .container {
   /* margin-top: 100px; */
-  padding-top: 20px; /* Add padding to the top */
-  padding-bottom: 20px; /* Add padding to the bottom */
+  padding-top: 20px;
+  padding-bottom: 20px; 
 }
 .btn-success {
   background-color: rgb(71, 98, 218);
@@ -383,19 +381,18 @@ button{
 
 /* EDIT PRODUCT MODAL STYLES */
 #editProductModal {
-  background: none; /* Remove background */
+  background: none;
 }
 
 .edit-modal-content {
-  /* Add specific styles for the Edit Product modal content here */
   border-radius: 10px;
-  background-color: #fff; /* Example background color */
+  background-color: #fff; 
 }
 
 .edit-modal-header {
   
-  background-color: #848401; /* Example background color */
-  color: #fff; /* Example text color */
+  background-color: #848401; 
+  color: #fff; 
 }
 
 .edit-modal-title {

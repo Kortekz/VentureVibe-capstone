@@ -1,41 +1,49 @@
-<!-- Login.vue -->
-
 <template>
-
-
-    <div class="login-container">
-      <form>
-        <h1>Login</h1>
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" id="email" v-model="email" required>
-        </div>
-  
-        <div class="form-group">
-          <label for="password">Password:</label>
-          <input type="password" id="password" v-model="password" required>
-        </div>
-  
-        <button type="submit" @click="loginUser">Login</button>
-      </form>
+  <div class="login-container">
+    <h1>Login</h1>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" v-model="email" required>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        email: '',
-        password: '',
-      };
-    },
-    computed: {
-      loginUser() {
-       this.$store.dispatch('loginUser', this.$data)
-      },
-    },
-  };
-  </script>
+
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" id="password" v-model="password" required>
+    </div>
+
+    <button type="submit" @click="loginUser">Login</button>
+  </div>
+</template>
+
+<script>
+import Swal from 'sweetalert2';
+
+export default {
+  data() {
+    return {
+      email: '',
+      password: '',
+    };
+  },
+  methods: {
+    async loginUser() {
+  try {
+    await this.$store.dispatch('loginUser', { email: this.email, password: this.password });
+    Swal.fire('You have Logged In!', 'Thank you for Logging In', 'success').then(() => {
+      this.$router.push('/'); // Redirect to home page
+      setTimeout(() => {
+        // Refresh the page after a short delay
+        window.location.reload();
+      }, 10); 
+    });
+  } catch (error) {
+    console.error('Error logging in:', error);
+    Swal.fire('Error', 'There was an error Logging the user In. Please try again.', 'error');
+  }
+},
+  },
+};
+</script>
   
 <style scoped>
 h1{

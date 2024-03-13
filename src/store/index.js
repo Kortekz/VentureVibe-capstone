@@ -101,13 +101,19 @@ export default createStore({
       }catch(error) {
         console.error('Error adding User:', error)
       }
-      window.location.reload()
+      // window.location.reload()
     },
-    // async loginUser({ commit }, user){
-    //   try{
-    //     let {data} = await axios.post(baseURL + )
-    //   }
-    // }
+    // user Login
+    async loginUser({ commit }, user){
+      try{
+        let {data} = await axios.post(baseURL + '/login', user)
+        $cookies.set('jwt',data.token)
+        // alert(data.msg)
+        // window.location.reload()
+      }catch (error){
+        console.error('Cannot log In',error)
+      }
+    }
   },
   modules: {
   }

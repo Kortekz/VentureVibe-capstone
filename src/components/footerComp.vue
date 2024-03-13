@@ -31,8 +31,8 @@ footer {
   width: 85%;
   margin: 20px auto;
   margin-top: auto; 
-
   bottom: 0;
+  margin-top: 50px;
 }
 
 .texts {

@@ -17,8 +17,10 @@
                 <p class="card-text">{{ formatDate(product.date) }}</p>
                 <p class="price">R{{ product.price }}</p>
                 <!-- <router-link :to="{ name: 'productDetails', params: { id: product.hubID } }">
-                  <button class="btn btn-primary btn-block">View more</button>
                 </router-link> -->
+                <button class="btn1">View more</button>
+                <button class="btn2">Book Now</button>
+                
               </div>
             </div>
           </div>
@@ -55,11 +57,11 @@
   .row {
     display: flex;
     flex-wrap: wrap;
-    margin: -10px; /* Adjust margin to your preference */
+    margin: -10px;
   }
   
   .col-md-4 {
-    padding: 20px; /* Adjust padding to your preference */
+    padding: 20px; 
   }
   
   .card {
@@ -77,9 +79,10 @@
   
   .card-body {
     padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center; 
   }
   
   .card-title {
@@ -116,5 +119,36 @@
   .btn-primary:hover {
     background-color: rgb(53, 73, 163);
   }
+  .btn1{
+  background-color: rgb(71, 98, 218) !important;
+  border: none;
+  border-radius: 40px;
+  color:white;
+  width: 70%;
+  margin-bottom: 10px;
+  /* margin-left:10px; */
+  font-size: 18px;
+  padding: 15px;
+  transition: color 0.3s, transform 0.3s;
+}
+.btn2{
+  background-color: rgb(71, 98, 218) !important;
+  border: none;
+  border-radius: 40px;
+  color:white;
+  width: 70%;
+  /* margin-left:10px; */
+  font-size: 18px;
+  padding: 15px;
+  transition: color 0.3s, transform 0.3s;
+}
+.btn1:hover{
+  transform: scale(1.1);
+  transition: color 0.3s, transform 0.3s;
+}
+.btn2:hover{
+  transform: scale(1.1);
+  transition: color 0.3s, transform 0.3s;
+}
   </style>
   

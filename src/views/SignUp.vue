@@ -2,17 +2,17 @@
 
 <template>
     <div class="login-container">
-      <form @submit.prevent="submitForm">
+      
         <h1>Signup</h1>
   
         <div class="form-group">
           <label for="name">Name:</label>
-          <input type="text" id="name" v-model="name" required>
+          <input type="text" id="name" v-model="firstName" required>
         </div>
   
         <div class="form-group">
           <label for="surname">Surname:</label>
-          <input type="text" id="surname" v-model="surname" required>
+          <input type="text" id="surname" v-model="lastName" required>
         </div>
   
         <div class="form-group">
@@ -33,35 +33,46 @@
           </select>
         </div>
   
-        <button type="submit">Signup</button>
-      </form>
+        <button type="submit" @click="addUser">Signup</button>
+     
     </div>
   </template>
   
   <script>
-  export default {
-    data() {
-      return {
-        name: '',
-        surname: '',
-        email: '',
-        password: '',
-        userRole: 'customer',
-      };
-    },
-    methods: {
-      submitForm() {
-        // Add your signup logic here
-        console.log('Name:', this.name);
-        console.log('Surname:', this.surname);
-        console.log('Email:', this.email);
-        console.log('Password:', this.password);
-        console.log('User Role:', this.userRole);
-        // You can send the data to your server for registration
-      },
-    },
-  };
-  </script>
+import Swal from 'sweetalert2';
+
+export default {
+  data() {
+    return {
+      firstName:'',
+      lastName:'',
+      email: '',
+      password: '',
+      userRole: '',
+    };
+  },
+  methods: {
+    async addUser() {
+  try {
+    await this.$store.dispatch('addUser', { 
+      firstName: this.firstName, 
+      lastName: this.lastName, 
+      email: this.email, 
+      password: this.password,
+      userRole: this.userRole
+    });
+    Swal.fire('Thank you for Joining Us!', 'You Will be redirected to the Login Page', 'success').then(() => {
+      // Redirect to the login page
+      this.$router.push('/loginSign');
+    });
+  } catch (error) {
+    console.error('Error signing up:', error);
+    Swal.fire('Error', 'There was an error signing up the user. Please try again.', 'error');
+  }
+},
+  },
+};
+</script>
   
   <style scoped>
   
