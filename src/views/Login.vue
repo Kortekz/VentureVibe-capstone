@@ -4,7 +4,7 @@
 
 
     <div class="login-container">
-      <form @submit.prevent="submitForm">
+      <form>
         <h1>Login</h1>
         <div class="form-group">
           <label for="email">Email:</label>
@@ -16,7 +16,7 @@
           <input type="password" id="password" v-model="password" required>
         </div>
   
-        <button type="submit">Login</button>
+        <button type="submit" @click="loginUser">Login</button>
       </form>
     </div>
   </template>
@@ -29,12 +29,9 @@
         password: '',
       };
     },
-    methods: {
-      submitForm() {
-        // Add your login logic here
-        console.log('Email:', this.email);
-        console.log('Password:', this.password);
-        // You can send the data to your server for authentication
+    computed: {
+      loginUser() {
+       this.$store.dispatch('loginUser', this.$data)
       },
     },
   };

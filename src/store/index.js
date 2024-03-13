@@ -102,7 +102,12 @@ export default createStore({
         console.error('Error adding User:', error)
       }
       window.location.reload()
-    }
+    },
+    // async loginUser({ commit }, user){
+    //   try{
+    //     let {data} = await axios.post(baseURL + )
+    //   }
+    // }
   },
   modules: {
   }
