@@ -39,7 +39,7 @@ export default createStore({
     // Delete all products
     async deleteProduct ({ commit }, id) {
       try {
-        await axios.delete(baseURL + '/getAwayHub' + id )
+        await axios.delete(baseURL + '/getAwayHub/' + id )
       }catch (error) {
         console.error('Error deleting Product:', error)
       }
@@ -70,7 +70,7 @@ export default createStore({
     async getUsers({ commit }) {
       try {
         let { data } = await axios.get(baseURL + '/Users')
-        commit('setUsers', data.results)
+        commit('setUsers', data)
       }catch (error) {
         console.error('Error getting users:', error)
       }
@@ -78,7 +78,7 @@ export default createStore({
     // DELETES A USER
     async deleteUser({ commit }, id){
       try {
-        await axios.delete(baseURL + '/Users' + id)
+        await axios.delete(baseURL + '/Users/' + id)
       }catch (error) {
         console.error('Error deleting User:', error)
       }

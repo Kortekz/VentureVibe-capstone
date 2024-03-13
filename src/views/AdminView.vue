@@ -141,6 +141,40 @@
       </div>
     </div>
 
+
+    <!-- USER TABLE -->
+    <!-- Users Table -->
+    <div class="container mt-5">
+      <h2 class="text-center mb-4">Users</h2>
+      <table class="table">
+        <!-- Table Headers -->
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <!-- Table Body -->
+        <tbody>
+          <tr v-for="user in getUsers" :key="user.userID">
+            <!-- User Data -->
+            <td>{{ user.userID }}</td>
+            <td>{{ user.firstName }}</td>
+            <td>{{ user.lastName }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.userRole }}</td>
+            <td>
+              <button class="btn btn-danger" @click="deleteUser(user.userID)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
 </div>
 </template>
   
@@ -164,6 +198,9 @@ computed: {
   getProducts() {
     return this.$store.state.products;
   },
+  getUsers() {
+      return this.$store.state.users;
+    },
   addProduct() {
     this.$store.dispatch('addProduct', this.$data).then(() => {
     Swal.fire('Product Added!', 'The Product has been added.', 'success')
@@ -175,6 +212,7 @@ computed: {
     },
 mounted() {
   this.$store.dispatch('getProducts');
+  this.$store.dispatch('getUsers');
 },
 methods: {
   editProduct(product) {
@@ -222,6 +260,9 @@ methods: {
     // After hiding and removing, reset the modal content
     this.selectedProduct = {};
   },
+  deleteUser(userId) {
+      this.$store.dispatch('deleteUser', userId);
+    }
 }
 };
 </script>
