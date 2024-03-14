@@ -19,7 +19,7 @@
                 <!-- <router-link :to="{ name: 'productDetails', params: { id: product.hubID } }">
                 </router-link> -->
                 <button class="btn1">View more</button>
-                <button class="btn2">Book Now</button>
+                <!-- <button class="btn2">Book Now</button> -->
                 
               </div>
             </div>

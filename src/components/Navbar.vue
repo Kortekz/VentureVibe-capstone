@@ -53,9 +53,16 @@
             </router-link>
           </button>
 
+         
           <!-- Logout button -->
           <button v-if="hasJWT" @click="confirmLogout" class="logOut">Logout</button>
 
+           <!-- User Button/Icon -->
+           <router-link v-if="hasJWT" class=" nav-item nav-link d-flex align-items-center" to="/profile" style="font-size: 24px;">
+            <i class="fa-solid fa-user"></i>
+            </router-link>
+          <!-- <i class="fa-solid fa-user"></i> -->
+          
           </div>
         </div>
       </div>
@@ -182,6 +189,18 @@ export default {
 i{
   color:rgb(71, 98, 218);
   /* border: 2px solid rgb(71, 98, 218); */
+}
+.fa-user {
+  font-size: 35px; 
+  margin-top: 4px;
+  text-align: center;
+  margin-left: 12px;
+  transition: color 0.3s, transform 0.3s;
+}
+.fa-user:hover{
+  transform: scale(1.1);
+  transition: color 0.3s, transform 0.3s;
+  cursor: pointer;
 }
     
 /* Optional: Adjust the styles of the collapsed navbar */

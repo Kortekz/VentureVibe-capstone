@@ -24,7 +24,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="product in getProducts" :key="product.hubID">
+            <tr v-for="product in $store.state.products" :key="product.hubID">
               <td>{{ product.hubID }}</td>
               <td><img :src="product.imageUrl" alt="Product Image" ></td>
               <td>{{ product.name }}</td>
@@ -54,7 +54,7 @@
 
           <div class="modal-body">
             <!-- Form for adding a new product -->
-            <form >
+            <form @submit.prevent="addProduct">
               <div class="form-group">
                 <label class="add" for="productName">Name:</label>
                 <input type="text" class="form-control" id="productName" v-model="name" required>
@@ -102,7 +102,7 @@
           </div>
           <div class="modal-body">
             <!-- Form for editing an existing product -->
-            <form>
+            <form @submit.prevent="updateProduct">
               <div class="form-group">
                 <label class="add" for="productName">Name:</label>
                 <input type="text" class="form-control" id="productName" v-model="selectedProduct.name" required>
@@ -191,7 +191,12 @@ data() {
     price: '',
     category: '',
     date: '',
-    selectedProduct: {}
+    selectedProduct: {},
+    // USERS
+    firstName: '',
+    lastName: '',
+    email: '',
+    userRole: '',
   }
 },
 computed: {
@@ -202,12 +207,9 @@ computed: {
       return this.$store.state.users;
     },
   addProduct() {
-    this.$store.dispatch('addProduct', this.$data).then(() => {
-    Swal.fire('Product Added!', 'The Product has been added.', 'success')
-    }).catch((error) => {
-      console.error('Error adding user:', error);
-      Swal.fire('Error', 'There was an error adding the Product. Please try again.', 'error');
-    });
+    this.$store.dispatch('addProduct', this.$data)
+    // After adding the product, close the modal
+    $('#addProductModal').modal('hide');
       },
     },
 mounted() {
@@ -215,11 +217,21 @@ mounted() {
   this.$store.dispatch('getUsers');
 },
 methods: {
-  editProduct(product) {
-  // Handle editing product functionality
-},
+//   editProduct(id) {
+//   let edit = {
+//     hubID:hubID,
+//     name: this.name,
+//     imageUrl: this.imageUrl,
+//     description: this.description,
+//     price: this.price,
+//     category: this.category,
+//     date: this.date
+//   }
+//   this.$store.dispatch('editProduct', edit)
+// },
   deleteProduct(productId) {
     this.$store.dispatch('deleteProduct', productId);
+    
   },
   formatDate(date) {
     const options = { year: "numeric", month: "long", day: "numeric" };
@@ -236,30 +248,22 @@ methods: {
 },
   editProduct(product) {
     // Set the selectedProduct to the details of the product being edited
-    this.selectedProduct = { ...product };
+    this.selectedProduct = { ...product}
     // Open the edit product modal
     $('#editProductModal').modal('show');
     },
 
     updateProduct() {
-      // Handle the update product functionality
-      this.$store.dispatch('updateProduct', this.selectedProduct).then(() => {
-        Swal.fire('Product Updated!', 'The Product has been updated.', 'success');
-        // Close the modal after updating
-        $('#editProductModal').modal('hide');
-      }).catch((error) => {
-        console.error('Error updating product:', error);
-        Swal.fire('Error', 'There was an error updating the Product. Please try again.', 'error');
-      });
-    },
-    closeEditModal() {
+  // Handle the update product functionality
+  this.$store.dispatch('updateProduct', this.selectedProduct).then(() => {
+    Swal.fire('Product Updated!', 'The Product has been updated.', 'success');
+    // Close the modal after updating
     $('#editProductModal').modal('hide');
-    $('body').removeClass('modal-open');
-    $('.modal-backdrop').remove();
-
-    // After hiding and removing, reset the modal content
-    this.selectedProduct = {};
-  },
+  }).catch((error) => {
+    console.error('Error updating product:', error);
+    Swal.fire('Error', 'There was an error updating the Product. Please try again.', 'error');
+  });
+},
   deleteUser(userId) {
       this.$store.dispatch('deleteUser', userId);
     }

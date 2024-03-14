@@ -47,8 +47,8 @@ export default createStore({
     // Update products
     async updateProduct({ commit }, update) {
       try {
-        await axios.patch(baseURL + '/getAwayHub' + update.id, update)
-        const { data } = await axios.get(baseURL + '/getAwayHub')
+        await axios.patch(baseURL + '/getAwayHub/' + update.id, update)
+        // const { data } = await axios.get(baseURL + '/getAwayHub')
       }catch(error) {
         console.error('Error updating Product:', error)
       }
