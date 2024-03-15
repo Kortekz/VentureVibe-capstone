@@ -9,7 +9,8 @@ export default createStore({
   state: {
     products: [],
     users: [],
-    cart: []
+    cart: [],
+    loggedIn: false, // Add a loggedIn state
   },
   getters: {
   },
@@ -22,7 +23,10 @@ export default createStore({
     },
     setCart(state, cart) {
       state.cart = cart
-    }
+    },
+    setLoggedIn(state, status) { // Mutation to update loggedIn state
+      state.loggedIn = status
+    },
   },
   actions: {
     // CRUD FOR PRODUCTS
@@ -109,14 +113,14 @@ export default createStore({
       }, 20); 
     },
     // user Login
-    async loginUser({ commit }, user){
-      try{
-        let {data} = await axios.post(baseURL + '/login', user)
-        $cookies.set('jwt',data.token)
+    async loginUser({ commit }, user) {
+      try {
+        let { data } = await axios.post(baseURL + '/login', user)
+        $cookies.set('jwt', data.token)
+        commit('setLoggedIn', true) // Update loggedIn state
         // alert(data.msg)
-        // window.location.reload()
-      }catch (error){
-        console.error('Cannot log In',error)
+      } catch (error) {
+        console.error('Cannot log In', error)
       }
     }
   },

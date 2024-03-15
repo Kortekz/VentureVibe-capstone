@@ -16,10 +16,10 @@
                 <p class="card-text">This is a {{ product.category }}</p>
                 <p class="card-text">{{ formatDate(product.date) }}</p>
                 <p class="price">R{{ product.price }}</p>
-                <!-- <router-link :to="{ name: 'productDetails', params: { id: product.hubID } }">
-                </router-link> -->
-                <button class="btn1">View more</button>
-                <!-- <button class="btn2">Book Now</button> -->
+                
+                <router-link :to="{ name: 'hubDetails', params: { id: product.hubID } }" class="btn1">
+                  View more
+                </router-link>
                 
               </div>
             </div>
@@ -130,6 +130,7 @@
   font-size: 18px;
   padding: 15px;
   transition: color 0.3s, transform 0.3s;
+  text-decoration: none;
 }
 .btn2{
   background-color: rgb(71, 98, 218) !important;
