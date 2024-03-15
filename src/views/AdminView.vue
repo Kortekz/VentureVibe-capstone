@@ -45,7 +45,7 @@
   
   <!-- Add Product Modal -->
   <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
 
           <div class="modal-header">
@@ -54,7 +54,7 @@
 
           <div class="modal-body">
             <!-- Form for adding a new product -->
-            <form @submit.prevent="addProduct">
+            <form >
               <div class="form-group">
                 <label class="add" for="productName">Name:</label>
                 <input type="text" class="form-control" id="productName" v-model="name" required>
@@ -201,13 +201,6 @@ computed: {
   getUsers() {
       return this.$store.state.users;
     },
-  
-    },
-mounted() {
-  this.$store.dispatch('getProducts');
-  this.$store.dispatch('getUsers');
-},
-methods: {
   addProduct() {
     this.$store.dispatch('addProduct', this.$data).then(() => {
     Swal.fire('Product Added!', 'The Product has been added.', 'success')
@@ -216,6 +209,12 @@ methods: {
       Swal.fire('Error', 'There was an error adding the Product. Please try again.', 'error');
     });
       },
+    },
+mounted() {
+  this.$store.dispatch('getProducts');
+  this.$store.dispatch('getUsers');
+},
+methods: {
   editProduct(product) {
   // Handle editing product functionality
 },
@@ -242,9 +241,18 @@ methods: {
     $('#editProductModal').modal('show');
     },
 
-    updateProduct() {
+    updateProduct(hubID) {
       // Handle the update product functionality
-      this.$store.dispatch('updateProduct', this.selectedProduct).then(() => {
+      let edit = {
+        hubID : hubID,
+        name: this.name,
+        imageUrl: this.imageUrl,
+        description: this.description,
+        price: this.price,
+        category: this.category,
+        date: this.date
+      }
+      this.$store.dispatch('updateProduct', edit).then(() => {
         Swal.fire('Product Updated!', 'The Product has been updated.', 'success');
         // Close the modal after updating
         $('#editProductModal').modal('hide');

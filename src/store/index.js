@@ -43,12 +43,14 @@ export default createStore({
       }catch (error) {
         console.error('Error deleting Product:', error)
       }
+      window.location.reload()
     },
     // Update products
     async updateProduct({ commit }, update) {
       try {
-        await axios.patch(baseURL + '/getAwayHub/' + update.id, update)
+        const {data} = await axios.patch(baseURL + '/getAwayHub/' + update.id, update)
         // const { data } = await axios.get(baseURL + '/getAwayHub')
+        commit ('setProducts', data)
       }catch(error) {
         console.error('Error updating Product:', error)
       }
