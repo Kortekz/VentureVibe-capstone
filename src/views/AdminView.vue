@@ -54,7 +54,7 @@
 
           <div class="modal-body">
             <!-- Form for adding a new product -->
-            <form >
+            <form @submit.prevent="addProduct">
               <div class="form-group">
                 <label class="add" for="productName">Name:</label>
                 <input type="text" class="form-control" id="productName" v-model="name" required>
@@ -143,7 +143,7 @@
 
 
     <!-- USER TABLE -->
-    
+    <!-- Users Table -->
     <div class="container mt-5">
       <h2 class="text-center mb-4">Users</h2>
       <table class="table">
@@ -201,6 +201,13 @@ computed: {
   getUsers() {
       return this.$store.state.users;
     },
+  
+    },
+mounted() {
+  this.$store.dispatch('getProducts');
+  this.$store.dispatch('getUsers');
+},
+methods: {
   addProduct() {
     this.$store.dispatch('addProduct', this.$data).then(() => {
     Swal.fire('Product Added!', 'The Product has been added.', 'success')
@@ -209,12 +216,6 @@ computed: {
       Swal.fire('Error', 'There was an error adding the Product. Please try again.', 'error');
     });
       },
-    },
-mounted() {
-  this.$store.dispatch('getProducts');
-  this.$store.dispatch('getUsers');
-},
-methods: {
   editProduct(product) {
   // Handle editing product functionality
 },
