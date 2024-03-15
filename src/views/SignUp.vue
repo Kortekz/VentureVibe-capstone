@@ -28,8 +28,8 @@
         <div class="form-group">
           <label for="userRole">User Role:</label>
           <select id="userRole" v-model="userRole" required>
-            <option value="customer">Customer</option>
-            <option value="administrator">Administrator</option>
+            <option value="Customer">Customer</option>
+            <option value="Administrator">Administrator</option>
           </select>
         </div>
   

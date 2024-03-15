@@ -34,9 +34,11 @@
               <td>{{ formatDate(product.date) }}</td>
               <td>
                 <button class="btn btn-warning" @click="editProduct(product)" data-toggle="modal" data-target="#editProductModal">
-                  Edit
+                  <i class="fas fa-edit"></i>
                 </button>
-                <button class="btn btn-danger" @click="deleteProduct(product.hubID)">Delete</button>
+                <button class="btn btn-danger" @click="deleteProduct(product.hubID)">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
               </td>
             </tr>
           </tbody>
@@ -142,10 +144,21 @@
     </div>
 
 
+     
     <!-- USER TABLE -->
-    <!-- Users Table -->
+   
     <div class="container mt-5">
       <h2 class="text-center mb-4">Users</h2>
+      
+      <!-- Button to open Add User Modal -->
+      <button type="button" class="btn btn-success mb-2" @click="openAddUserModal">
+        Add User
+      </button>
+
+
+    <AddUserModal v-if="showAddUserModal" @close="closeAddUserModal" />
+
+
       <table class="table">
         <!-- Table Headers -->
         <thead>
@@ -168,7 +181,12 @@
             <td>{{ user.email }}</td>
             <td>{{ user.userRole }}</td>
             <td>
-              <button class="btn btn-danger" @click="deleteUser(user.userID)">Delete</button>
+              <button class="btn btn-warning" @click="editProduct(product)" data-toggle="modal" data-target="#editProductModal">
+                <i class="fas fa-edit"></i>
+                </button>
+              <button class="btn btn-danger" @click="deleteUser(user.userID)">
+                <i class="fa-solid fa-trash"></i>
+              </button>
             </td>
           </tr>
         </tbody>
@@ -179,10 +197,13 @@
 </template>
   
 <script>
-
+import AddUserModal from '../components/addUsersModal.vue'
 import Swal from 'sweetalert2';
 
 export default {
+  components:{
+    AddUserModal
+  },
 data() {
   return {
     name: '',
@@ -191,7 +212,8 @@ data() {
     price: '',
     category: '',
     date: '',
-    selectedProduct: {}
+    selectedProduct: {},
+    showAddUserModal: false,
   }
 },
 computed: {
@@ -215,6 +237,12 @@ mounted() {
   this.$store.dispatch('getUsers');
 },
 methods: {
+  openAddUserModal() {
+      this.showAddUserModal = true; // Show the 'Add User' modal
+    },
+    closeAddUserModal() {
+      this.showAddUserModal = false; // Hide the 'Add User' modal
+    },
   editProduct(product) {
   // Handle editing product functionality
 },
@@ -241,26 +269,25 @@ methods: {
     $('#editProductModal').modal('show');
     },
 
-    updateProduct(hubID) {
-      // Handle the update product functionality
-      let edit = {
-        hubID : hubID,
-        name: this.name,
-        imageUrl: this.imageUrl,
-        description: this.description,
-        price: this.price,
-        category: this.category,
-        date: this.date
-      }
-      this.$store.dispatch('updateProduct', edit).then(() => {
-        Swal.fire('Product Updated!', 'The Product has been updated.', 'success');
-        // Close the modal after updating
-        $('#editProductModal').modal('hide');
-      }).catch((error) => {
-        console.error('Error updating product:', error);
-        Swal.fire('Error', 'There was an error updating the Product. Please try again.', 'error');
-      });
-    },
+    updateProduct() {
+  let edit = {
+    id: this.selectedProduct.hubID, 
+    name: this.selectedProduct.name,
+    imageUrl: this.selectedProduct.imageUrl,
+    description: this.selectedProduct.description,
+    price: this.selectedProduct.price,
+    category: this.selectedProduct.category,
+    date: this.selectedProduct.date
+  };
+  this.$store.dispatch('updateProduct', edit).then(() => {
+    Swal.fire('Product Updated!', 'The Product has been updated.', 'success');
+    // Close the modal after updating
+    $('#editProductModal').modal('hide');
+  }).catch((error) => {
+    console.error('Error updating product:', error);
+    Swal.fire('Error', 'There was an error updating the Product. Please try again.', 'error');
+  });
+},
     closeEditModal() {
     $('#editProductModal').modal('hide');
     $('body').removeClass('modal-open');
@@ -344,8 +371,9 @@ img{
 .btn-danger {
   border-radius: 20px;
   padding: 10px 20px;
-  font-size: 18px;
+  font-size: 20px;
   color: white;
+  width: 100px;
 }
 .btn-warning {
   background-color: #c3c300; 
