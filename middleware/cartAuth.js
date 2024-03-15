@@ -18,8 +18,8 @@ const authenticate = (req, res, next) => {
             return res.sendStatus(403);
         }
         // Store the user information in the request object for further processing
-       
-        req.email = user
+        req.user = user
+        req.email = user.email
         // Call the next middleware in the chain
         next();
     });
