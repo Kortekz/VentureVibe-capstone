@@ -6,7 +6,7 @@ import users from './routes/users.js'
 import cart from './routes/cart.js'
 import loginRouter from './routes/login.js'
 import cookieParser from 'cookie-parser'
-import {auth} from './middleware/authenticate.js'
+import {authenticateUser} from './middleware/authenticate.js'
 import { authenticate } from './middleware/cartAuth.js'
 
 config()
@@ -32,10 +32,10 @@ app.use('/login', auth, loginRouter)
 
 app.use('/cart', cart)
 // , authenticate
-app.use('/getAwayHub', authenticate, getAwayHub)
+app.use('/getAwayHub', authenticateUser, getAwayHub)
 // ,authenticate took this out so that i could see products 
 
-app.use('/users', authenticate, users)
+app.use('/users', authenticateUser, users)
 
 app.listen(PORT,()=>{
     console.log(`It is running on http://localhost:${PORT}/`)
