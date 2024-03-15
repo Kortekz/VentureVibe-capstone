@@ -103,7 +103,10 @@ export default createStore({
       }catch(error) {
         console.error('Error adding User:', error)
       }
-      // window.location.reload()
+      setTimeout(() => {
+        // Refresh the page after a short delay
+        window.location.reload();
+      }, 20); 
     },
     // user Login
     async loginUser({ commit }, user){

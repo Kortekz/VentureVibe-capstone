@@ -151,13 +151,9 @@
       <h2 class="text-center mb-4">Users</h2>
       
       <!-- Button to open Add User Modal -->
-      <button type="button" class="btn btn-success mb-2" @click="openAddUserModal">
+      <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#addUserModal">
         Add User
       </button>
-
-
-    <AddUserModal v-if="showAddUserModal" @close="closeAddUserModal" />
-
 
       <table class="table">
         <!-- Table Headers -->
@@ -193,17 +189,60 @@
       </table>
     </div>
 
+    <!-- Add User Modal -->
+<div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
+
+        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button> -->
+
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" id="name" v-model="firstName" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="surname">Surname:</label>
+          <input type="text" id="surname" v-model="lastName" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" v-model="email" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" v-model="password" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="userRole">User Role:</label>
+          <select id="userRole" v-model="userRole" class="form-control" required>
+            <option value="Customer">Customer</option>
+            <option value="Administrator">Administrator</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" @click="addUser">Add User</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </div>
 </template>
   
 <script>
-import AddUserModal from '../components/addUsersModal.vue'
+
 import Swal from 'sweetalert2';
 
 export default {
-  components:{
-    AddUserModal
-  },
+
 data() {
   return {
     name: '',
@@ -213,7 +252,6 @@ data() {
     category: '',
     date: '',
     selectedProduct: {},
-    showAddUserModal: false,
   }
 },
 computed: {
@@ -237,14 +275,35 @@ mounted() {
   this.$store.dispatch('getUsers');
 },
 methods: {
-  openAddUserModal() {
-      this.showAddUserModal = true; // Show the 'Add User' modal
-    },
-    closeAddUserModal() {
-      this.showAddUserModal = false; // Hide the 'Add User' modal
-    },
-  editProduct(product) {
-  // Handle editing product functionality
+  // USER ADD
+  async addUser() {
+  try {
+    // Dispatch the addUser action from Vuex store with user data
+    await this.$store.dispatch('addUser', { 
+      firstName: this.firstName, 
+      lastName: this.lastName, 
+      email: this.email, 
+      password: this.password,
+      userRole: this.userRole
+    });
+
+    // Close the modal and handle the callback using the then method
+    $('#addUserModal').modal('hide').then(() => {
+      // Show success message
+      Swal.fire('User Added!', 'The user has been added.', 'success');
+
+      // Reset form data
+      this.firstName = '';
+      this.lastName = '';
+      this.email = '';
+      this.password = '';
+      this.userRole = ''; 
+    });
+  } catch (error) {
+    console.error('Error adding user:', error);
+    Swal.fire('Error', 'There was an error adding the user. Please try again.', 'error');
+  }
+
 },
   deleteProduct(productId) {
     this.$store.dispatch('deleteProduct', productId);
@@ -458,24 +517,64 @@ button{
 }
 
 /* EDIT PRODUCT MODAL STYLES */
-#editProductModal {
-  background: none;
-}
+ 
+  #addUserModal .modal-dialog {
+    margin: auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    min-height: calc(100% - 10rem);
+  }
 
-.edit-modal-content {
-  border-radius: 10px;
-  background-color: #fff; 
-}
+  #addUserModal .modal-content {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #fff; 
+    border-radius: 10px; 
+  }
 
-.edit-modal-header {
-  
-  background-color: #848401; 
-  color: #fff; 
-}
+  /* Optional: Customize modal header and title */
+  #addUserModal .modal-header {
+    background-color: rgb(71, 98, 218);
+    color: #fff;
+    border-radius: 10px 10px 0 0; 
+  }
 
-.edit-modal-title {
+  #addUserModal .modal-title {
+    font-size: 20px; 
+  }
 
-}
+  #addUserModal .modal-body {
+    text-align: left; 
+    padding: 30px; 
+  }
+  #addUserModal .form-control {
+    font-size: 16px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    margin-bottom: 15px; 
+  }
+
+  #addUserModal .modal-footer {
+    border-top: none; 
+    justify-content: center; 
+  }
+
+  #addUserModal .btn-primary {
+    background-color: rgb(71, 98, 218);
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 18px;
+  }
+
+  #addUserModal .btn-secondary {
+    background-color: #ccc;
+    color: #000;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 18px;
+  }
 
 
  </style>
