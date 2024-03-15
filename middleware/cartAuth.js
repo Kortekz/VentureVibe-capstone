@@ -13,13 +13,13 @@ const authenticate = (req, res, next) => {
     }
     // Verify the token using the secret key
     jwt.verify(tokenInHeader, process.env.SECRET_KEY, (err, user) => {
-        // If there's an error or the token is invalid, send a 403 Forbidden response
+        // If theres an error or the token is invalid, send a 403 Forbidden response
         if (err || !user) {
             return res.sendStatus(403);
         }
         // Store the user information in the request object for further processing
-        req.user = user;
-        req.email = user.email;
+       
+        req.email = user
         // Call the next middleware in the chain
         next();
     });
