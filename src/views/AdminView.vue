@@ -200,6 +200,7 @@ data() {
   }
 },
 computed: {
+  // this gets all products
   getProducts() {
     return this.$store.state.products;
   },
