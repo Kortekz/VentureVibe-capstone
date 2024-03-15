@@ -7,7 +7,7 @@ import cart from './routes/cart.js'
 import loginRouter from './routes/login.js'
 import cookieParser from 'cookie-parser'
 import {authenticateUser} from './middleware/authenticate.js'
-import { authenticate } from './middleware/cartAuth.js'
+import { auth } from './middleware/cartAuth.js'
 
 config()
 

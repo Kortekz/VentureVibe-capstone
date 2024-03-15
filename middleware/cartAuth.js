@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import { config } from 'dotenv'
 config()
 
-const authenticate = (req, res, next) => {
+const auth = (req, res, next) => {
     // Extract the cookie from the request headers
     const { cookie } = req.headers;
     // Check if the cookie exists and extract the token
@@ -25,4 +25,4 @@ const authenticate = (req, res, next) => {
     });
 }
 
-export { authenticate };
+export { auth };
