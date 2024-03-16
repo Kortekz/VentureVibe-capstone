@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import axios from 'axios'
+import { useCookies } from 'vue-cookies'
 
 axios.defaults.withCredentials = true;
 
@@ -12,6 +13,7 @@ export default createStore({
     users: [],
     cart: [],
     loggedIn: false, // Add a loggedIn state
+    currentUser: null,
   },
   getters: {
   },
@@ -28,6 +30,9 @@ export default createStore({
     setLoggedIn(state, status) { 
       state.loggedIn = status
     },
+    setCurrentUser(state, user) {
+      state.currentUser = user;
+   },
   },
   actions: {
     // CRUD FOR PRODUCTS
@@ -38,9 +43,9 @@ export default createStore({
         console.log(data)
         commit('setProducts', data)
 
-        // let encode = $cookies.get('token')
-        // encode = encode.split('.')[1]
-        // console.log(JSON.parse(window.atob(encode) ))
+        let encode = $cookies.get('token')
+        encode = encode.split('.')[1]
+        console.log(JSON.parse(window.atob(encode) ))
 
       }catch (error) {
         console.error('Error getting products:', error)
@@ -113,10 +118,10 @@ export default createStore({
       }catch(error) {
         console.error('Error adding User:', error)
       }
-      setTimeout(() => {
-        // Refresh the page after a short delay
-        window.location.reload();
-      }, 20); 
+      // setTimeout(() => {
+      //   // Refresh the page after a short delay
+      //   window.location.reload();
+      // }, 20); 
     },
     // user Login
     async loginUser({ commit }, user) {
@@ -130,39 +135,21 @@ export default createStore({
         console.error('Cannot log In', error)
       }
     },
-    logoutUser({ commit }) {
-      // Clear token token and set loggedIn state to false
-      this.$cookies.remove('token');
-      commit('setLoggedIn', false);
-      this.$router.push('/'); // Redirect to home page after logout
-      setTimeout(() => {
-        // Refresh the page after a short delay
-        window.location.reload();
-      }, 10);
+    // user logOut
+    logOutUser({ commit }, cookies) {
+      // Access cookies instance to remove token
+      cookies.remove('token');
+      commit('setLoggedIn', false); // Update loggedIn state
     },
   },
   async getProfile({ commit }, email) {
-    try {
-      let { data } = await axios.get(baseURL + '/Users/', { params: { email: email } });
-      console.log('User Profile Info', data);
-      commit('setUsers', data); 
-  
-      let encode = $cookies.get('token');
-      if (encode) {
-        encode = encode.split('.')[1];
-        const decodedToken = JSON.parse(window.atob(encode));
-        console.log('Decoded Token:', decodedToken);
-  
-        // Assuming 'setUserToken' mutation sets the decoded token in the store
-        commit('setUserToken', decodedToken); 
-      } else {
-        console.log('Token not found in cookies.');
-      }
-    } catch (error) {
-      console.error('Error fetching user profile:', error);
-    }
-  
-  },
+    let encode = $cookies.get('token');
+    encode = encode.split('.')[1];
+    const decodedToken = JSON.parse(window.atob(encode));
+    console.log(decodedToken);
+    commit('setCurrentUser', decodedToken.currentUser); 
+    // Update the currentUser state
+   },
   modules: {
   }
 })

@@ -5,6 +5,8 @@
       
         <h1>Signup</h1>
   
+        <form @submit.prevent="addUser">
+        
         <div class="form-group">
           <label for="name">Name:</label>
           <input type="text" id="name" v-model="firstName" required>
@@ -33,8 +35,8 @@
           </select>
         </div>
   
-        <button type="submit" @click="addUser">Signup</button>
-     
+        <button type="submit">Signup</button>
+      </form>
     </div>
   </template>
   

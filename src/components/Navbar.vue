@@ -34,7 +34,7 @@
             <router-link exact class="nav-item nav-link" to="/contact">
               Contact
             </router-link>
-            <router-link   exact class="nav-item nav-link" to="/admin">
+            <router-link  v-if="hastoken" exact class="nav-item nav-link" to="/admin">
               <!-- v-if="hastoken" put this back in after site is completed -->
               <!-- v-if="hastoken && isAdmin"  -->
               Admin
@@ -47,7 +47,7 @@
             </router-link>
           </div>
           <div class="navbar-nav ml-auto">
-            <button class="cart-btn">
+            <button v-if="hastoken" class="cart-btn">
             <router-link class=" nav-item nav-link d-flex align-items-center" to="/cart" style="font-size: 24px;">
                 <i class="fa-solid fa-cart-shopping cart-icon"></i>
             </router-link>
@@ -55,7 +55,8 @@
 
          
           <!-- Logout button -->
-          <button v-if="hastoken" @click="confirmLogout" class="logOut">Logout</button>
+          <button v-if="hastoken" @click="logOutUser" class="logOut">Logout</button>
+
 
            <!-- User Button/Icon -->
            <router-link v-if="hastoken" class=" nav-item nav-link d-flex align-items-center" to="/profile" style="font-size: 24px;">
@@ -83,7 +84,7 @@ export default {
     }
   },
   methods: {
-    confirmLogout() {
+    logOutUser() {
       Swal.fire({
         title: 'Are you sure?',
         text: 'You will be logged out',
@@ -96,12 +97,8 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           // Remove token token
-          this.$cookies.remove('token');
-          this.$router.push('/'); // Redirect to home page
-          setTimeout(() => {
-          // Refresh the page after a short delay
-          window.location.reload();
-        }, 10);
+          this.$store.dispatch('logOutUser', this.$cookies);
+          this.$router.push('/');
         }
       });
     }
