@@ -31,10 +31,10 @@ export default {
     await this.$store.dispatch('loginUser', { email: this.email, password: this.password });
     Swal.fire('You have Logged In!', 'Thank you for Logging In', 'success').then(() => {
       this.$router.push('/'); // Redirect to home page
-      setTimeout(() => {
-        // Refresh the page after a short delay
-        window.location.reload();
-      }, 10); 
+      // setTimeout(() => {
+      //   // Refresh the page after a short delay
+      //   window.location.reload();
+      // }, 10); 
     });
   } catch (error) {
     console.error('Error logging in:', error);

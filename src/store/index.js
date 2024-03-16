@@ -3,7 +3,8 @@ import axios from 'axios'
 
 axios.defaults.withCredentials = true;
 
-const baseURL = 'https://venturevibe-capstone-1.onrender.com'
+// const baseURL = 'https://venturevibe-capstone-1.onrender.com'
+const baseURL = 'http://localhost:6969'
 
 export default createStore({
   state: {
@@ -36,6 +37,11 @@ export default createStore({
         let { data } = await axios.get(baseURL + '/getAwayHub')
         console.log(data)
         commit('setProducts', data)
+
+        // let encode = $cookies.get('jwt')
+        // encode = encode.split('.')[1]
+        // console.log(JSON.parse(window.atob(encode) ))
+
       }catch (error) {
         console.error('Error getting products:', error)
       }
@@ -116,11 +122,32 @@ export default createStore({
     async loginUser({ commit }, user) {
       try {
         let { data } = await axios.post(baseURL + '/login', user)
+        console.log(data)
         $cookies.set('jwt', data.token)
         commit('setLoggedIn', true) // Update loggedIn state
         // alert(data.msg)
       } catch (error) {
         console.error('Cannot log In', error)
+      }
+    },
+    async getProfile({ commit }, email) {
+      try {
+        let { data } = await axios.get(baseURL + '/Users/', { params: { email: email } });
+        console.log('User Profile Info', data);
+        commit('setUsers', data); 
+    
+        let encode = $cookies.get('jwt');
+        if (encode) {
+          encode = encode.split('.')[1];
+          console.log(JSON.parse(window.atob(encode)));
+    
+          const decodedToken = jwtDecode(encode);
+          console.log('Decoded Token:', decodedToken);
+        } else {
+          console.log('JWT not found in cookies.');
+        }
+      } catch (error) {
+        console.error('Error fetching user profile:', error);
       }
     }
   },

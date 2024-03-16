@@ -77,7 +77,7 @@
     font-size: 35px;
     font-weight: 600;
     margin-top: 20px;
-    margin-bottom: 20px; /* Reduce margin-bottom */
+    margin-bottom: 20px; 
     display: inline-block;
     background-color: rgb(71, 98, 218);
     -webkit-background-clip: text;
@@ -87,25 +87,25 @@
   .product-title {
     font-size: 30px;
     color: black;
-    margin-bottom: 10px; /* Reduce margin-bottom */
+    margin-bottom: 10px; 
   }
   
   .desc {
     font-size: 18px;
     color: black;
-    margin-bottom: 20px; /* Increase margin-bottom */
+    margin-bottom: 20px; 
   }
   
   .product-info {
     font-size: 1.5rem;
     color: black;
-    margin-bottom: 10px; /* Reduce margin-bottom */
+    margin-bottom: 10px; 
   }
   
   .card-text {
     font-size: 18px;
     color: black;
-    margin-bottom: 10px; /* Reduce margin-bottom */
+    margin-bottom: 10px; 
   }
   
   .money {
@@ -123,7 +123,7 @@
   }
   
   .image-container {
-    margin-right: 160px; /* Adjusted margin */
+    margin-right: 160px; 
   }
   
   .btn-primary {
@@ -140,7 +140,7 @@
   }
   
   .content {
-    margin-left: 20px; /* Adjusted margin */
+    margin-left: 20px;
   }
   
   /* Responsive Styles */
