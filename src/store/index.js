@@ -25,7 +25,7 @@ export default createStore({
     setCart(state, cart) {
       state.cart = cart
     },
-    setLoggedIn(state, status) { // Mutation to update loggedIn state
+    setLoggedIn(state, status) { 
       state.loggedIn = status
     },
   },
@@ -38,7 +38,7 @@ export default createStore({
         console.log(data)
         commit('setProducts', data)
 
-        // let encode = $cookies.get('jwt')
+        // let encode = $cookies.get('token')
         // encode = encode.split('.')[1]
         // console.log(JSON.parse(window.atob(encode) ))
 
@@ -123,33 +123,45 @@ export default createStore({
       try {
         let { data } = await axios.post(baseURL + '/login', user)
         console.log(data)
-        $cookies.set('jwt', data.token)
+        $cookies.set('token', data.token)
         commit('setLoggedIn', true) // Update loggedIn state
         // alert(data.msg)
       } catch (error) {
         console.error('Cannot log In', error)
       }
     },
-    async getProfile({ commit }, email) {
-      try {
-        let { data } = await axios.get(baseURL + '/Users/', { params: { email: email } });
-        console.log('User Profile Info', data);
-        commit('setUsers', data); 
-    
-        let encode = $cookies.get('jwt');
-        if (encode) {
-          encode = encode.split('.')[1];
-          console.log(JSON.parse(window.atob(encode)));
-    
-          const decodedToken = jwtDecode(encode);
-          console.log('Decoded Token:', decodedToken);
-        } else {
-          console.log('JWT not found in cookies.');
-        }
-      } catch (error) {
-        console.error('Error fetching user profile:', error);
+    logoutUser({ commit }) {
+      // Clear token token and set loggedIn state to false
+      this.$cookies.remove('token');
+      commit('setLoggedIn', false);
+      this.$router.push('/'); // Redirect to home page after logout
+      setTimeout(() => {
+        // Refresh the page after a short delay
+        window.location.reload();
+      }, 10);
+    },
+  },
+  async getProfile({ commit }, email) {
+    try {
+      let { data } = await axios.get(baseURL + '/Users/', { params: { email: email } });
+      console.log('User Profile Info', data);
+      commit('setUsers', data); 
+  
+      let encode = $cookies.get('token');
+      if (encode) {
+        encode = encode.split('.')[1];
+        const decodedToken = JSON.parse(window.atob(encode));
+        console.log('Decoded Token:', decodedToken);
+  
+        // Assuming 'setUserToken' mutation sets the decoded token in the store
+        commit('setUserToken', decodedToken); 
+      } else {
+        console.log('Token not found in cookies.');
       }
+    } catch (error) {
+      console.error('Error fetching user profile:', error);
     }
+  
   },
   modules: {
   }

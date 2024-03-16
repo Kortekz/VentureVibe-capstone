@@ -35,14 +35,14 @@
               Contact
             </router-link>
             <router-link   exact class="nav-item nav-link" to="/admin">
-              <!-- v-if="hasJWT" put this back in after site is completed -->
-              <!-- v-if="hasJWT && isAdmin"  -->
+              <!-- v-if="hastoken" put this back in after site is completed -->
+              <!-- v-if="hastoken && isAdmin"  -->
               Admin
             </router-link>
-            <router-link v-if="!hasJWT" exact class="nav-item nav-link" to="/SignUp">
+            <router-link v-if="!hastoken" exact class="nav-item nav-link" to="/SignUp">
               SignUp
             </router-link>
-            <router-link v-if="!hasJWT" exact class="nav-item nav-link" to="/loginSign">
+            <router-link v-if="!hastoken" exact class="nav-item nav-link" to="/loginSign">
               Login
             </router-link>
           </div>
@@ -55,10 +55,10 @@
 
          
           <!-- Logout button -->
-          <button v-if="hasJWT" @click="confirmLogout" class="logOut">Logout</button>
+          <button v-if="hastoken" @click="confirmLogout" class="logOut">Logout</button>
 
            <!-- User Button/Icon -->
-           <router-link v-if="hasJWT" class=" nav-item nav-link d-flex align-items-center" to="/profile" style="font-size: 24px;">
+           <router-link v-if="hastoken" class=" nav-item nav-link d-flex align-items-center" to="/profile" style="font-size: 24px;">
             <i class="fa-solid fa-user"></i>
             </router-link>
           <!-- <i class="fa-solid fa-user"></i> -->
@@ -75,13 +75,11 @@ import Swal from 'sweetalert2';
 
 export default {
   computed: {
-    hasJWT() {
-      return !!this.$cookies.get('jwt');
+    hastoken() {
+      return this.$store.state.loggedIn;
     },
     isAdmin() {
-      // this Checks if the user has the role Administrator
-      const userRole = this.$cookies.get('userRole');
-      return userRole === 'Administrator';
+      return this.$store.getters.isAdmin;
     }
   },
   methods: {
@@ -97,8 +95,8 @@ export default {
         position: 'top',
       }).then((result) => {
         if (result.isConfirmed) {
-          // Remove JWT token
-          this.$cookies.remove('jwt');
+          // Remove token token
+          this.$cookies.remove('token');
           this.$router.push('/'); // Redirect to home page
           setTimeout(() => {
           // Refresh the page after a short delay
