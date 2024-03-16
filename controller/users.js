@@ -36,6 +36,10 @@ export default {
         res.json(await getUsers())
         },
 
+        getUser: async(req,res)=>{
+            const emailAdd = req.emailAdd;
+            res.send(await getUsers(emailAdd))
+        },
 
 // authenticate 
 
@@ -58,8 +62,8 @@ addUser: async(req, res) => {
 },
 
 loginUser: async(req,res) => {
-    const {email, password} = req.body
-    await checkUser(email, password)
+    // const {email, password} = req.body
+    // await checkUser(email, password)
     // res.send(res.msg)
 }
   

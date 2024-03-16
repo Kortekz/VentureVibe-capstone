@@ -21,7 +21,7 @@ config()
 // bcrypt auth
 const auth = async(req,res,next) => {
     const {email, password} = req.body
-    console.log(email, 'This is above hashed password')
+    // console.log(email, 'This is above hashed password')
     const hashedPassword = await checkUser(email)
     bcrypt.compare(password, hashedPassword, async (err,result)=>{
         if(err) throw err
@@ -32,7 +32,7 @@ const auth = async(req,res,next) => {
 
             // const {email} = req.body
             console.log(email, 'This is above the token')
-            const token = jwt.sign({email:email}, process.env.SECRET_KEY,{expiresIn: '1h'})
+            const token = jwt.sign({currentUser:currentUser}, process.env.SECRET_KEY,{expiresIn: '1h'})
          
             res.cookie('token', token, { httpOnly: false, expiresIn:'1h'})
 
