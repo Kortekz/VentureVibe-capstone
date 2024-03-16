@@ -60,7 +60,7 @@ addUser: async(req, res) => {
 loginUser: async(req,res) => {
     const {email, password} = req.body
     await checkUser(email, password)
-    res.send(res.msg)
+    // res.send(res.msg)
 }
   
 }

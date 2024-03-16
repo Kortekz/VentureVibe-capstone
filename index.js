@@ -32,10 +32,10 @@ app.use('/login', auth, loginRouter)
 
 app.use('/cart', cart)
 // , authenticate
-app.use('/getAwayHub', getAwayHub)
+app.use('/getAwayHub',authenticate, getAwayHub)
 // ,authenticate took this out so that i could see products 
 
-app.use('/users',users)
+app.use('/users',authenticate,users)
 
 app.listen(PORT,()=>{
     console.log(`It is running on http://localhost:${PORT}/`)
