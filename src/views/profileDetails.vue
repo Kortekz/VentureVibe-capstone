@@ -95,12 +95,12 @@
   }
   
   .profile-title {
-    font-size: 30px;
+    font-size: 25px;
     color: black;
     margin-bottom: 5px; 
   }
   .profile-content{
-    font-size: 30px;
+    font-size: 25px;
     color: black;
     margin-bottom: 5px;
   }

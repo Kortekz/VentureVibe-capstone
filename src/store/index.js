@@ -12,7 +12,8 @@ export default createStore({
     products: [],
     users: [],
     cart: [],
-    loggedIn: false, // Add a loggedIn state
+    // loggedIn: false, 
+    // Add a loggedIn state
     currentUser: null,
   },
   getters: {
@@ -27,9 +28,9 @@ export default createStore({
     setCart(state, cart) {
       state.cart = cart
     },
-    setLoggedIn(state, status) { 
-      state.loggedIn = status
-    },
+    // setLoggedIn(state, status) { 
+    //   state.loggedIn = status
+    // },
     setCurrentUser(state, user) {
       state.currentUser = user;
    },
@@ -58,7 +59,7 @@ export default createStore({
       }catch (error) {
         console.error('Error deleting Product:', error)
       }
-      window.location.reload()
+      // window.location.reload()
     },
     // Update products
     async updateProduct({ commit }, update) {
@@ -99,7 +100,7 @@ export default createStore({
       }catch (error) {
         console.error('Error deleting User:', error)
       }
-      window.location.reload()
+      // window.location.reload()
     },
     // UPDATES A USER
     async updateUser({commit, state}, update){
@@ -118,6 +119,7 @@ export default createStore({
       }catch(error) {
         console.error('Error adding User:', error)
       }
+      console.log('Add Works')
       // setTimeout(() => {
       //   // Refresh the page after a short delay
       //   window.location.reload();
@@ -126,21 +128,21 @@ export default createStore({
     // user Login
     async loginUser({ commit }, user) {
       try {
-        let { data } = await axios.post(baseURL + '/login', user)
-        console.log(data)
-        $cookies.set('token', data.token)
-        commit('setLoggedIn', true) // Update loggedIn state
-        // alert(data.msg)
+        let { data } = await axios.post(baseURL + '/login', user);
+        $cookies.set('token', data.token);
+        // Update currentUser with userRole information
+        commit('setCurrentUser', { ...data.user, userRole: data.userRole });
       } catch (error) {
-        console.error('Cannot log In', error)
+        console.error('Cannot log In', error);
       }
     },
-    // user logOut
-    logOutUser({ commit }, cookies) {
-      // Access cookies instance to remove token
-      cookies.remove('token');
-      commit('setLoggedIn', false); // Update loggedIn state
-    },
+    // // user logOut
+    // logOutUser({ commit }, cookies) {
+    //   // Access cookies instance to remove token
+    //   this.$cookies.remove('token');
+    //   commit('setLoggedIn', false); 
+    //   // Update loggedIn state
+    // },
   },
   async getProfile({ commit }, email) {
     let encode = $cookies.get('token');

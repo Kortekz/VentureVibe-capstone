@@ -287,24 +287,33 @@ methods: {
       userRole: this.userRole
     });
 
-    // Close the modal and handle the callback using the then method
-    $('#addUserModal').modal('hide').then(() => {
-      // Show success message
-      Swal.fire('User Added!', 'The user has been added.', 'success');
-
-      // Reset form data
-      this.firstName = '';
-      this.lastName = '';
-      this.email = '';
-      this.password = '';
-      this.userRole = ''; 
+    // Show success message using SweetAlert
+    Swal.fire('User Added!', 'The user has been added.', 'success').then(() => {
+      // Refresh the page after the user clicks OK
+      window.location.reload();
     });
+
+    // Close the modal using vanilla JavaScript
+    document.getElementById('addUserModal').classList.remove('show');
+    document.body.classList.remove('modal-open');
+    document.querySelector('.modal-backdrop').remove();
+
+    // Reset form data
+    this.firstName = '';
+    this.lastName = '';
+    this.email = '';
+    this.password = '';
+    this.userRole = ''; 
+    
   } catch (error) {
     console.error('Error adding user:', error);
+    // Show error message using SweetAlert
     Swal.fire('Error', 'There was an error adding the user. Please try again.', 'error');
   }
-
 },
+
+
+
   deleteProduct(productId) {
     this.$store.dispatch('deleteProduct', productId);
   },
@@ -357,6 +366,7 @@ methods: {
   },
   deleteUser(userId) {
       this.$store.dispatch('deleteUser', userId);
+      window.location.reload()
     }
 }
 };
