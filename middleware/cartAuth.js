@@ -10,7 +10,7 @@ const authenticate = (req,res,next) => {
         console.log(user)
         if(err)return res.sendStatus(403)
         req.user = user
-        req.emailAdd = user.emailAdd;
+        req.email = user.email;
     next()
     })
 }

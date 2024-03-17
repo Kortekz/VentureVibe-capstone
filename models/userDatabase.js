@@ -58,14 +58,20 @@ const deleteUsers = async (userID) => {
 
 
 // this is for editing users
-const editUsers = async(firstName, lastName, email, password, id)=>{
+const editUsers = async(firstName,lastName,email, password,userRole, userID)=>{
     const [Users] = await pool.query (`
-    UPDATE Users
-    SET firstName = ?, lastName = ?, email = ?, password = ?
-    WHERE (id=?)
-    `, [firstName, lastName, email, password, id])
-    return Users()
+    UPDATE Users SET firstName=?, lastName=?,email=?,  password=?, userRole=?
+    WHERE userID=? 
+    `, [firstName,lastName,email, password, userRole, userID])
+    return getUsers()
 }
+// const editUser=async(firstName,lastName,userRole,email,password,id)=>{
+//     await pool.query(
+//     UPDATE users SET firstName=?, lastName=?, userRole=?,email=?, password=? 
+//     WHERE id=? 
+//      [firstName,lastName,userRole,email,password,id])
+//      return getUsers()
+// }
 
   
 // this is for adding products
