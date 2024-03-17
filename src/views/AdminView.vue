@@ -177,9 +177,10 @@
             <td>{{ user.email }}</td>
             <td>{{ user.userRole }}</td>
             <td>
-              <button class="btn btn-warning" @click="editProduct(product)" data-toggle="modal" data-target="#editProductModal">
+              <button class="btn btn-warning" data-toggle="modal" data-target="#editUserModal">
                 <i class="fas fa-edit"></i>
-                </button>
+              </button>
+
               <button class="btn btn-danger" @click="deleteUser(user.userID)">
                 <i class="fa-solid fa-trash"></i>
               </button>
@@ -234,6 +235,41 @@
   </div>
 </div>
 
+    <!-- Edit User Modal -->
+    <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+      
+      </div>
+      <div class="modal-body">
+        <!-- Form for editing an existing user -->
+        <form @submit.prevent="updateUser">
+          <div class="form-group">
+            <label for="editName">Name:</label>
+            <input type="text" class="form-control" id="editName" v-model="editedUser.name" required>
+          </div>
+          <div class="form-group">
+            <label for="editLastName">Last Name:</label>
+            <input type="text" class="form-control" id="editLastName" v-model="editedUser.lastName" required>
+          </div>
+          <div class="form-group">
+            <label for="editEmail">Email:</label>
+            <input type="email" class="form-control" id="editEmail" v-model="editedUser.email" required>
+          </div>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeEditModal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+          <button type="submit" class="btn btn-primary">Update User</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 </div>
 </template>
   
@@ -242,6 +278,7 @@
 import Swal from 'sweetalert2';
 
 export default {
+
 
 data() {
   return {
@@ -252,6 +289,7 @@ data() {
     category: '',
     date: '',
     selectedProduct: {},
+    editedUser: {}
   }
 },
 computed: {
@@ -312,8 +350,6 @@ methods: {
   }
 },
 
-
-
   deleteProduct(productId) {
     this.$store.dispatch('deleteProduct', productId);
   },
@@ -367,7 +403,33 @@ methods: {
   deleteUser(userId) {
       this.$store.dispatch('deleteUser', userId);
       window.location.reload()
-    }
+    },
+
+// EDIT USER MODAL
+updateUser() {
+      // Dispatch updateUser action from Vuex store with the editedUser object
+      this.$store.dispatch('updateUser', {
+        name: this.editedUser.name,
+        lastName: this.editedUser.lastName,
+        email: this.editedUser.email,
+        password: this.editedUser.password
+      })
+      .then(() => {
+        $('#editUserModal').modal('hide'); // Hide the modal on successful update
+        Swal.fire('User Updated!', 'The user has been updated.', 'success');
+        // Optionally, fetch users again to refresh the user list
+        // this.$store.dispatch('getUsers');
+      })
+      .catch(error => {
+        console.error('Error updating user:', error);
+        Swal.fire('Error', 'There was an error updating the user. Please try again.', 'error');
+      });
+    },
+    closeEditModal() {
+      $('#editUserModal').modal('hide'); // Close the modal
+    },
+  
+  
 }
 };
 </script>
@@ -586,5 +648,63 @@ button{
     font-size: 18px;
   }
 
+ /* EDIT USER MODAL */
+ #editUserModal .modal-dialog {
+  margin: auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: calc(100% - 10rem); /* Adjust this value as needed */
+}
 
+#editUserModal .modal-content {
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+/* Optional: Customize modal header and title */
+#editUserModal .modal-header {
+  background-color: rgb(71, 98, 218);
+  color: #fff;
+  border-radius: 10px 10px 0 0;
+}
+
+#editUserModal .modal-title {
+  font-size: 20px;
+}
+
+#editUserModal .modal-body {
+  text-align: left;
+  padding: 30px;
+}
+
+#editUserModal .form-control {
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+#editUserModal .modal-footer {
+  border-top: none;
+  justify-content: center;
+}
+
+#editUserModal .btn-primary {
+  background-color: rgb(71, 98, 218);
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 18px;
+}
+
+#editUserModal .btn-secondary {
+  background-color: #ccc;
+  color: #000;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 18px;
+}
  </style>

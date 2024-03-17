@@ -16,6 +16,7 @@
           aria-controls="navbarNav"
           aria-expanded="false"
           aria-label="Toggle navigation"
+          @click="toggleNavbar"
         >
         <i class="fa-solid fa-bars"></i>
           <!-- <span class="navbar-toggler-icon"></span> -->
@@ -47,7 +48,8 @@
             </router-link>
           </div>
           <div class="navbar-nav ml-auto">
-            <button class="cart-btn">
+
+            <button v-if="hasJWT" class="cart-btn">
             <router-link class=" nav-item nav-link d-flex align-items-center" to="/cart" style="font-size: 24px;">
                 <i class="fa-solid fa-cart-shopping cart-icon"></i>
             </router-link>

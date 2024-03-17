@@ -5,11 +5,15 @@
 
         <h1 class="head"> About VentureVibe </h1>
 
-        <p> VentureVibe is an online vacation and booking platform that specializes in providing travelers with personalized and unique experiences around the world. Our mission is to make travel planning effortless and enjoyable, while ensuring that our customers have access to the best deals and exclusive offers.
+        <p> VentureVibe is an online vacation and booking platform that specializes in providing travelers with personalized and unique experiences around the world. 
+          Our mission is to make travel planning effortless and enjoyable, while ensuring that our customers have access to the best deals and exclusive offers.
         </p>
-        <p> At VentureVibe, we understand that every traveler is different, which is why we offer a diverse range of vacation packages and services to cater to varying needs and preferences. Whether you're looking for a relaxing beach getaway, an adventurous trekking expedition, or a cultural exploration, we've got you covered.
+        <p> At VentureVibe, we understand that every traveler is different, which is why we offer a diverse range of vacation packages and services to cater to varying 
+          needs and preferences. Whether you're looking for a relaxing beach getaway, an adventurous trekking expedition, or a cultural exploration, we've got you covered.
         </p> 
-        <p> We believe that travel should be accessible to everyone, which is why we strive to offer competitive prices and flexible payment options. Our platform is user-friendly and secure, ensuring that you can book your dream vacation with confidence. Thank you for choosing VentureVibe as your travel partner. We look forward to helping you plan your next adventure!
+        <p> We believe that travel should be accessible to everyone, which is why we strive to offer competitive prices and flexible payment options. Our platform is 
+          user-friendly and secure, ensuring that you can book your dream vacation with confidence. Thank you for choosing VentureVibe as your travel partner. We look 
+          forward to helping you plan your next adventure!
         </p>
       </div>
 
@@ -47,7 +51,6 @@ export default {
   color: rgb(71, 98, 218); /* Match the navbar text color */
   font-size: 35px;
   font-weight: 600;
-  /* padding-bottom: 50px; */
 }
 
 p {
@@ -61,5 +64,39 @@ p {
   max-width: 40%; /* Ensure the image doesn't exceed its container */
   border-radius: 10px; /* Add rounded corners to the image */
   margin-top: 50px;
+}
+
+/* Media Queries for 720px screens */
+@media screen and (max-width: 720px) {
+  .container {
+    flex-direction: column; /* Stack content vertically for small screens */
+    padding: 20px; /* Reduce padding for smaller screens */
+    margin-top: 50px; /* Adjust margin for smaller screens */
+    margin-bottom: 30px; /* Adjust margin for smaller screens */
+  }
+
+  .head {
+    font-size: 30px; /* Reduce font size for smaller screens */
+  }
+
+  p {
+    font-size: 16px; /* Reduce font size for smaller screens */
+  }
+
+  .about-image {
+    max-width: 100%; /* Ensure the image is responsive */
+    margin-top: 20px; /* Adjust margin for smaller screens */
+  }
+}
+
+/* Media Queries for 300px screens */
+@media screen and (max-width: 300px) {
+  .head {
+    font-size: 25px; /* Reduce font size for very small screens */
+  }
+
+  p {
+    font-size: 14px; /* Reduce font size for very small screens */
+  }
 }
 </style>

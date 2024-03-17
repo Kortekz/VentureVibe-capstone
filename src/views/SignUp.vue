@@ -1,44 +1,38 @@
-<!-- Signup.vue -->
-
 <template>
   <div class="login-container">
-    
-      <h1>Signup</h1>
+    <h1>Signup</h1>
 
-      
       <div class="form-group">
-          <label for="name">Name:</label>
-          <input type="text" id="name" v-model="firstName" class="form-control" required>
-        </div>
-
-        <div class="form-group">
-          <label for="surname">Surname:</label>
-          <input type="text" id="surname" v-model="lastName" class="form-control" required>
-        </div>
-
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" id="email" v-model="email" class="form-control" required>
-        </div>
-
-        <div class="form-group">
-          <label for="password">Password:</label>
-          <input type="password" id="password" v-model="password" class="form-control" required>
-        </div>
-
-        <div class="form-group">
-          <label for="userRole">User Role:</label>
-          <select id="userRole" v-model="userRole" class="form-control" required>
-            <option value="Customer">Customer</option>
-            <option value="Administrator">Administrator</option>
-          </select>
-        </div>
-
-        <button type="submit" @click="signup">Signup</button>
-
+        <label for="name">Name:</label>
+        <input type="text" id="name" v-model="firstName" class="form-control" required>
       </div>
-      
-  
+
+      <div class="form-group">
+        <label for="surname">Surname:</label>
+        <input type="text" id="surname" v-model="lastName" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" v-model="email" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" v-model="password" class="form-control" required>
+      </div>
+
+      <div class="form-group">
+        <label for="userRole">User Role:</label>
+        <select id="userRole" v-model="userRole" class="form-control" required>
+          <option value="Customer">Customer</option>
+          <!-- <option value="Administrator">Administrator</option> -->
+        </select>
+      </div>
+
+      <button type="submit" @click="signUp">Signup</button>
+
+  </div>
 </template>
 
 <script>
@@ -51,42 +45,39 @@ export default {
       lastName: '',
       email: '',
       password: '',
-      userRole: 'Customer', // Default user role
+      userRole: '',
     };
   },
   methods: {
-    async signup() {
-      try {
-        // Dispatch the addUser action from Vuex store with user data
-        await this.$store.dispatch('addUser', {
-          firstName: this.firstName,
-          lastName: this.lastName,
-          email: this.email,
-          password: this.password,
-          userRole: this.userRole,
-        });
+    async signUp() {
+  try {
+   
+    // Dispatch the addUser action from Vuex store with user data
+    await this.$store.dispatch('signUp', { 
+      firstName: this.firstName, 
+      lastName: this.lastName, 
+      email: this.email, 
+      password: this.password,
+      userRole: this.userRole
+    });
+    
+    // Show success message using SweetAlert
+    Swal.fire('User Added!', 'The user has been added.', 'success').then(() => {
+      // Refresh the page after the user clicks OK
+      this.$router.push('/loginSign'); 
+    });
 
-        // Show success message using SweetAlert
-        Swal.fire('User Added!', 'The user has been added.', 'success').then(() => {
-          // Reset form data after successful addition
-          this.firstName = '';
-          this.lastName = '';
-          this.email = '';
-          this.password = '';
-          this.userRole = 'Customer'; // Reset user role to default
-        });
-      } catch (error) {
-        console.error('Error adding user:', error);
-        // Show error message using SweetAlert
-        Swal.fire('Error', 'There was an error adding the user. Please try again.', 'error');
-      }
-    },
+  } catch (error) {
+    console.error('Error adding user:', error);
+    // Show error message using SweetAlert
+    Swal.fire('Error', 'There was an error adding the user. Please try again.', 'error');
+  }
+},
   },
 };
 </script>
 
 <style scoped>
-
 h1 {
   color: rgb(71, 98, 218);
   padding-bottom: 20px;

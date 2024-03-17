@@ -8,12 +8,18 @@
         <div class="col-md-4 content">
           <h3 class="product-title">{{ product.name }}</h3>
           <p class="desc">{{ product.description }}</p>
-          <p class="product-info">{{ product.category }}</p>
+          <!-- <p class="product-info">{{ product.category }}</p> -->
           <p class="card-text">Available: {{ formatDate(product.date) }}</p>
           <p class="money">Book this 
             {{ product.category }}
             for the Low price of R{{ product.price }} !
         </p>
+
+        <div class="quantity-input">
+          <label for="quantity">Quantity:</label>
+          <input type="number" id="quantity" v-model="quantity" min="1" max="10">
+        </div>
+
           <router-link to="/getAwayHub">
             <button class="btn btn-primary">Back</button>
           </router-link>
@@ -30,6 +36,11 @@
   import spinnerComponent from '../components/spinnerComp.vue';
   
   export default {
+    data() {
+    return {
+      quantity: 1, // Default quantity is 1
+    };
+  },
     components: {
       spinnerComponent
     },
@@ -45,8 +56,12 @@
     },
     methods: {
       bookNow() {
-        console.log('Book Now clicked');
-      },
+      const newItem = {
+        productID: this.product.hubID,
+        quantity: this.quantity,
+      };
+      this.$store.dispatch('addToCart', newItem);
+    },
       formatDate(date) {
         const options = { year: "numeric", month: "long", day: "numeric" };
         return new Date(date).toLocaleDateString(undefined, options);
@@ -143,11 +158,82 @@
     margin-left: 20px;
   }
   
-  /* Responsive Styles */
-  @media (max-width: 768px) {
-    .hub-details {
-      margin-left: 25px;
-    }
+/* Media Queries for 720px screens */
+@media screen and (max-width: 720px) {
+  .hub-details {
+    margin-left: 25px; 
+    margin-top: 50px; 
+    width: 85%;
   }
+
+  .static-heading {
+    font-size: 28px; 
+  }
+
+  .product-title {
+    font-size: 24px; 
+  }
+
+  .desc {
+    font-size: 16px; 
+  }
+
+  .money {
+    font-size: 18px; 
+  }
+
+  .img-fluid {
+    height: 300px; 
+    width: 100%; 
+    max-width: none; 
+  }
+
+  .image-container {
+    margin-right: 0; 
+  }
+
+  .btn-primary {
+    font-size: 18px; 
+    padding: 10px; 
+    margin: 5px; 
+  }
+}
+
+/* Media Queries for 300px screens */
+@media screen and (max-width: 320px) {
+  .hub-details {
+    margin-left: 22px; 
+    margin-top: 85px; 
+    width: 85%
+  }
+
+  .static-heading {
+    font-size: 24px; 
+  }
+
+  .product-title {
+    font-size: 20px; 
+    margin-top: 25px;
+  }
+
+  .desc {
+    font-size: 14px; 
+  }
+
+  .money {
+    font-size: 16px; 
+  }
+
+  .img-fluid {
+    height: 200px; 
+  }
+
+  .btn-primary {
+    font-size: 16px; 
+    padding: 8px; 
+    margin: 3px;
+    margin-top: 25px; 
+  }
+}
   </style>
   

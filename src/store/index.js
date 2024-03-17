@@ -28,6 +28,15 @@ export default createStore({
     setCart(state, cart) {
       state.cart = cart
     },
+    setCart(state, cart) {
+      state.cart = cart;
+    },
+    addToCart(state, newItem) {
+      state.cart.push(newItem);
+    },
+    removeFromCart(state, cartID) {
+      state.cart = state.cart.filter(item => item.cartID !== cartID);
+    },
     // setLoggedIn(state, status) { 
     //   state.loggedIn = status
     // },
@@ -103,10 +112,10 @@ export default createStore({
       // window.location.reload()
     },
     // UPDATES A USER
-    async updateUser({commit, state}, update){
+    async updateUser({commit}, update){
       try{
-        await axios.patch(baseURL + '/Users' + update.userID ,update)
-        const { data } = await axios.get(baseURL + '/Users')
+        await axios.patch(baseURL + '/Users/' + update.id ,update)
+        // const { data } = await axios.get(baseURL + '/Users')
       }catch(error){
         console.error('Error updating Users:', error)
       }
@@ -124,6 +133,14 @@ export default createStore({
       //   // Refresh the page after a short delay
       //   window.location.reload();
       // }, 20); 
+      
+    }, async signUp({ commit }, newUser) {
+      try {
+        let {data} = await axios.post(baseURL + '/signUp', newUser)
+        commit('setUsers', data)
+      }catch(error) {
+        console.error('Error adding User:', error)
+      }
     },
     // user Login
     async loginUser({ commit }, user) {
@@ -152,6 +169,32 @@ export default createStore({
     commit('setCurrentUser', decodedToken.currentUser); 
     // Update the currentUser state
    },
+
+  //  CART ACTIONS
+  async getCart({ commit }) {
+    try {
+      const { data } = await axios.get(baseURL + '/cart');
+      commit('setCart', data);
+    } catch (error) {
+      console.error('Error getting cart items:', error);
+    }
+  },
+  async addToCart({ commit }, newItem) {
+    try {
+      const { data } = await axios.post(baseURL + '/cart', newItem);
+      commit('addToCart', data);
+    } catch (error) {
+      console.error('Error adding item to cart:', error);
+    }
+  },
+  async removeFromCart({ commit }, cartID) {
+    try {
+      await axios.delete(`${baseURL}/cart/${cartID}`);
+      commit('removeFromCart', cartID);
+    } catch (error) {
+      console.error('Error removing item from cart:', error);
+    }
+  },
   modules: {
   }
 })
