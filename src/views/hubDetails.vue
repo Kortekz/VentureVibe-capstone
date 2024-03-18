@@ -128,6 +128,7 @@
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 20px;
+    color: rgb(71, 98, 218);
   }
   
   .img-fluid {

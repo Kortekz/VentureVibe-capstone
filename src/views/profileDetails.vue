@@ -22,7 +22,9 @@
         <h3 class="profile-content">You are Currently a {{ userProfile.currentUser.userRole }}</h3>
       </div>
 
-      <button class="Delete" @click="confirmDelete(userProfile.currentUser.id)">Delete</button>
+      <button class="Delete" @click="confirmDelete(userProfile.currentUser.userID)">Delete</button>
+
+      <button class="Edit"> Edit Details</button>
     </div>
 
     <div v-else>
@@ -57,9 +59,10 @@ export default {
       }
     },
     confirmDelete(id) {
+      // Confirm deletion using SweetAlert or any other method
       swal.fire({
         title: 'Are you sure?',
-        text: 'You are about to delete your account!',
+        text: 'You are about to delete your account! This action cannot be reversed',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -68,17 +71,26 @@ export default {
         cancelButtonText: 'Cancel',
       }).then((result) => {
         if (result.isConfirmed) {
-          this.deleteUser(id)
+          // Call deleteUser method if user confirms deletion
+          this.deleteUser(id);
         }
       });
     },
-    deleteUser(id) {
-      this.$store.dispatch('deleteUser', id);
-      $cookies.remove('token')
-      this.$router.push('/')
-      setTimeout(() => {
-        window.location.reload()
-      }, 10);
+    
+    deleteUser(userId) {
+      // Call the deleteUser action from store
+      this.$store.dispatch('deleteUser', userId)
+        .then(() => {
+          // logging the user out after deletion of user
+          $cookies.remove('token');
+          this.$router.push('/');
+          setTimeout(() => {
+            window.location.reload();
+          }, 10);
+        })
+        .catch((error) => {
+          console.error('Error deleting user:', error);
+        });
     }
   },
 };
@@ -127,15 +139,12 @@ export default {
   align-items: center;
   margin-bottom: 10px;
 }
-
 .profile-info h3 {
   margin-right: 10px;
 }
-
 .content {
   margin-left: 20px;
 }
-
 .Delete {
   background-color: rgb(71, 98, 218) !important;
   border: none;
@@ -144,9 +153,21 @@ export default {
   font-size: 18px;
   padding: 15px;
   margin-top: 20px;
+  margin: 15px;
 }
-
 .Delete:hover {
+  background-color: rgb(36, 49, 107) !important;
+}
+.Edit {
+  background-color: rgb(71, 98, 218) !important;
+  border: none;
+  border-radius: 20px;
+  color: white;
+  font-size: 18px;
+  padding: 15px;
+  margin-top: 20px;
+}
+.Edit:hover {
   background-color: rgb(36, 49, 107) !important;
 }
 
