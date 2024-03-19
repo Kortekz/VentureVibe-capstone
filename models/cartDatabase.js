@@ -23,7 +23,7 @@ const addCart = async(quantity, hubID, userID)=>{
     const [cartPlus] = await pool.query(`
     INSERT INTO cart (quantity, hubID, userID) VALUES (?,?,?)
     `,[quantity, hubID, userID])
-    return userCart(cartPlus.insertId)
+    return userCart()
 }
 
 // this is for deleting products in the cart
@@ -38,6 +38,14 @@ const deleteCart = async(userID)=>{
 const getUserID = async(email)=>{
     const [[{userID}]] = await pool.query (`
     SELECT * FROM Users WHERE email = ? 
+    `, [email])
+    return userID
+}
+// admin for patching
+const patchCart = async(email)=>{
+    const [[{userID}]] = await pool.query (`
+    UPDATE cart SET userID=?, quantity=?, hubID = ? 
+    where orderID
     `, [email])
     return userID
 }
