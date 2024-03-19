@@ -24,11 +24,31 @@
 
       <button class="Delete" @click="confirmDelete(userProfile.currentUser.userID)">Delete</button>
 
-      <button class="Edit"> Edit Details</button>
+      <button class="Edit" @click="openEditModal">Edit Details</button>
     </div>
 
     <div v-else>
       <spinnerComponent></spinnerComponent>
+    </div>
+    
+    <!-- MODAL FOR EDIT -->
+    <div class="edit-modal" v-if="showModal">
+      <div class="modal-content">
+        <h2>Edit User Details</h2>
+        <form @submit.prevent="submitForm">
+          <label for="firstName">First Name:</label>
+          <input type="text" id="firstName" v-model="formData.firstName" required>
+  
+          <label for="lastName">Last Name:</label>
+          <input type="text" id="lastName" v-model="formData.lastName" required>
+  
+          <label for="email">Email:</label>
+          <input type="email" id="email" v-model="formData.email" required>
+  
+          <button @click="closeModal">Cancel</button>
+          <button type="submit">Update</button>
+        </form>
+      </div>
     </div>
   </div>
 </template>
@@ -38,6 +58,11 @@ import swal from 'sweetalert2';
 import spinnerComponent from '../components/spinnerComp.vue';
 
 export default {
+  data() {
+    return {
+      showModal: false,
+    };
+  },
   components: {
     spinnerComponent
   },
@@ -91,7 +116,14 @@ export default {
         .catch((error) => {
           console.error('Error deleting user:', error);
         });
-    }
+    },
+     // Other methods...
+     openEditModal() {
+      this.showModal = true;
+    },
+    closeEditModal() {
+      this.showModal = false;
+    },
   },
 };
 </script>
@@ -150,7 +182,7 @@ export default {
   border: none;
   border-radius: 20px;
   color: white;
-  font-size: 18px;
+  font-size: 20px;
   padding: 15px;
   margin-top: 20px;
   margin: 15px;
@@ -163,7 +195,7 @@ export default {
   border: none;
   border-radius: 20px;
   color: white;
-  font-size: 18px;
+  font-size: 20px;
   padding: 15px;
   margin-top: 20px;
 }

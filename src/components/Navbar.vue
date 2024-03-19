@@ -131,7 +131,7 @@ export default {
   -webkit-background-clip: text;
   color: transparent;
   font-size: 30px;
-  transition: color 0.3s, transform 0.3s;
+  transition: color 0.3s, transform 0.3s; 
 }
 .logo-text:hover{
   transform: scale(1.1);

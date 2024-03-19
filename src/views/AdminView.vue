@@ -1,7 +1,10 @@
 <template>
     <div>
+
       <div class="container mt-5">
+        
         <h1 class="text-center mb-4">Admin Dashboard</h1>
+        
         <h2 class="text-center mb-4">Products</h2>
   
         <!-- Add Product Modal -->
@@ -43,6 +46,8 @@
             </tr>
           </tbody>
         </table>
+      
+      
       </div>
   
   <!-- Add Product Modal -->
@@ -133,7 +138,7 @@
                 <input type="date" class="form-control" id="productDate" v-model="selectedProduct.date" required>
               </div>
               <div class="form-group">
-              <button type="button" class="btn btn-secondary" @click="closeEditModal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
               <button type="submit" class="btn btn-primary mr-2" @click="updateProduct">Update</button>
             </div>
 
@@ -259,7 +264,7 @@
             <input type="email" class="form-control" id="editEmail" v-model="editedUser.email" required>
           </div>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeEditModal">
-          <span aria-hidden="true">&times;</span>
+          <span aria-hidden="true">Close</span>
         </button>
           <button type="submit" class="btn btn-primary">Update User</button>
         </form>
@@ -274,11 +279,13 @@
 </template>
   
 <script>
-
+import spinnerComp from '../components/spinnerComp.vue';
 import Swal from 'sweetalert2';
 
 export default {
-
+components: {
+spinnerComp
+},
 
 data() {
   return {
@@ -345,7 +352,7 @@ methods: {
     
   } catch (error) {
     console.error('Error adding user:', error);
-    // Show error message using SweetAlert
+    // Show error message using    
     Swal.fire('Error', 'There was an error adding the user. Please try again.', 'error');
   }
 },
@@ -698,6 +705,14 @@ button{
   border-radius: 5px;
   padding: 10px 20px;
   font-size: 18px;
+}
+.close{
+  background-color: rgb(71, 98, 218);
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 18px;
+  border:none
 }
 
 #editUserModal .btn-secondary {

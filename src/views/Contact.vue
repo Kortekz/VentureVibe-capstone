@@ -1,4 +1,20 @@
 <template>
+
+
+<div class="contact-container">
+    <div class="contact-info-container">
+      <div class="contact-info">
+        <h2>Contact Information</h2>
+        <p><strong>Address:</strong> 123 Main Street, Cityville</p>
+        <p><strong>Email:</strong> VentureVibe@gmail.com</p>
+        <p><strong>Phone:</strong> +27 21 129 0655</p>
+        <p><strong>Hours:</strong> Mon-Fri: 9am-5pm</p>
+        <p>A friendly team member is ready to assist you with any inquiries.</p>
+      </div>
+    </div>
+    
+
+
     <form
       ref="form"
       action="https://formspree.io/f/xnqebpba"
@@ -29,6 +45,7 @@
   
       <button type="submit">Send</button>
     </form>
+  </div>
   </template>
   
   <script>
@@ -81,7 +98,7 @@
   
   .login-container {
     margin-top: 100px !important;
-    max-width: 500px;
+    max-width: 1200px !important;
     margin: auto;
     padding: 60px;
     border: 2px solid #ccc;
@@ -128,6 +145,57 @@
   button:hover {
     background-color: rgb(45, 61, 136);
   }
+
+.contact-container {
+  display: flex;
+  justify-content: center;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.contact-info-container {
+  max-width: 400px;
+  height: 50%;
+  background-color: white;
+  padding: 60px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* margin-bottom: 40px; */
+  margin: 0 auto;
+  margin-top: 250px;
+}
+
+.contact-info h2 {
+  color: rgb(71, 98, 218);
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.contact-info p {
+  margin-bottom: 10px;
+  color: black;
+  font-size: 18px;
+}
+
+.contact-form {
+  /* width: 100%; */
+}
+
+.contact-info{
+  
+  
+}
+/* Media queries for mobile responsiveness */
+@media (max-width: 720px) {
+  .contact-container {
+    flex-direction: column;
+  }
+  
+  .contact-info,
+  .contact-form {
+    width: 100%;
+  }
+}
 
   /* Media queries for mobile responsiveness */
 @media  (max-width: 720px) {
