@@ -36,15 +36,16 @@
               Contact
             </router-link>
             
-            <router-link v-if="hasJWT" exact class="nav-item nav-link" to="/admin">
-              Admin
+            <router-link v-if="hasJWT && isAdmin === 'Administrator'" exact class="nav-item nav-link" to="/admin">
+              Admin 
+              <!-- && isAdmin === 'Administrator' -->
             </router-link>
 
             <router-link v-if="!hasJWT" exact class="nav-item nav-link" to="/SignUp">
               SignUp
             </router-link>
             <router-link v-if="!hasJWT" exact class="nav-item nav-link" to="/loginSign">
-              Login
+              Login 
             </router-link>
           </div>
           <div class="navbar-nav ml-auto">
@@ -82,8 +83,11 @@ export default {
       return !!this.$cookies.get('token');
     },
     isAdmin() {
-      return this.$store.state.currentUser.userRole
+      return $cookies.get('userRole')
 }
+// isAdmin() {
+//       return this.$store.state.currentUser.currentUser.userRole
+// }
   },
   methods: {
     confirmLogout() {
@@ -99,7 +103,8 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
         // Remove JWT token
-        this.$cookies.remove('token');
+        this.$cookies.remove('token')
+        this.$cookies.remove('userRole')
         // this.$store.dispatch('logOutUser');
         this.$router.push('/'); // Redirect to home page
       setTimeout(() => {

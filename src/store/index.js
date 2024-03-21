@@ -32,9 +32,9 @@ export default createStore({
     setCart(state, cart) {
       state.cart = cart
     },
-    addToCart(state, newItem) {
-      state.cart.push(newItem);
-    },
+    // addToCart(state, newItem) {
+    //   state.cart.push(newItem);
+    // },
     removeFromCart(state, cartID) {
       state.cart = state.cart.filter(item => item.cartID !== cartID);
     },
@@ -60,10 +60,13 @@ export default createStore({
         let { data } = await axios.get(baseURL + '/getAwayHub')
         console.log(data)
         commit('setProducts', data)
-
-        let encode = $cookies.get('token')
-        encode = encode.split('.')[1]
-        console.log(JSON.parse(window.atob(encode) ))
+       
+          let encode = $cookies.get('token');
+          encode = encode.split('.')[1];
+          const {currentUser} = JSON.parse(window.atob(encode));
+          console.log(currentUser.userRole);
+          $cookies.set('userRole', currentUser.userRole)
+          commit('setCurrentUser', decodedToken.currentUser);
 
       }catch (error) {
         console.error('Error getting products:', error)
@@ -101,7 +104,7 @@ export default createStore({
       // window.location.reload()
     },
 
-    // CRUD FOR USERS
+    // CRUD FOR USERS CRUD FOR USERS CRUD FOR USERS CRUD FOR USERS CRUD FOR USERS CRUD FOR USERS
     async getUsers({ commit }) {
       try {
         let { data } = await axios.get(baseURL + '/Users')
@@ -161,61 +164,90 @@ export default createStore({
         console.error('Error adding User:', error)
       }
     },
-    // user Login
+    // user Login user Login user Login user Login user Login
     async loginUser({ commit }, user) {
       try {
         let { data } = await axios.post(baseURL + '/login', user);
+        console.log(data)
         $cookies.set('token', data.token);
+        $cookies.set('userRole', data.user.userRole)
         // Update currentUser with userRole information
         commit('setCurrentUser', { ...data.user, userRole: data.userRole });
       } catch (error) {
         console.error('Cannot log In', error);
       }
     },
-    // // user logOut
-    // logOutUser({ commit }, cookies) {
-    //   // Access cookies instance to remove token
-    //   this.$cookies.remove('token');
-    //   commit('setLoggedIn', false); 
-    //   // Update loggedIn state
-    // },
-  },
-  async getProfile({ commit }, email) {
-    let encode = $cookies.get('token');
-    encode = encode.split('.')[1];
-    const decodedToken = JSON.parse(window.atob(encode));
-    console.log(decodedToken);
-    commit('setCurrentUser', decodedToken.currentUser); 
-    // Update the currentUser state
-   },
-
-  //  CART ACTIONS
-  async getCart({ commit }) {
-    try {
-      const { data } = await axios.get(baseURL + '/cart');
+    async getProfile({ commit }, email) {
+      let encode = $cookies.get('token');
+      encode = encode.split('.')[1];
+      const {currentUser} = JSON.parse(window.atob(encode));
+      console.log(currentUser.userRole);
+      $cookies.set('userRole', currentUser.userRole)
+      commit('setCurrentUser', decodedToken.currentUser);
+     },
+  
+    // CART FUNCTIONALITY CART FUNCTIONALITY CART FUNCTIONALITY CART FUNCTIONALITY CART FUNCTIONALITY CART FUNCTIONALITY CART FUNCTIONALITY
+    async getCart({ commit }) {
+      try {
+        const { data } = await axios.get(baseURL + '/cart');
+        commit('setCart', data);
+      } catch (error) {
+        console.error('Error getting cart items:', error);
+        commit('setCart', []);
+      }
+    },
+    async getCartUser({ commit }) {
+      try {
+        const { data } = await axios.get(baseURL + '/cart/user');
+        commit('setCart', data);
+      } catch (error) {
+        console.error('Error getting User Cart items:', error);
+        commit('setCart', []);
+      }
+    },
+    async addToCart({ commit }, newItem) {
+      try {
+        const { data } = await axios.post(baseURL + '/cart/user', newItem);
+        commit('setCart', data);
+      } catch (error) {
+        console.error('Error adding item to cart:', error);
+      }
+    },
+    async addCartAdmin({ commit }, newItem) {
+      try {
+        const { data } = await axios.post(baseURL + '/cart/admin', newItem);
+        commit('setCart', data);
+      } catch (error) {
+        console.error('Error adding item to cart:', error);
+      }
+    },
+    async removeFromCart({ commit }, hubID) {
+      try {
+        await axios.delete(baseURL + '/cart/user/' + hubID);
+        commit('removeFromCart', hubID);
+      } catch (error) {
+        console.error('Error removing item from cart:', error);
+      }
+    },
+    async checkout({commit}) {
+      const {data} = await axios.delete(baseURL + '/cart')
+      commit('setCart', data)
+    },
+    async editCart({commit},update){
+      const {data} = await axios.patch(baseURL + '/cart/' + update.id, update)
       commit('setCart', data);
-      console.log(data)
-    } catch (error) {
-      console.error('Error getting cart items:', error);
+    },
+    async deleteCart({commit},userID){
+      const {data} = await axios.delete(baseURL + '/cart/' + userID)
+      commit("setCart", data);
     }
-  },
-  async addToCart({ commit }, newItem) {
-    try {
-      const { data } = await axios.post(baseURL + '/cart', newItem);
-      commit('addToCart', data);
-    } catch (error) {
-      console.error('Error adding item to cart:', error);
-    }
-  },
-  async removeFromCart({ commit }, cartID) {
-    try {
-      await axios.delete(`${baseURL}/cart/${cartID}`);
-      commit('removeFromCart', cartID);
-    } catch (error) {
-      console.error('Error removing item from cart:', error);
-    }
-  },
-  // CART FUNCTIONALITY
+   
+    
+
+
+
+
+},
   modules: {
   }
 })

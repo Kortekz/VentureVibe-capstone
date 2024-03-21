@@ -18,6 +18,19 @@ export default {
     Navbar,
     footerComp
   },
+  mounted() {
+    this.decodeTokenAndSetUserInfo();
+  },
+  methods: {
+    decodeTokenAndSetUserInfo() {
+      let encode = $cookies.get('token');
+      if (encode) {
+        encode = encode.split('.')[1];
+        const decodedToken = JSON.parse(window.atob(encode));
+        this.$store.commit('setCurrentUser', decodedToken);
+      }
+    },
+  }
 };
 </script>
 

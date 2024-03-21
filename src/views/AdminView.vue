@@ -151,7 +151,6 @@
 
      
     <!-- USER TABLE -->
-   
     <div class="container mt-5">
       <h2 class="text-center mb-4">Users</h2>
       
@@ -286,18 +285,83 @@
   </div>
 </div>
 
+<!-- CART TABLE -->
+<div>
+    <h2>Admin Cart Table</h2>
 
+    
+    <div class="container-cart">
+  <div class="mb-3">
+
+    <div class="mb-3">
+    <label for="quantity" class="form-label1">Quantity :</label>
+    <input v-model="quantity" type="number" class="form-control1" id="quantity" placeholder="Enter Quantity">
+  </div>
+
+  <div class="mb-3">
+    <label for="hubID" class="form-label1">Product ID :</label>
+    <input v-model="hubID" type="text" class="form-control1" id="hubID" placeholder="Enter Product ID">
+  </div>
+
+    <label for="userID" class="form-label1">User ID :</label>
+    <input v-model="userID" type="text" class="form-control1" id="userID" placeholder="Enter User ID">
+  </div>
+  
+  <div class="d-flex justify-content-center">
+    <button @click="addCartAdmin" class="btn-add">Add To Cart</button>
+  </div>
+</div>
+
+
+    <table class="tableCart centered-table">
+      <thead>
+        <tr>
+          <th class="purple-header">Order ID</th>
+          <th class="purple-header">Quantity</th>
+          <th class="purple-header">Product ID</th>
+          <th class="purple-header">User ID</th>
+          <th class="purple-header">Action</th>
+         
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="item in getCarts" :key="item.orderId">
+          <td class="cartText">{{ item.orderId }}</td>
+          <td class="cartText">{{ item.quantity }}</td>
+          <td class="cartText">{{ item.hubID }}</td>
+          <td class="cartText">{{ item.userID }}</td>
+          <td class="cartText">
+            
+          <button  @click="editCart(item.orderId)" class="btn btn-warning" >
+            <i class="fas fa-edit"></i>
+          </button>
+
+          <button @click="deleteCart(item.orderId)" class="btn btn-danger">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        
+        </td>
+        </tr>
+      </tbody>
+    </table>
+
+ 
+
+    
+  </div>
 
 </div>
 </template>
   
 <script>
+import addToCartModal from '../components/addToCartModal.vue'
 import spinnerComp from '../components/spinnerComp.vue';
 import Swal from 'sweetalert2';
 
 export default {
 components: {
-spinnerComp
+spinnerComp,
+addToCartModal,
 },
 
 data() {
@@ -309,7 +373,12 @@ data() {
     category: '',
     date: '',
     selectedProduct: {},
-    editedUser: {}
+    editedUser: {},
+    // cart:[],
+    userID: null,
+    quantity:null,
+    hubID:null,
+   
   }
 },
 computed: {
@@ -319,6 +388,30 @@ computed: {
   getUsers() {
       return this.$store.state.users;
     },
+    getCarts(){
+      return this.$store.state.cart
+    },
+    addCartAdmin() {
+  // Dispatch the Vuex action to add the item to the cart
+  this.$store.dispatch('addCartAdmin', this.$data)
+    .then(() => {
+      // Show a success SweetAlert message
+      Swal.fire({
+        title: 'Item Added!',
+        text: 'The item has been successfully added to the cart.',
+        icon: 'success',
+        confirmButtonColor: 'rgb(71, 98, 218)', 
+        confirmButtonText: 'OK',
+      }).then(() => {
+        // Reload the window
+        window.location.reload();
+      });
+    })
+    .catch((error) => {
+      // Handle any errors 
+      console.error('Error adding item to cart:', error);
+    });
+},
   addProduct() {
     this.$store.dispatch('addProduct', this.$data).then(() => {
     Swal.fire('Product Added!', 'The Product has been added.', 'success')
@@ -331,8 +424,38 @@ computed: {
 mounted() {
   this.$store.dispatch('getProducts');
   this.$store.dispatch('getUsers');
+  this.$store.dispatch('getCart')
 },
 methods: {
+  // EDIT CART
+  editCart(orderId){
+      let edit = {
+        id: orderId,
+        userID: this.userID,
+        quantity: this.quantity,
+        hubID: this.hubID
+      }
+      console.log(edit)
+      this.$store.dispatch('editCart',edit)
+    },
+    // DELETE CART
+    deleteCart(orderId){
+      this.$store.dispatch('deleteCart',orderId)
+      .then(() => {
+      // Show a success SweetAlert message
+      Swal.fire({
+        title: 'Item Deleted!',
+        text: 'The item has been successfully Deleted.',
+        icon: 'success',
+        confirmButtonColor: 'rgb(71, 98, 218)', 
+        confirmButtonText: 'OK',
+      }).then(() => {
+        // Reload the window
+        window.location.reload();
+      });
+    })
+    },
+
   // USER ADD
   async addUser() {
   try {
@@ -448,8 +571,16 @@ updateUser() {
     closeEditModal() {
       $('#editUserModal').modal('hide'); // Close the modal
     },
-  
-  
+
+    // editCart(orderID){
+    //   let edit = {
+    //     id:orderID,
+    //     userID: this.userID,
+    //     quantity: this.quantity,
+    //     hubID: this.hubID
+    //   }
+    //   this.$store.dispatch('editCart',edit)
+    // },
 }
 };
 </script>
@@ -498,9 +629,7 @@ h2{
   color: white;
   padding: 20px;
 }
-.table tbody tr:hover {
-  background-color: rgba(71, 98, 218, 0.1);
-}
+
 img{
   height: 150px;
   width: 200px;
@@ -615,7 +744,7 @@ button{
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    min-height: calc(100% - 10rem);
+    min-height: calc(100% - 30rem);
   }
 
   #addUserModal .modal-content {
@@ -735,4 +864,84 @@ button{
   padding: 10px 20px;
   font-size: 18px;
 }
+
+.tableCart {
+    margin-top: 20px;
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: white; /* Set background color to white */
+    color: black; /* Set text color to black */
+    text-align: center; /* Center the content of the table */
+}
+
+.tableCart th {
+    background-color: rgb(71, 98, 218);
+    color: white;
+    padding: 20px;
+}
+
+.tableCart td {
+    font-size: 18px;
+    padding: 10px;
+}
+
+.tableCart tbody tr:hover {
+    background-color: rgba(71, 98, 218, 0.1);
+}
+
+/* Added styles for centering the table */
+.centered-table {
+    width: 85%;
+    margin: 0 auto;
+}
+
+/* CART TABLE TEXT */
+.cartText {
+    color: black; /* Set text color to black */
+}
+
+/* Form container */
+.container-cart {
+  margin: 50px auto;
+  max-width: 400px;
+  background-color: #ffffff; /* White background */
+  padding: 20px;
+  padding-top: 50px !important;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow */
+}
+
+/* Form label */
+.form-label1 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000; /* Black text */
+  margin:12px;
+}
+
+/* Form input */
+.form-control1 {
+  margin-bottom: 15px;
+  border: 1px solid #ced4da; /* Gray border */
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+/* Add button */
+.btn-add {
+  background-color: rgb(71, 98, 218); /* Navbar theme color */
+  color: #ffffff; /* White text */
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-add:hover {
+  background-color: #4e6cd2; /* Darker shade on hover */
+}
+
  </style>

@@ -1,6 +1,7 @@
 <template>
     <div class="hub-details">
       <h2 class="static-heading">Product Details</h2>
+
       <div v-if="product" class="row align-items-center justify-content-center">
         <div class="col-md-4 image-container">
           <img :src="product.imageUrl" class="img-fluid" alt="Product Image">
@@ -16,14 +17,14 @@
         </p>
 
         <div class="quantity-input">
-          <label for="quantity">Quantity:</label>
-          <input type="number" id="quantity" v-model="quantity" min="1" max="10">
-        </div>
+      <label for="quantity" class="quantity-label">Quantity:</label>
+      <input type="number" id="quantity" v-model="quantity" min="1" max="10">
+    </div>
 
           <router-link to="/getAwayHub">
             <button class="btn btn-primary">Back</button>
           </router-link>
-          <button @click="bookNow" class="btn btn-primary">Book Now</button>
+          <button @click="bookNow(product.hubID)" class="btn btn-primary">Book Now</button>
         </div>
       </div>
       <div v-else>
@@ -34,6 +35,8 @@
   
   <script>
   import spinnerComponent from '../components/spinnerComp.vue';
+  import Swal from 'sweetalert2'
+
   
   export default {
     data() {
@@ -55,12 +58,18 @@
       }
     },
     methods: {
-      bookNow() {
+      bookNow(hubID) {
       const newItem = {
-        productID: this.product.hubID,
+        hubID: hubID,
         quantity: this.quantity,
       };
-      this.$store.dispatch('addToCart', newItem);
+      this.$store.dispatch('addToCart', newItem)
+        .then(() => {
+          Swal.fire('Success!', 'Product added to cart successfully', 'success');
+        })
+        .catch((error) => {
+          console.error('Error adding product to cart:', error);
+        });
     },
       formatDate(date) {
         const options = { year: "numeric", month: "long", day: "numeric" };
@@ -157,6 +166,12 @@
   
   .content {
     margin-left: 20px;
+  }
+
+  .quantity-label {
+    font-size: 18px;
+    color: rgb(71, 98, 218); /* Match your website theme color */
+    margin-bottom: 10px;
   }
   
 /* Media Queries for 720px screens */
