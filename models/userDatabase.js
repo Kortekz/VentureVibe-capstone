@@ -38,6 +38,8 @@ const getUsers = async()=>{
     `, [id])
     return result
 }
+
+
 // this is for retrieving users from the database where the id matches
 const getUserEmail = async(email)=>{
     const [[result]] = await pool.query(`
@@ -46,7 +48,7 @@ const getUserEmail = async(email)=>{
     `, [email])
     return result
 }
-// console.log(await getUserEmail('cornebalie789@gmail.com'))
+// console.log(await getUserEmail('wareezy@gmail.com'))
 
 // this is for deleting users
 const deleteUsers = async (userID) => {

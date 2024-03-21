@@ -19,6 +19,12 @@ export default {
         res.send(await getUser(+req.params.id))
         },
 
+    getUser: async(req,res)=> {
+        const email = req.email
+        console.log(email)
+        res.send(await getUserEmail(email))
+    },
+
     deleteID: async (req,res)=>{
         await deleteUsers(req.params.id)
         res.json(await getUsers())
@@ -95,8 +101,8 @@ addUser: async(req, res) => {
 },
 
 loginUser: async(req,res) => {
-    // const {email, password} = req.body
-    // await checkUser(email, password)
+    const {email, password} = req.body
+    await checkUser(email, password)
     // res.send(res.msg)
 }
   

@@ -31,9 +31,9 @@ const auth = async(req,res,next) => {
             console.log(currentUser)
 
             // const {email} = req.body
-            console.log(email, 'This is above the token')
-            const token = jwt.sign({currentUser:currentUser}, process.env.SECRET_KEY,{expiresIn: '1h'})
-         
+            // console.log(email, 'This is above the token')
+            const token = jwt.sign({ currentUser:currentUser }, process.env.SECRET_KEY, { expiresIn: '1h' });
+            
             res.cookie('token', token, { httpOnly: false, expiresIn:'1h'})
 
             res.send({
@@ -44,7 +44,7 @@ const auth = async(req,res,next) => {
             next()
 
         }else{
-            console.log('somwthing');
+            console.log('something');
             res.send({msg: 'The email or password is incorrect'}) 
         }
     })

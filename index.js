@@ -31,7 +31,7 @@ app.use(cookieParser())
 
 app.use('/login', auth, loginRouter)
 
-app.use('/cart', cart)
+app.use('/cart',authenticate, cart)
 // , authenticate
 app.use('/getAwayHub',authenticate, getAwayHub)
 // ,authenticate took this out so that i could see products 
