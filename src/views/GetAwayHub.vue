@@ -109,6 +109,7 @@ export default {
     sortProducts() {
       this.shouldSort = !this.shouldSort;
     },
+    
   },
 };
 </script>

@@ -169,6 +169,7 @@
             <th scope="col">Last Name</th>
             <th scope="col">Email</th>
             <th scope="col">Role</th>
+            <th scope="col">Password</th>
             <th scope="col">Actions</th>
           </tr>
         </thead>
@@ -181,6 +182,7 @@
             <td>{{ user.lastName }}</td>
             <td>{{ user.email }}</td>
             <td>{{ user.userRole }}</td>
+            <td>{{ user.password }}</td>
             <td>
               <button class="btn btn-warning" data-toggle="modal" data-target="#editUserModal">
                 <i class="fas fa-edit"></i>
@@ -262,6 +264,17 @@
           <div class="form-group">
             <label for="editEmail">Email:</label>
             <input type="email" class="form-control" id="editEmail" v-model="editedUser.email" required>
+          </div>
+          <div class="form-group">
+        <label for="userRole">User Role:</label>
+        <select id="userRole" v-model="userRole" class="form-control" required>
+          <option value="Customer">Customer</option>
+          <option value="Administrator">Administrator</option>
+        </select>
+      </div>
+          <div class="form-group">
+            <label for="editPassword">Password:</label>
+            <input type="password" class="form-control" id="editPassword" v-model="editedUser.password" required>
           </div>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeEditModal">
           <span aria-hidden="true">Close</span>

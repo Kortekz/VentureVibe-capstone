@@ -11,6 +11,7 @@ export default createStore({
   state: {
     products: [],
     users: [],
+    user: [],
     cart: [],
     // loggedIn: false, 
     // Add a loggedIn state
@@ -25,17 +26,24 @@ export default createStore({
     setUsers(state, users) {
       state.users = users
     },
-    setCart(state, cart) {
-      state.cart = cart
+    setUser(state, user) {
+      state.user = user
     },
     setCart(state, cart) {
-      state.cart = cart;
+      state.cart = cart
     },
     addToCart(state, newItem) {
       state.cart.push(newItem);
     },
     removeFromCart(state, cartID) {
       state.cart = state.cart.filter(item => item.cartID !== cartID);
+    },
+    // Mutation to update cart item details
+    updateCartItem(state, updatedItem) {
+      const index = state.cart.findIndex(item => item.cartID === updatedItem.cartID);
+      if (index !== -1) {
+        state.cart[index] = updatedItem;
+      }
     },
     // setLoggedIn(state, status) { 
     //   state.loggedIn = status
@@ -102,6 +110,17 @@ export default createStore({
         console.error('Error getting users:', error)
       }
     },
+    // gets single user
+    async getUser({ commit }, email) {
+      try {
+        let { data } = await axios.get(baseURL + '/users/user')
+        commit('setUser', data)
+        console.log(data)
+      }catch (error) {
+        console.error('Error getting users:', error)
+      }
+    },
+
     // DELETES A USER
     async deleteUser({ commit }, id){
       try {
@@ -175,6 +194,7 @@ export default createStore({
     try {
       const { data } = await axios.get(baseURL + '/cart');
       commit('setCart', data);
+      console.log(data)
     } catch (error) {
       console.error('Error getting cart items:', error);
     }
@@ -195,6 +215,7 @@ export default createStore({
       console.error('Error removing item from cart:', error);
     }
   },
+  // CART FUNCTIONALITY
   modules: {
   }
 })
