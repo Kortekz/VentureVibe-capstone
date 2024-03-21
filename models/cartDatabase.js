@@ -50,24 +50,24 @@ const getIdUsers = async(email)=>{
     return userID
 }
 
-const updateProducts = async(userID) => {
-    await pool.query(`
-    UPDATE GetAwayHub 
-    JOIN (
-        SELECT cart.hubID, SUM(cart.quantity) AS total_sold
-        from cart
-        WHERE cart.userID = ?
-        GROUP BY cart.hubID
-        ) AS soldTotal ON GetAwayHub.hubID = soldTotal.hubID
-        SET GetAwayHub.quantity = GetAwayHub.quantity = soldTotal.total_sold
-    )`, [userID])
-}
+// const updateProducts = async(userID) => {
+//     await pool.query(`
+//     UPDATE GetAwayHub 
+//     JOIN (
+//         SELECT cart.hubID, SUM(cart.quantity) AS total_sold
+//         from cart
+//         WHERE cart.userID = ?
+//         GROUP BY cart.hubID
+//         ) AS soldTotal ON GetAwayHub.hubID = soldTotal.hubID
+//         SET GetAwayHub.quantity = GetAwayHub.quantity = soldTotal.total_sold
+//     )`, [userID])
+// }
 
 const getUserCart = async (userID) => {
     const [cartProducts] = await pool.query(`
-    SELECT cart.quantity AS sold_quantity,
-    GetAwayHub.price AS price_per_item,
-    (cart.quantity * GetAwayHub.price) AS total_price,
+    SELECT cart.quantity AS soldQuantity,
+    GetAwayHub.price AS pricePerItem,
+    (cart.quantity * GetAwayHub.price) AS totalPrice,
     GetAwayHub.imageUrl,
     GetAwayHub.name,
     GetAwayHub.hubID
@@ -95,7 +95,7 @@ const deleteFromCart =  async (userID, hubID) => {
 // ADMIN FUNCTIONS ADMIN FUNCTIONS ADMIN FUNCTIONS ADMIN FUNCTIONS ADMIN FUNCTIONS ADMIN FUNCTIONS ADMIN FUNCTIONS ADMIN FUNCTIONS ADMIN FUNCTIONS 
 
 // admin for patching
-const patchCart = async(userID, quantity, hubID, orderID)=>{
+const patchCarts = async(userID, quantity, hubID, orderID)=>{
     await pool.query (`
     UPDATE cart SET userID=?, quantity=?, hubID = ? 
     where orderID = ?
@@ -128,4 +128,4 @@ const cartOrderID = async (orderID)=>{
     return cartItems
 }
 
-export { addCart, deleteCart, getUserID, patchCart,getCarts, deleteID, deleteFromCart, updateProducts, deleteCartID, cartOrderID, getIdUsers, getUserCart}
+export { addCart, deleteCart, getUserID, patchCarts ,getCarts, deleteID, deleteFromCart, deleteCartID, cartOrderID, getIdUsers, getUserCart}
