@@ -51,7 +51,7 @@
           <div class="navbar-nav ml-auto">
 
             <button v-if="hasJWT" class="cart-btn">
-            <router-link class=" nav-item nav-link d-flex align-items-center" to="/cart" style="font-size: 24px;">
+            <router-link class="nav-item nav-link d-flex align-items-center" to="/cart" style="font-size: 24px;">
                 <i class="fa-solid fa-cart-shopping cart-icon"></i>
             </router-link>
           </button>
@@ -61,7 +61,7 @@
           <button v-if="hasJWT" @click="confirmLogout" class="logOut">Logout</button>
 
            <!-- User Button/Icon -->
-           <router-link v-if="hasJWT" class=" nav-item nav-link d-flex align-items-center" to="/profile" style="font-size: 24px;">
+           <router-link v-if="hasJWT" class="nav-item nav-link d-flex align-items-center" to="/profile" style="font-size: 24px;">
             <i class="fa-solid fa-user"></i>
             </router-link>
           <!-- <i class="fa-solid fa-user"></i> -->
@@ -176,6 +176,7 @@ export default {
   -webkit-background-clip: text;
   color: transparent;
   /* margin-right: -50px; */
+  text-align: center;
 }
 .cart-btn{
   background-color: rgb(71, 98, 218) !important;
@@ -219,23 +220,33 @@ i{
     
 /* Optional: Adjust the styles of the collapsed navbar */
 @media (max-width: 720px) {
-.navbar-nav {
-  margin-top: 10px;
-}
-.logo-text{
-  font-size: 20px;
-}
-/* Center the cart icon on mobile devices */
-.navbar-nav .text-center {
-  text-align: center;
-}
-.cart-icon{
-  margin-left: 18px;
-}
-.cart-btn{
-  width: 60%;
-  margin-left: 40px;
-}
+  .navbar-nav {
+    margin-top: 10px;
+  }
+  .logo-text{
+    font-size: 20px;
+  }
+  /* Center the cart icon on mobile devices */
+  .navbar-nav .text-center {
+    text-align: center;
+  }
+  .cart-icon{
+    margin-left: 42px;
+    text-align: center;
+  }
+  .cart-btn{
+    width: 92%;
+    margin-left: 10px;
+    text-align: center; /* Center the cart button text */
+  }
+  .fa-user {
+    font-size: 28px; /* Reduce the size of the user icon on mobile */
+    text-align: center;
+    margin-left: 60px;
+  }
+  .logOut{
+    margin: 10px;
+  }
 }
 @keyframes neon-border {
   from {
@@ -252,4 +263,4 @@ nav a.nav-link.router-link-exact-active {
   transform: scale(1.1);
 }
 </style>
-  
+

@@ -26,9 +26,9 @@
         <h3 class="profile-content">You are Currently a {{ userProfile.currentUser.userRole }}</h3>
       </div>
 
-      <button class="Delete" @click="confirmDelete(userProfile.currentUser.userID)">Delete</button>
-
+      
     </div>
+    <button class="Delete" @click="confirmDelete(userProfile.currentUser.userID)">Delete</button>
 
     <div class="editDet">
       <!-- Edit User -->
@@ -277,14 +277,15 @@ export default {
   .profile-content {
     font-size: 18px;
   }
-
+  .content{
+    margin-left:20px;
+  }
   .Delete {
     font-size: 14px;
     padding: 8px;
     margin-top: 10px;
   }
 }
-
 /* form */
 label{
   color: black;

@@ -206,9 +206,9 @@
         </thead>
         <!-- Table Body -->
         <tbody>
-          <tr v-for="user in getUsers" :key="user.userID">
+          <tr v-for="user,index in getUsers" :key="user.userID">
             <!-- User Data -->
-            <td>{{ user.userID }}</td>
+            <td>{{ index+1 }}</td>
             <td>{{ user.firstName }}</td>
             <td>{{ user.lastName }}</td>
             <td>{{ user.email }}</td>

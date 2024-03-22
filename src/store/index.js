@@ -3,9 +3,10 @@ import axios from 'axios'
 import { useCookies } from 'vue-cookies'
 
 axios.defaults.withCredentials = true;
+axios.defaults.params = {token:$cookies.get('token')}
 
-const baseURL = 'https://venturevibe-capstone-1.onrender.com'
-// const baseURL = 'http://localhost:6969'
+// const baseURL = 'https://venturevibe-capstone-1.onrender.com'
+const baseURL = 'http://localhost:6969'
 
 export default createStore({
   state: {
@@ -60,14 +61,12 @@ export default createStore({
         let { data } = await axios.get(baseURL + '/getAwayHub')
         console.log(data)
         commit('setProducts', data)
-       
-          let encode = $cookies.get('token');
-          encode = encode.split('.')[1];
-          const {currentUser} = JSON.parse(window.atob(encode));
-          console.log(currentUser.userRole);
-          $cookies.set('userRole', currentUser.userRole)
+          // let encode = $cookies.get('token');
+          // encode = encode.split('.')[1];
+          // const {currentUser} = JSON.parse(window.atob(encode));
+          // console.log(currentUser.userRole);
+          // $cookies.set('userRole', currentUser.userRole)
           // commit('setCurrentUser', decodedToken.currentUser);
-
       }catch (error) {
         console.error('Error getting products:', error)
       }
@@ -106,9 +105,8 @@ export default createStore({
 
     // CRUD FOR USERS CRUD FOR USERS CRUD FOR USERS CRUD FOR USERS CRUD FOR USERS CRUD FOR USERS
     async getUsers({ commit }) {
-      let token = $cookies.get('token')
       try {
-        let { data } = await axios.post(baseURL + '/Users/user',{token:token})
+        let { data } = await axios.get(baseURL + '/Users')
         commit('setUsers', data)
       }catch (error) {
         console.error('Error getting users:', error)
@@ -169,18 +167,13 @@ export default createStore({
     async loginUser({ commit }, user) {
       try {
         let { data } = await axios.post(baseURL + '/login', user);
-        console.log(data);
+        console.log(data)
         $cookies.set('token', data.token);
-        $cookies.set('userRole', data.user.userRole);
+        $cookies.set('userRole', data.user.userRole)
         // Update currentUser with userRole information
         commit('setCurrentUser', { ...data.user, userRole: data.userRole });
       } catch (error) {
         console.error('Cannot log In', error);
-        if (error.response && error.response.status === 401) {
-          throw new Error('Incorrect email or password');
-        } else {
-          throw error; // Throw other errors for generic handling
-        }
       }
     },
     async getProfile({ commit }, email) {
@@ -194,9 +187,8 @@ export default createStore({
   
     // CART FUNCTIONALITY CART FUNCTIONALITY CART FUNCTIONALITY CART FUNCTIONALITY CART FUNCTIONALITY CART FUNCTIONALITY CART FUNCTIONALITY
     async getCart({ commit }) {
-      let token = $cookies.get('token')
       try {
-        const { data } = await axios.post(baseURL + '/cart',{token:token});
+        const { data } = await axios.get(baseURL + '/cart');
         commit('setCart', data);
       } catch (error) {
         console.error('Error getting cart items:', error);
@@ -204,10 +196,8 @@ export default createStore({
       }
     },
     async getCartUser({ commit }) {
-      let token = $cookies.get('token')
-      console.log(token);
       try {
-        const { data } = await axios.post(baseURL + '/cart/user/cart',{token:token});
+        const { data } = await axios.get(baseURL + '/cart/user');
         commit('setCart', data);
       } catch (error) {
         console.error('Error getting User Cart items:', error);
@@ -251,10 +241,6 @@ export default createStore({
       commit("setCart", data);
     }
    
-    
-
-
-
 
 },
   modules: {
