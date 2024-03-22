@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg fixed-top mx-auto">
+    <nav class="navbar navbar-expand-lg fixed-top mx-auto neon-animation">
       <div class="container">
         <div class="navbar-header">
           <router-link class="navbar-brand" to="/">
@@ -23,28 +23,28 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <div class="navbar-nav mx-auto">
-            <router-link exact class="nav-item nav-link" to="/">
+            <router-link exact class="nav-item nav-link" to="/" active-class="active-link">
               Home
             </router-link>
-            <router-link exact class="nav-item nav-link" to="/about">
+            <router-link exact class="nav-item nav-link" to="/about" active-class="active-link">
               About
             </router-link>
-            <router-link exact class="nav-item nav-link" to="/getawayhub">
+            <router-link exact class="nav-item nav-link" to="/getawayhub" active-class="active-link">
               GetAwayHub
             </router-link>
-            <router-link exact class="nav-item nav-link" to="/contact">
+            <router-link exact class="nav-item nav-link" to="/contact" active-class="active-link">
               Contact
             </router-link>
             
-            <router-link v-if="hasJWT && isAdmin === 'Administrator'" exact class="nav-item nav-link" to="/admin">
+            <router-link v-if="hasJWT && isAdmin === 'Administrator'" exact class="nav-item nav-link" to="/admin" active-class="active-link">
               Admin 
               <!-- && isAdmin === 'Administrator' -->
             </router-link>
 
-            <router-link v-if="!hasJWT" exact class="nav-item nav-link" to="/SignUp">
+            <router-link v-if="!hasJWT" exact class="nav-item nav-link" to="/SignUp" active-class="active-link">
               SignUp
             </router-link>
-            <router-link v-if="!hasJWT" exact class="nav-item nav-link" to="/loginSign">
+            <router-link v-if="!hasJWT" exact class="nav-item nav-link" to="/loginSign" active-class="active-link">
               Login 
             </router-link>
           </div>
@@ -75,7 +75,7 @@
 
 <script>
 import Swal from 'sweetalert2';
-// import HomeView  from '../router/index.js';
+
 
 export default {
   computed: {
@@ -120,11 +120,18 @@ export default {
   
 <style scoped>
 .navbar {
+  position: fixed !important; 
+  top: 0 !important; 
+  z-index: 1000; 
   padding: 20px;
   margin: 20px;
   background: white;
-  border-radius: 50px;
   width: 85%;
+  /* Add border and neon animation */
+  border: 4px solid transparent;
+  border-radius: 50px;
+  border-image-slice: 1;
+  animation: neon-border 1.5s linear infinite alternate;
 }
 .navbar-brand {
   font-size: 25px;
@@ -229,6 +236,20 @@ i{
   width: 60%;
   margin-left: 40px;
 }
+}
+@keyframes neon-border {
+  from {
+    border-color:  rgb(191, 193, 198);
+  }
+  to {
+    border-color: rgb(0, 47, 255);
+  }
+}
+
+/* Define styles for active link */
+nav a.nav-link.router-link-exact-active {
+  color: rgb(71, 98, 218);
+  transform: scale(1.1);
 }
 </style>
   

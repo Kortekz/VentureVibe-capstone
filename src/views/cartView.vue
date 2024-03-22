@@ -1,6 +1,17 @@
 <template>
-  <div class="cart">
-    <h1>Cart</h1>
+  <div class="cart" style="min-height: 100vh;">
+    
+
+    <div v-if="cart.length === 0">
+
+      <!-- Show spinner -->
+      <h1>Cart is Empty</h1>
+      <spinner-comp></spinner-comp>
+    </div>
+
+    <div v-else>
+      <h1>Cart</h1>
+
     <div class="row justify-content-center">
       <div class="col-md-10">
         <div class="table-responsive">
@@ -31,14 +42,21 @@
         </div>
         <button class= "checkout" @click="checkout"> Checkout </button>
       </div>
+      </div>
     </div>
   </div>
+
+
 </template>
 
 <script>
 import Swal from 'sweetalert2';
+import spinnerComp from '../components/spinnerComp.vue';
 
 export default {
+  components:{
+    spinnerComp
+  },
   computed: {
     cart() {
       return this.$store.state.cart;
@@ -101,12 +119,13 @@ export default {
 </script>
 
 <style scoped>
-.cart {
+/* .cart {
   margin-top: 80px;
-}
+} */
 
 h1 {
   color: white; /* Changed heading color to purple */
+  margin-top: 80px;
 }
 
 .purple-header {

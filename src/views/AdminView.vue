@@ -150,14 +150,46 @@
 
 
      
+    
+    <h2 class="text-center mb-4">Users</h2>
+    
+    <!-- Edit User -->
+    <div class="bodyEdit">
+        <!-- Form for editing an existing user -->
+        
+          <div class="form-group" >
+            <label for="editName">Name:</label>
+            <input type="text" class="form-control" id="editName" v-model="firstName">
+          </div>
+          <div class="form-group">
+            <label for="editLastName">Last Name:</label>
+            <input type="text" class="form-control" id="editLastName" v-model="lastName">
+          </div>
+          <div class="form-group">
+            <label for="editEmail">Email:</label>
+            <input type="email" class="form-control" id="editEmail" v-model="email">
+          </div>
+          <div class="form-group">
+        <label for="userRole">User Role:</label>
+        <select id="userRole" v-model="userRole" class="form-control">
+          <option value="Customer">Customer</option>
+          <option value="Administrator">Administrator</option>
+        </select>
+      </div>
+          <div class="form-group">
+            <label for="editPassword">Password:</label>
+            <input type="password" class="form-control" id="editPassword" v-model="password" required>
+          </div>
+          <!-- <button type="submit" class="btn btn-primary" @click="updateUser">Update User</button> -->
+        
+      </div>
+
+    <!-- Button to open Add User Modal -->
+    <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#addUserModal">
+      Add User Modal
+    </button>
     <!-- USER TABLE -->
     <div class="container mt-5">
-      <h2 class="text-center mb-4">Users</h2>
-      
-      <!-- Button to open Add User Modal -->
-      <button type="button" class="btn btn-success mb-2" data-toggle="modal" data-target="#addUserModal">
-        Add User
-      </button>
 
       <table class="table">
         <!-- Table Headers -->
@@ -183,7 +215,7 @@
             <td>{{ user.userRole }}</td>
             <td>{{ user.password }}</td>
             <td>
-              <button class="btn btn-warning" data-toggle="modal" data-target="#editUserModal">
+              <button class="btn btn-warning" @click="updateUser(user.userID)">
                 <i class="fas fa-edit"></i>
               </button>
 
@@ -241,77 +273,37 @@
   </div>
 </div>
 
-    <!-- Edit User Modal -->
-    <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+
       
-      </div>
-      <div class="modal-body">
-        <!-- Form for editing an existing user -->
-        <form @submit.prevent="updateUser">
-          <div class="form-group">
-            <label for="editName">Name:</label>
-            <input type="text" class="form-control" id="editName" v-model="editedUser.name" required>
-          </div>
-          <div class="form-group">
-            <label for="editLastName">Last Name:</label>
-            <input type="text" class="form-control" id="editLastName" v-model="editedUser.lastName" required>
-          </div>
-          <div class="form-group">
-            <label for="editEmail">Email:</label>
-            <input type="email" class="form-control" id="editEmail" v-model="editedUser.email" required>
-          </div>
-          <div class="form-group">
-        <label for="userRole">User Role:</label>
-        <select id="userRole" v-model="userRole" class="form-control" required>
-          <option value="Customer">Customer</option>
-          <option value="Administrator">Administrator</option>
-        </select>
-      </div>
-          <div class="form-group">
-            <label for="editPassword">Password:</label>
-            <input type="password" class="form-control" id="editPassword" v-model="editedUser.password" required>
-          </div>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close" @click="closeEditModal">
-          <span aria-hidden="true">Close</span>
-        </button>
-          <button type="submit" class="btn btn-primary">Update User</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 <!-- CART TABLE -->
 <div>
     <h2>Admin Cart Table</h2>
 
     
-    <div class="container-cart">
-  <div class="mb-3">
+    <div class="container-cart d-flex flex-column align-items-center">
+  <div class="mb-3 d-flex flex-wrap">
+    <div class="mb-3 me-3">
+      <label for="quantity" class="form-label1">Quantity :</label>
+      <input v-model="quantity" type="number" class="form-control1" id="quantity" placeholder="Enter Quantity">
+    </div>
+
+    <div class="mb-3 me-3">
+      <label for="hubID" class="form-label1">Product ID :</label>
+      <input v-model="hubID" type="text" class="form-control1" id="hubID" placeholder="Enter Product ID">
+    </div>
 
     <div class="mb-3">
-    <label for="quantity" class="form-label1">Quantity :</label>
-    <input v-model="quantity" type="number" class="form-control1" id="quantity" placeholder="Enter Quantity">
-  </div>
-
-  <div class="mb-3">
-    <label for="hubID" class="form-label1">Product ID :</label>
-    <input v-model="hubID" type="text" class="form-control1" id="hubID" placeholder="Enter Product ID">
-  </div>
-
-    <label for="userID" class="form-label1">User ID :</label>
-    <input v-model="userID" type="text" class="form-control1" id="userID" placeholder="Enter User ID">
+      <label for="userID" class="form-label1">User ID :</label>
+      <input v-model="userID" type="text" class="form-control1" id="userID" placeholder="Enter User ID">
+    </div>
   </div>
   
   <div class="d-flex justify-content-center">
     <button @click="addCartAdmin" class="btn-add">Add To Cart</button>
   </div>
 </div>
-
 
     <table class="tableCart centered-table">
       <thead>
@@ -354,14 +346,12 @@
 </template>
   
 <script>
-import addToCartModal from '../components/addToCartModal.vue'
 import spinnerComp from '../components/spinnerComp.vue';
 import Swal from 'sweetalert2';
 
 export default {
 components: {
 spinnerComp,
-addToCartModal,
 },
 
 data() {
@@ -378,9 +368,22 @@ data() {
     userID: null,
     quantity:null,
     hubID:null,
-   
+    firstName:'',
+    lastName:'',
+    email:'',
+    password:'',
+    userRole:''
   }
 },
+// data() {
+//   return {
+//     firstName:'',
+//     lastName:'',
+//     email:'',
+//     userRole:'',
+//     password:'',
+//   }
+// },
 computed: {
   getProducts() {
     return this.$store.state.products;
@@ -427,6 +430,22 @@ mounted() {
   this.$store.dispatch('getCart')
 },
 methods: {
+ // Update User
+updateUser(userID) {
+  let edit = {
+    userID: userID,
+    firstName: this.firstName,
+    lastName: this.lastName,
+    email: this.email,
+    password: this.password,
+    userRole: this.userRole
+  };
+
+  this.$store.dispatch('updateUser', edit)
+  // Reload the location after the user clicks OK
+  window.location.reload();
+},
+
   // EDIT CART
   editCart(orderId){
       let edit = {
@@ -456,8 +475,7 @@ methods: {
     })
     },
 
-  // USER ADD
-  async addUser() {
+async addUser() {
   try {
     // Dispatch the addUser action from Vuex store with user data
     await this.$store.dispatch('addUser', { 
@@ -468,28 +486,23 @@ methods: {
       userRole: this.userRole
     });
 
-    // Show success message using SweetAlert
-    Swal.fire('User Added!', 'The user has been added.', 'success').then(() => {
-      // Refresh the page after the user clicks OK
-      window.location.reload();
-    });
+    console.log('User added successfully');
+    window.location.reload();
 
     // Close the modal using vanilla JavaScript
     document.getElementById('addUserModal').classList.remove('show');
     document.body.classList.remove('modal-open');
     document.querySelector('.modal-backdrop').remove();
-
     // Reset form data
     this.firstName = '';
     this.lastName = '';
     this.email = '';
     this.password = '';
-    this.userRole = ''; 
-    
+    this.userRole = '';  
   } catch (error) {
     console.error('Error adding user:', error);
     // Show error message using    
-    Swal.fire('Error', 'There was an error adding the user. Please try again.', 'error');
+  
   }
 },
 
@@ -509,12 +522,12 @@ methods: {
 });
   this.date = formattedDate;
 },
-  editProduct(product) {
-    // Set the selectedProduct to the details of the product being edited
-    this.selectedProduct = { ...product };
-    // Open the edit product modal
-    $('#editProductModal').modal('show');
-    },
+  // editProduct(product) {
+  //   // Set the selectedProduct to the details of the product being edited
+  //   this.selectedProduct = { ...product };
+  //   // Open the edit product modal
+  //   $('#editProductModal').modal('show');
+  //   },
 
     updateProduct() {
   let edit = {
@@ -546,30 +559,6 @@ methods: {
   deleteUser(userId) {
       this.$store.dispatch('deleteUser', userId);
       window.location.reload()
-    },
-
-// EDIT USER MODAL
-updateUser() {
-      // Dispatch updateUser action from Vuex store with the editedUser object
-      this.$store.dispatch('updateUser', {
-        name: this.editedUser.name,
-        lastName: this.editedUser.lastName,
-        email: this.editedUser.email,
-        password: this.editedUser.password
-      })
-      .then(() => {
-        $('#editUserModal').modal('hide'); // Hide the modal on successful update
-        Swal.fire('User Updated!', 'The user has been updated.', 'success');
-        // Optionally, fetch users again to refresh the user list
-        // this.$store.dispatch('getUsers');
-      })
-      .catch(error => {
-        console.error('Error updating user:', error);
-        Swal.fire('Error', 'There was an error updating the user. Please try again.', 'error');
-      });
-    },
-    closeEditModal() {
-      $('#editUserModal').modal('hide'); // Close the modal
     },
 
     // editCart(orderID){
@@ -611,7 +600,7 @@ h2{
   background-color: rgb(53, 73, 163);
 }
 .table {
-  margin-top: 20px;
+  /* margin-top: 20px; */
   border-radius: 20px;
   overflow: hidden; 
 }
@@ -744,7 +733,7 @@ button{
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    min-height: calc(100% - 30rem);
+    min-height: calc(100% - 58rem);
   }
 
   #addUserModal .modal-content {
@@ -803,7 +792,7 @@ button{
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  min-height: calc(100% - 10rem); /* Adjust this value as needed */
+  min-height: calc(100% - 58rem); /* Adjust this value as needed */
 }
 
 #editUserModal .modal-content {
@@ -900,10 +889,11 @@ button{
     color: black; /* Set text color to black */
 }
 
+/* CART TABLE STYLES */
 /* Form container */
 .container-cart {
-  margin: 50px auto;
-  max-width: 400px;
+  margin: 40px auto;
+  max-width: 1000px; /* Increased max-width for better spacing */
   background-color: #ffffff; /* White background */
   padding: 20px;
   padding-top: 50px !important;
@@ -915,14 +905,15 @@ button{
 .form-label1 {
   font-size: 18px;
   font-weight: bold;
-  color: #000000; /* Black text */
-  margin:12px;
+  color: #000000; 
+  margin: 18px 0; 
+  margin-right: 12px; 
 }
 
 /* Form input */
 .form-control1 {
   margin-bottom: 15px;
-  border: 1px solid #ced4da; /* Gray border */
+  border: 2px solid #ced4da; 
   border-radius: 5px;
   padding: 10px;
   font-size: 16px;
@@ -930,8 +921,8 @@ button{
 
 /* Add button */
 .btn-add {
-  background-color: rgb(71, 98, 218); /* Navbar theme color */
-  color: #ffffff; /* White text */
+  background-color: rgb(71, 98, 218); 
+  color: #ffffff; 
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
@@ -941,7 +932,80 @@ button{
 }
 
 .btn-add:hover {
-  background-color: #4e6cd2; /* Darker shade on hover */
+  background-color: #4e6cd2; 
 }
+
+/* Edit User Modal Styling */
+.bodyEdit {
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: white;
+  padding:40px;
+  border-radius: 20px;
+  margin-bottom: 15px;
+}
+
+/* USER EDIT FORM */
+/* Form group */
+.form-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Form label */
+label {
+  flex: 1;
+  font-size: 18px;
+  font-weight: bold;
+  color: #000000;
+  margin-right: 10px;
+}
+
+/* Form input */
+.form-control {
+  flex: 2;
+  width: 50%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 2px solid #ced4da;
+}
+
+/* Select input */
+select.form-control {
+  flex: 2;
+  width: 50%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 2px solid #ced4da;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: transparent;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 9l6 6 6-6"></path></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+
+/* Submit button */
+.btn-primary {
+  background-color: rgb(71, 98, 218);
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  width: 60%;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: #4e6cd2;
+}
+
 
  </style>

@@ -136,7 +136,7 @@ export default createStore({
     // UPDATES A USER
     async updateUser({commit}, update){
       try{
-        await axios.patch(baseURL + '/Users/' + update.id ,update)
+        await axios.patch(baseURL + '/Users/' + update.userID ,update)
         // const { data } = await axios.get(baseURL + '/Users')
       }catch(error){
         console.error('Error updating Users:', error)

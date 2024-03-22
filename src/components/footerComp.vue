@@ -1,5 +1,5 @@
 <template>
-  <footer class="text-white py-3">
+  <footer class="text-white py-3 neon-animation">
     <div class="container">
       <div class="row">
         <p class="texts">
@@ -23,7 +23,6 @@ export default {
 </script>
 
 <style scoped>
-
 footer {
   background-color: white; 
   padding: 20px;
@@ -33,6 +32,10 @@ footer {
   margin-top: auto; 
   bottom: 0;
   margin-top: 50px;
+  /* Add border and neon animation */
+  border: 4px solid transparent;
+  border-image-slice: 1;
+  animation: neon-border 1.5s linear infinite alternate;
 }
 
 .texts {
@@ -58,6 +61,15 @@ footer {
   .texts {
     font-size: 16px;
     padding-top: 8px;
+  }
+}
+
+@keyframes neon-border {
+  from {
+    border-color: rgb(191, 193, 198);
+  }
+  to {
+    border-color: rgb(0, 47, 255);
   }
 }
 </style>

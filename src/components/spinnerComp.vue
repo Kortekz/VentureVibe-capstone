@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex justify-content-center align-items-start vh-100">
+   <div class="spinner-container">
     <div class="spinner-border text-white" role="status">
       <span class="sr-only">Loading...</span>
     </div>
@@ -13,7 +13,10 @@ export default {
 </script>
 
 <style scoped>
-/* .vh-100 {
-  height: 50vh;
-} */
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 150px; /* Set height to occupy the full viewport height */
+}
 </style>

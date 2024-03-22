@@ -105,7 +105,7 @@
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 80px;
+    margin-bottom: 40px;
   }
   
   .form-group {
@@ -151,6 +151,7 @@
   justify-content: center;
   max-width: 1000px;
   margin: auto;
+  margin-top: 40px;
 }
 
 .contact-info-container {

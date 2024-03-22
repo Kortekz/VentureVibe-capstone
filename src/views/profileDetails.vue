@@ -1,5 +1,9 @@
 <template>
+
+<div class="portContainer">
+
   <div class="profile-details">
+
     <h2 class="static-heading">Profile Details</h2>
 
     <div v-if="userProfile" :key="userProfile.currentUser.id" class="content">
@@ -24,45 +28,57 @@
 
       <button class="Delete" @click="confirmDelete(userProfile.currentUser.userID)">Delete</button>
 
-      <button class="Edit" @click="openEditModal">Edit Details</button>
     </div>
 
-    <div v-else>
-      <spinnerComponent></spinnerComponent>
-    </div>
-    
-    <!-- MODAL FOR EDIT -->
-    <div class="edit-modal" v-if="showModal">
-      <div class="modal-content">
-        <h2>Edit User Details</h2>
-        <form @submit.prevent="submitForm">
-          <label for="firstName">First Name:</label>
-          <input type="text" id="firstName" v-model="formData.firstName" required>
-  
-          <label for="lastName">Last Name:</label>
-          <input type="text" id="lastName" v-model="formData.lastName" required>
-  
-          <label for="email">Email:</label>
-          <input type="email" id="email" v-model="formData.email" required>
-  
-          <button @click="closeModal">Cancel</button>
-          <button type="submit">Update</button>
-        </form>
+    <div class="editDet">
+      <!-- Edit User -->
+      <div class="bodyEdit">
+    <!-- Form for editing an existing user -->
+    <h2 class="static-heading">You can Edit your details below</h2>
+
+
+      <div class="form-group">
+        <label for="editName">Name:</label>
+        <input type="text" class="form-control" id="editName" v-model="firstName">
       </div>
-    </div>
+      <div class="form-group">
+        <label for="editLastName">Last Name:</label>
+        <input type="text" class="form-control" id="editLastName" v-model="lastName">
+      </div>
+      <div class="form-group">
+        <label for="editEmail">Email:</label>
+        <input type="email" class="form-control" id="editEmail" v-model="email">
+      </div>
+      <div class="form-group">
+        <label for="userRole">User Role:</label>
+        <select id="userRole" v-model="userRole" class="form-control">
+          <option value="Customer">Customer</option>
+          <option value="Administrator">Administrator</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="editPassword">Password:</label>
+        <input type="password" class="form-control" id="editPassword" v-model="password">
+      </div>
+      <button type="submit" class="Edit-btn" @click="updateUser(userProfile.currentUser.userID)">Edit Details</button>
+    
   </div>
+</div>
+   
+    <!-- <div v-else>
+      <spinnerComponent></spinnerComponent>
+    </div> -->
+    
+  </div> 
+</div> 
+  
 </template>
 
 <script>
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import spinnerComponent from '../components/spinnerComp.vue';
 
 export default {
-  data() {
-    return {
-      showModal: false,
-    };
-  },
   components: {
     spinnerComponent
   },
@@ -117,18 +133,49 @@ export default {
           console.error('Error deleting user:', error);
         });
     },
-     // Other methods...
-     openEditModal() {
-      this.showModal = true;
-    },
-    closeEditModal() {
-      this.showModal = false;
-    },
-  },
+    updateUser(userID) {
+  let edit = {
+    userID: userID,
+    firstName: this.firstName,
+    lastName: this.lastName,
+    email: this.email,
+    password: this.password,
+    userRole: this.userRole
+  };
+  this.$store.dispatch('updateUser', edit)
+    .then(() => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Details Updated Successfully!',
+        text: 'You will now be redirected to the login page. Please Log In again',
+        showConfirmButton: false,
+        timer: 3000 // Auto close the success message after 2 seconds
+      }).then(() => {
+        // Redirect to the login page
+        this.$cookies.remove('token')
+        this.$cookies.remove('userRole')
+        this.$router.push('/loginSign')
+        setTimeout(() => {
+        // Refresh the page after a short delay
+        window.location.reload();
+      }, 10)
+      });
+    })
+    .catch(error => {
+      console.error('Error updating details:', error);
+      // Handle error if needed
+    });
+}
+
+    
+  }
 };
 </script>
 
 <style scoped>
+.portContainer{
+  display: flex;
+}
 .profile-details {
   display: flex;
   flex-direction: column;
@@ -138,13 +185,17 @@ export default {
   padding: 20px;
   padding-bottom: 50px;
   margin-top: 100px;
-  margin-left: 110px;
+  margin-left: 120px;
   margin-bottom: 50px;
-  width: 85%;
+  width: 84%;
+}
+.profile-section,
+.edit-section {
+  flex: 1;
 }
 
 .static-heading {
-  font-size: 35px;
+  font-size: 25px;
   font-weight: 600;
   margin-top: 20px;
   margin-bottom: 30px;
@@ -155,53 +206,42 @@ export default {
 }
 
 .profile-title {
-  font-size: 25px;
+  font-size: 20px;
   color: black;
   margin-bottom: 5px;
 }
 
 .profile-content {
-  font-size: 25px;
+  font-size: 18px;
   color: black;
   margin-bottom: 5px;
 }
 
 .profile-info {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   margin-bottom: 10px;
 }
 .profile-info h3 {
   margin-right: 10px;
 }
 .content {
-  margin-left: 20px;
+  /* margin-left: 20px; */
 }
 .Delete {
-  background-color: rgb(71, 98, 218) !important;
-  border: none;
-  border-radius: 20px;
+  background-color: rgb(71, 98, 218);
   color: white;
-  font-size: 20px;
-  padding: 15px;
-  margin-top: 20px;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 18px;
   margin: 15px;
 }
 .Delete:hover {
   background-color: rgb(36, 49, 107) !important;
 }
-.Edit {
-  background-color: rgb(71, 98, 218) !important;
-  border: none;
-  border-radius: 20px;
-  color: white;
-  font-size: 20px;
-  padding: 15px;
-  margin-top: 20px;
-}
-.Edit:hover {
-  background-color: rgb(36, 49, 107) !important;
-}
+
 
 /* Responsive Styles */
 @media screen and (max-width: 768px) {
@@ -244,4 +284,80 @@ export default {
     margin-top: 10px;
   }
 }
+
+/* form */
+label{
+  color: black;
+  font-size: 18px;
+}
+.form-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    width: 120px; /* Adjust the width as needed */
+    margin-right: 10px;
+  }
+
+  .form-control {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid rgb(71, 98, 218);
+    border-radius: 5px;
+    outline: none;
+  }
+
+  .Edit-btn {
+    background-color: rgb(71, 98, 218);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 18px;
+    margin: 15px;
+  }
+
+  .Edit-btn:hover {
+    background-color: rgb(36, 49, 107);
+  }
+
+  @media screen and (max-width: 768px) {
+    .form-group label {
+      width: auto;
+      margin-right: 0;
+      margin-bottom: 5px;
+    }
+
+    .form-control {
+      width: 100%;
+    }
+
+    .Edit-btn {
+      padding: 8px 16px;
+    }
+  }
+
+  @media screen and (max-width: 576px) {
+    .form-group {
+      flex-direction: column;
+    }
+
+    .form-group label {
+      width: auto;
+      margin-right: 0;
+      margin-bottom: 5px;
+    }
+
+    .form-control {
+      width: 100%;
+    }
+
+    .Edit-btn {
+      padding: 6px 12px;
+    }
+  }
 </style>
