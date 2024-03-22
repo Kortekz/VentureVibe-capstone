@@ -16,7 +16,7 @@ export default {
 
         await addCart(userID, quantity, hubID)
         res.send({msg: 'Product added to cart!'})
-    }catch{
+    }catch(error){
         console.error('Error:', error)
         res.status(500).send({ error: 'An error occured while adding product'})
     }

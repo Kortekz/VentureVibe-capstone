@@ -44,6 +44,7 @@ const deleteCart = async (userID) => {
 
 // this is for getting users from the database based on their email ID
 const getIdUsers = async (email) => {
+    console.log('this is in the models'+email);
     try {
         const [[{ userID }]] = await pool.query(`
         SELECT userID FROM Users WHERE email = ? 
