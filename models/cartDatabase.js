@@ -130,17 +130,6 @@ const deleteID = async (orderID) => {
     }
 }
 
-const deleteCartID = async (userID) => {
-    try {
-        await pool.query(`
-        DELETE FROM cart WHERE userID = ?
-        `, [userID]);
-    } catch (error) {
-        console.error('Error:', error);
-        throw new Error('An error occurred while deleting cart by ID');
-    }
-}
-
 const cartOrderID = async (orderID) => {
     try {
         const [cartItems] = await pool.query(`
@@ -153,16 +142,4 @@ const cartOrderID = async (orderID) => {
     }
 }
 
-export {
-    addCart,
-    deleteCart,
-    // getUserID,
-    patchCarts,
-    getCarts,
-    deleteID,
-    deleteFromCart,
-    deleteCartID,
-    cartOrderID,
-    getIdUsers,
-    getUserCart
-};
+export { addCart, deleteCart, getIdUsers, patchCarts, getCarts, deleteID, deleteFromCart, cartOrderID, getUserCart }

@@ -1,20 +1,25 @@
 import {  addCart, patchCarts, getIdUsers, getUserCart, deleteID, deleteCart, deleteFromCart, getCarts, cartOrderID } from "../models/cartDatabase.js";
 import jwt from 'jsonwebtoken';
 
+
+
 export default {
     //cart table function for the user
     addToCart: async (req, res) => {
-        const email = req.email;
-        try {
-            const userID = await getIdUsers(email);
-            console.log(userID);
-            const { quantity, hubID } = req.body;
-            await addCart(userID, quantity, hubID);
-            res.send({ msg: 'Product added to cart!' });
-        } catch (error) {
-            console.error('Error:', error);
-            res.status(500).send({ error: 'An error occurred while adding product to cart' });
-        }
+    const email = req.email
+
+    try{
+        const userID = await getIdUsers(email)
+        console.log(userID)
+
+        const {quantity, hubID} = req.body
+
+        await addCart(userID, quantity, hubID)
+        res.send({msg: 'Product added to cart!'})
+    }catch{
+        console.error('Error:', error)
+        res.status(500).send({ error: 'An error occured while adding product'})
+    }
     },
 
     getCart: async (req, res) => {
@@ -22,92 +27,62 @@ export default {
             const email = req.email;
             const userID = await getIdUsers(email);
             const userCart = await getUserCart(userID);
-            if (userCart.length === 0) {
-                res.status(404).send({ msg: "There are no items in the cart" });
-            } else {
-                res.send(userCart);
-            }
+            res.send(userCart);
         } catch (error) {
             console.error("Error fetching user cart:", error);
-            res.status(500).send({ error: 'An error occurred while fetching user cart' });
+            res.status(404).send({msg:"There are no Items in cart"});
         }
     },
-
     deleteCart: async (req, res) => {
         const email = req.email;
-        try {
-            const userID = await getIdUsers(email);
-            await deleteCart(userID);
-            res.send({ msg: 'Thank you for your purchase' });
-        } catch (error) {
-            console.error('Error:', error);
-            res.status(500).send({ error: 'An error occurred while deleting cart' });
-        }
+        const userID = await getIdUsers(email)
+        await deleteCart(userID);
+        res.send({msg:'Thank you for your purchase'})
     },
-
     DeleteFromCart: async (req, res) => {
-        const email = req.email;
-        const hubID = parseInt(req.params.id);
-        try {
-            const userID = await getIdUsers(email);
-            const result = await deleteFromCart(userID, hubID);
-            res.send(result);
-        } catch (error) {
-            console.error('Error:', error);
-            res.status(500).send({ error: 'An error occurred while deleting item from cart' });
-        }
+        const email = req.email
+        const hubID = parseInt(+req.params.id)
+        const userID = await getIdUsers(email)
+        res.send(await  deleteFromCart(userID,hubID))
     },
 
-    //cart table function for the Admin
+
+//cart table function for the Admin
     getCarts: async (req, res) => {
         try {
             const carts = await getCarts();
-            if (carts.length === 0) {
-                res.status(404).send({ msg: "No carts available" });
-            } else {
-                res.send(carts);
-            }
+            res.send(carts);
         } catch (error) {
             console.error("Error fetching carts:", error);
-            res.status(500).send({ error: 'An error occurred while fetching carts' });
+            res.status(404).send({msg:"No carts available"});
         }
     },
 
-    deleteCartById: async (req, res) => {
-        try {
-            const result = await deleteID(+req.params.id);
-            res.send(result);
-        } catch (error) {
-            console.error('Error:', error);
-            res.status(500).send({ error: 'An error occurred while deleting cart by ID' });
-        }
+
+    deleteCartById: async(req,res)=>{
+        res.send(await deleteID(+req.params.id));
     },
 
     postAdmin: async (req, res) => {
-        try {
+        try{
             const { userID, quantity, hubID } = req.body;
             await addCart(userID, quantity, hubID);
             res.send({ msg: 'Product added to cart successfully' });
-        } catch (error) {
+        }catch (error) {
             console.error('Error:', error);
             res.status(500).send({ error: 'An error occurred while adding product to cart' });
         }
     },
+    patchCart: async(req,res)=>{
+        const [cart] = await cartOrderID(+req.params.id);
+        let {userID, quantity, hubID} = req.body
+        userID ? userID =userID: {userID} = cart
+        quantity ? quantity=quantity: {quantity} = cart
+        hubID ? hubID=hubID: {hubID} = cart
 
-    patchCart: async (req, res) => {
-        try {
-            const [cart] = await cartOrderID(+req.params.id);
-            let { userID, quantity, hubID } = req.body;
-            userID = userID || cart.userID;
-            quantity = quantity || cart.quantity;
-            hubID = hubID || cart.hubID;
-
-            await patchCarts(userID, quantity, hubID, +req.params.id);
-            const updatedCarts = await getCarts();
-            res.send(updatedCarts);
-        } catch (error) {
-            console.error('Error:', error);
-            res.status(500).send({ error: 'An error occurred while updating cart' });
-        }
-    }
-};
+        await patchCarts(userID, quantity, hubID, +req.params.id)
+        res.send(await getCarts())
+        console.log(hubID)
+  }
+  
+}
