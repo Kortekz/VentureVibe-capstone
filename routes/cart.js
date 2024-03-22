@@ -13,7 +13,7 @@ router
         
 router
     .route('/')
-        .get(controller.getCarts)
+        .post(controller.getCarts)
         .delete(controller.deleteCart)
 
 router
