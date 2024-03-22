@@ -57,16 +57,19 @@ export default {
         let { firstName, lastName, email, password, userRole} = req.body;
         
         // Update the fields if provided in the request body
-        firstName = firstName ||  Users.firstName;
-        lastName = lastName || Users.lastName;
-        email = email || Users.email;
-        userRole = userRole || Users.userRole;
+        firstName ? firstName=firstName: {firstName} = Users
+
+        lastName ? lastName=lastName: {lastName} = Users
+
+        email ? email=email: {email} = Users
+
+        userRole ? userRole=userRole: {userRole} = Users
         
         // Check if password is provided and hash it
         if (password) {
         bcrypt.hash(password, 10, async (err, hash) => {
         if (err) throw err;
-        await editUsers( firstName, lastName, email, hash, userRole  +req.params.id);
+        await editUsers( firstName, lastName, email, hash, userRole,  +req.params.id);
         res.send({ msg: "You have edited your account" });
         });
         } else {

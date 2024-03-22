@@ -67,6 +67,17 @@ const editUsers = async(firstName,lastName,email, password,userRole, userID)=>{
     `, [firstName,lastName,email, password, userRole, userID])
     return getUsers()
 }
+
+
+// const editUserProfile = async(firstName,lastName,email,userRole, password,)=>{
+//     await pool.query(`
+//         UPDATE users
+//         SET firstName = ?, lastName = ?, email = ?, userRole = ?, password = ?
+//         WHERE email = ?
+//     `,[firstName, lastName, email, userRole, password, email])
+//     return getUsers()
+// };
+
 // const editUser=async(firstName,lastName,userRole,email,password,id)=>{
 //     await pool.query(
 //     UPDATE users SET firstName=?, lastName=?, userRole=?,email=?, password=? 
@@ -83,5 +94,5 @@ const editUsers = async(firstName,lastName,email, password,userRole, userID)=>{
 //     `,[name,description, imageUrl, price, category, date])
 //     return getHub(Hubs.insertId)
 // }
-
-export {getUsers, getUser, addUser, deleteUsers, editUsers, checkUser, getUserEmail}
+// editUserProfile,
+export {getUsers, getUser, addUser, deleteUsers, editUsers,  checkUser, getUserEmail}
