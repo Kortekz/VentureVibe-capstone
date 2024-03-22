@@ -66,7 +66,7 @@ export default createStore({
           const {currentUser} = JSON.parse(window.atob(encode));
           console.log(currentUser.userRole);
           $cookies.set('userRole', currentUser.userRole)
-          commit('setCurrentUser', decodedToken.currentUser);
+          // commit('setCurrentUser', decodedToken.currentUser);
 
       }catch (error) {
         console.error('Error getting products:', error)
@@ -106,8 +106,9 @@ export default createStore({
 
     // CRUD FOR USERS CRUD FOR USERS CRUD FOR USERS CRUD FOR USERS CRUD FOR USERS CRUD FOR USERS
     async getUsers({ commit }) {
+      let token = $cookies.get('token')
       try {
-        let { data } = await axios.get(baseURL + '/Users')
+        let { data } = await axios.post(baseURL + '/Users/user',{token:token})
         commit('setUsers', data)
       }catch (error) {
         console.error('Error getting users:', error)
@@ -168,13 +169,18 @@ export default createStore({
     async loginUser({ commit }, user) {
       try {
         let { data } = await axios.post(baseURL + '/login', user);
-        console.log(data)
+        console.log(data);
         $cookies.set('token', data.token);
-        $cookies.set('userRole', data.user.userRole)
+        $cookies.set('userRole', data.user.userRole);
         // Update currentUser with userRole information
         commit('setCurrentUser', { ...data.user, userRole: data.userRole });
       } catch (error) {
         console.error('Cannot log In', error);
+        if (error.response && error.response.status === 401) {
+          throw new Error('Incorrect email or password');
+        } else {
+          throw error; // Throw other errors for generic handling
+        }
       }
     },
     async getProfile({ commit }, email) {
@@ -188,8 +194,9 @@ export default createStore({
   
     // CART FUNCTIONALITY CART FUNCTIONALITY CART FUNCTIONALITY CART FUNCTIONALITY CART FUNCTIONALITY CART FUNCTIONALITY CART FUNCTIONALITY
     async getCart({ commit }) {
+      let token = $cookies.get('token')
       try {
-        const { data } = await axios.get(baseURL + '/cart');
+        const { data } = await axios.post(baseURL + '/cart',{token:token});
         commit('setCart', data);
       } catch (error) {
         console.error('Error getting cart items:', error);
@@ -197,8 +204,10 @@ export default createStore({
       }
     },
     async getCartUser({ commit }) {
+      let token = $cookies.get('token')
+      console.log(token);
       try {
-        const { data } = await axios.get(baseURL + '/cart/user');
+        const { data } = await axios.post(baseURL + '/cart/user/cart',{token:token});
         commit('setCart', data);
       } catch (error) {
         console.error('Error getting User Cart items:', error);

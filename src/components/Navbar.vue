@@ -29,7 +29,7 @@
             <router-link exact class="nav-item nav-link" to="/about" active-class="active-link">
               About
             </router-link>
-            <router-link exact class="nav-item nav-link" to="/getawayhub" active-class="active-link">
+            <router-link v-if="hasJWT" exact class="nav-item nav-link" to="/getawayhub" active-class="active-link">
               GetAwayHub
             </router-link>
             <router-link exact class="nav-item nav-link" to="/contact" active-class="active-link">

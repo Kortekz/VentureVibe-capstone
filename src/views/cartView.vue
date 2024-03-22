@@ -31,10 +31,10 @@
               <tr v-for="item in cart" :key="item.cartID">
                 <!-- <td>{{ item.orderID }}</td> -->
                 <td><img :src="item.imageUrl" alt="" class="img-fluid"></td>
-                <td>{{ item.name }}</td>
-                <td>{{ item.soldQuantity }}</td>
-                <td>{{ item.pricePerItem }}</td>
-                <td>{{ item.totalPrice }}</td>
+                <td> <p>{{ item.name }}</p> </td>
+                <td> <p>{{ item.soldQuantity }} </p></td>
+                <td> <p>{{ item.pricePerItem }} </p></td>
+                <td> <p>{{ item.totalPrice }}</p></td>
                 <td><button @click="confirmRemoveItem(item.hubID)" class="btn btn-danger">Remove</button></td>
               </tr>
             </tbody>
@@ -127,7 +127,13 @@ h1 {
   color: white; /* Changed heading color to purple */
   margin-top: 80px;
 }
-
+p{
+  color: black;
+  font-size: 18px;
+}
+th{
+  font-size: 20px;
+}
 .purple-header {
   background-color: rgb(71, 98, 218) !important; /* Set table header background color to purple */
   color: white; /* Set text color to white for better visibility */

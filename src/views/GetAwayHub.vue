@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="body">
     <nav class="navbar navbar-expand-lg fixed-top mx-auto">
       <!-- Navbar content -->
     </nav>
     <div class="container mt-5">
-      <h1 class="text-center mb-4">Explore the world with VentureVibe - Your ultimate travel partner!</h1>
-
+      
       <div v-if="products.length > 0">
+        <h1 class="text-center mb-4">Explore the world with VentureVibe - Your ultimate travel partner!</h1>
         <!-- Search, Sort, and Category Section -->
         <div class="search-sort-container">
           <input v-model="searchTerm" type="text" placeholder="Search Products" class="search-input">
@@ -115,6 +115,9 @@ export default {
 </script>
 
 <style scoped>
+.body{
+  min-height: 100vh;
+}
 h1 {
   color: white;
   margin-top: 100px !important;

@@ -279,7 +279,7 @@
 
 <!-- CART TABLE -->
 <div>
-    <h2>Admin Cart Table</h2>
+    <h2 class="adminHead">Admin Cart Table</h2>
 
     
     <div class="container-cart d-flex flex-column align-items-center">
@@ -395,25 +395,11 @@ computed: {
       return this.$store.state.cart
     },
     addCartAdmin() {
-  // Dispatch the Vuex action to add the item to the cart
-  this.$store.dispatch('addCartAdmin', this.$data)
-    .then(() => {
-      // Show a success SweetAlert message
-      Swal.fire({
-        title: 'Item Added!',
-        text: 'The item has been successfully added to the cart.',
-        icon: 'success',
-        confirmButtonColor: 'rgb(71, 98, 218)', 
-        confirmButtonText: 'OK',
-      }).then(() => {
-        // Reload the window
-        window.location.reload();
-      });
-    })
-    .catch((error) => {
-      // Handle any errors 
-      console.error('Error adding item to cart:', error);
-    });
+      // Dispatch the Vuex action to add the item to the cart
+      this.$store.dispatch('addCartAdmin', this.$data)
+      // Reload the window
+      window.location.reload();
+    
 },
   addProduct() {
     this.$store.dispatch('addProduct', this.$data).then(() => {
@@ -581,6 +567,10 @@ h1{
 }
 h2{
   color: white;
+}
+.adminHead{
+  color: white;
+  margin-top: 40px;
 }
 
 .container {

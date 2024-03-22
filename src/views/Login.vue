@@ -28,23 +28,29 @@ export default {
   },
   methods: {
     async loginUser() {
-  try {
-    await this.$store.dispatch('loginUser', { 
-      email: this.email, 
-      password: this.password 
-    });
-    Swal.fire('You have Logged In!', 'Thank you for Logging In', 'success').then(() => {
-      this.$router.push('/'); // Redirect to home page
-      setTimeout(() => {
-        // Refresh the page after a short delay
-        window.location.reload();
-      }, 10); 
-    });
-  } catch (error) {
-    console.error('Error logging in:', error);
-    Swal.fire('Error', 'There was an error Logging the user In. Please try again.', 'error');
-  }
-},
+      try {
+        await this.$store.dispatch('loginUser', { 
+          email: this.email, 
+          password: this.password 
+        });
+        // Show success alert after successful login
+        Swal.fire('Success', 'You have logged in successfully!', 'success').then(() => {
+          // Redirect to home page
+          this.$router.push('/');
+          setTimeout(() => {
+            // Refresh the page after a short delay
+            window.location.reload();
+          }, 10); 
+        });
+      } catch (error) {
+        console.error('Error logging in:', error);
+        if (error.message === 'Incorrect email or password') {
+          Swal.fire('Error', 'Incorrect email or password. Please try again.', 'error');
+        } else {
+          Swal.fire('Error', 'There was an error logging in. Please try again.', 'error');
+        }
+      }
+    },
   },
 };
 </script>
