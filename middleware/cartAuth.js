@@ -4,7 +4,7 @@ config()
 
 const authenticate = (req,res,next) => {
     let {cookie} = req.headers
-    console.log(cookie)
+    console.log(req.headers)
     // console.log(cookie.split(';')[0].split('=')[1])
     let tokenInHeader = cookie && cookie.split(';')[0].split('=')[1]
     if(tokenInHeader===null) res.sendStatus(401)
