@@ -8,10 +8,11 @@ router
     .route('/user')
         .get(controller.getUser)
         .patch(controller.patchID)
-        .post(controller.getMany)
+
 
 router
     .route('/')
+        .get(controller.getMany)
         // .post(controller.postMany)
         .post(controller.addUser)
 

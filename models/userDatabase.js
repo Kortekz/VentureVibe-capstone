@@ -14,6 +14,7 @@ const addUser = async(firstName, lastName, email, password, userRole)=> {
 
 // check if password is the same from database
 const checkUser = async(email)=> {
+    console.log(email);
     const [[{password}]] = await pool.query(`
     SELECT password FROM Users WHERE email = ?
     `, [email])
@@ -34,7 +35,7 @@ const getUsers = async()=>{
  const getUser = async(id)=>{
     const [result] = await pool.query(`
     SELECT * FROM Users
-    WHERE id = ?
+    WHERE userID = ?
     `, [id])
     return result
 }

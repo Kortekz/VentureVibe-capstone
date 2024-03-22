@@ -13,16 +13,14 @@ router
         
 router
     .route('/')
-        .post(controller.getCarts)
+        .get(controller.getCarts)
         .delete(controller.deleteCart)
 
 router
     .route('/user')
         .post(controller.addToCart)
+        .get(controller.getCart)
         .delete(controller.DeleteFromCart)
-router
-    .route('/user/cart')
-        .post(controller.getCart)
 
 router
     .route('/user/:id')

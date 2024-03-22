@@ -53,7 +53,7 @@ export default {
     patchID:async(req,res)=>{
 
         try {
-        const [Users] = await getUsers(+req.params.id);
+        const [Users] = await getUser(+req.params.id);
         let { firstName, lastName, email, password, userRole} = req.body;
         
         // Update the fields if provided in the request body

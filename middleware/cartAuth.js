@@ -8,7 +8,9 @@ const authenticate = (req,res,next) => {
     // console.log(cookie.split(';')[0].split('=')[1])
     // let tokenInHeader = cookie && cookie.split(';')[0].split('=')[1]
     console.log(JSON.stringify(req.body));
-    let tokenInHeader = req.body.token
+    console.log('query params' + JSON.stringify(req.query))
+    let tokenInHeader = req.query.token
+    // let tokenInHeader = req.body.token
     if(tokenInHeader===null) res.sendStatus(401)
     console.log(tokenInHeader);
     jwt.verify(tokenInHeader, process.env.SECRET_KEY, (err, user)=>{
