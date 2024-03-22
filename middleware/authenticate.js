@@ -28,7 +28,7 @@ const auth = async(req,res,next) => {
         if(result === true){
 
             let currentUser = await getUserEmail(email)
-            console.log(currentUser)
+            // console.log(currentUser)
 
             // const {email} = req.body
             // console.log(email, 'This is above the token')

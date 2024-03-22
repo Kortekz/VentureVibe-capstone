@@ -25,8 +25,12 @@ export default {
     getCart: async (req, res) => {
         try {
             const email = req.email;
+            console.log('email'+ email);
+
             const userID = await getIdUsers(email);
+            console.log('userID'+ userID);
             const userCart = await getUserCart(userID);
+            console.log('userCart'+ userCart);
             res.send(userCart);
         } catch (error) {
             console.error("Error fetching user cart:", error);
