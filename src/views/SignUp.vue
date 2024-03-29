@@ -22,13 +22,13 @@
         <input type="password" id="password" v-model="password" class="form-control" required>
       </div>
 
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label for="userRole">User Role:</label>
         <select id="userRole" v-model="userRole" class="form-control" required>
           <option value="Customer">Customer</option>
-          <!-- <option value="Administrator">Administrator</option> -->
+          <option value="Administrator">Administrator</option>
         </select>
-      </div>
+      </div> -->
 
       <button type="submit" @click="signUp">Signup</button>
 
@@ -45,7 +45,7 @@ export default {
       lastName: '',
       email: '',
       password: '',
-      userRole: '',
+      userRole: 'Customer',
     };
   },
   methods: {

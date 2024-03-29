@@ -5,8 +5,8 @@ import { useCookies } from 'vue-cookies'
 axios.defaults.withCredentials = true;
 axios.defaults.params = {token:$cookies.get('token')}
 
-// const baseURL = 'https://venturevibe-capstone-1.onrender.com'
-const baseURL = 'http://localhost:6969'
+const baseURL = 'https://venturevibe-capstone-1.onrender.com'
+// const baseURL = 'http://localhost:6969'
 
 export default createStore({
   state: {
