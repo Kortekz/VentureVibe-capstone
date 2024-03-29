@@ -19,6 +19,7 @@ const app = express()
 app.use(cors(
     {
     origin: 'https://venturevibe-7fd9a.web.app',
+    // origin: 'http://localhost:8080',
     credentials: true
     }
 ))
