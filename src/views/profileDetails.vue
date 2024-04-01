@@ -49,13 +49,13 @@
         <label for="editEmail">Email:</label>
         <input type="email" class="form-control" id="editEmail" v-model="email">
       </div>
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label for="userRole">User Role:</label>
         <select id="userRole" v-model="userRole" class="form-control">
           <option value="Customer">Customer</option>
           <option value="Administrator">Administrator</option>
         </select>
-      </div>
+      </div> -->
       <div class="form-group">
         <label for="editPassword">Password:</label>
         <input type="password" class="form-control" id="editPassword" v-model="password">
@@ -101,7 +101,7 @@ export default {
     },
     confirmDelete(id) {
       // Confirm deletion using SweetAlert or any other method
-      swal.fire({
+      Swal.fire({
         title: 'Are you sure?',
         text: 'You are about to delete your account! This action cannot be reversed',
         icon: 'warning',
